@@ -40,7 +40,7 @@
                     <li class="col-24 col-m-24"><p><input type="password" id="password" name="password" placeholder="请输入登录密码" class="tx-input"><i>密码(*)</i></p></li>
                     <li class="col-24 col-m-24"><p class="tx-input-full"><button type="button" id="submit_data" name="submit_data" class="tx-btn tx-btn-big bg-black">登录</button></p></li>
                     <li class="col-12 col-m-12"><p class="text-left"><a href="{:url('register/index')}" class="f-12 f-gray">新用户注册</a></p></li>
-                    <li class="col-12 col-m-12"><p class="ta-r"><a href="resetpwd.html" class="f-12 f-gray">忘记密码</a></p></li>
+                    <li class="col-12 col-m-12"><p class="ta-r"><a href="{:url('register/resetpwd')}" class="f-12 f-gray">忘记密码</a></p></li>
                 </ul>
             </div>
         </div>
@@ -102,7 +102,7 @@
                 success: function (data) {
                     if(data['code'] == 1){
                         showToastSuccess(data['msg']);
-                        setTimeout(function(){ window.location.href = "{:url('answer/index')}"; }, 2000);
+                        setTimeout(function(){ window.location.href = "{:url('index/index')}"; }, 2000);
                     }else{
                         showToastError(data['msg']);
                         return false;
