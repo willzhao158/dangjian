@@ -55,8 +55,17 @@ class IndexController extends BaseController
 
     public function question(){
 
-        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 1")->limit(0,8)->select()->toArray();
-        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 2")->limit(0,2)->select()->toArray();
+        $user = Db::table('ims_jueqi_fkdt_user')->where(['id' => session('uid')])->find();
+        $answered = $user['answered'];
+
+        $where = '';
+
+        if(!empty($answered)){
+            $where .= " and id not in (".$answered.")";
+        }
+
+        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 1$where")->limit(0,8)->select()->toArray();
+        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 2$where")->limit(0,2)->select()->toArray();
 
         $questions = array_merge($questions_danxuan, $questions_duoxuan);
 
