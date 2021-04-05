@@ -19,7 +19,6 @@
         </div>
     </header>
     <!-- ================== header 开始 ======================= -->
-
     <!-- ================== main 开始 ======================= -->
     <main class="page-main">
         <div class="page-container">
@@ -28,27 +27,27 @@
                 <form class="page-form" method="POST" action="">
                     <foreach name="questions" key="question_key" item="question">
                         <if condition="$question['is_danxuan'] == 1">
-                            <div <if condition="$question_key == 0"> class="form-item on"<else> class="form-item"</if>>
+                            <div data-id="{$question['id']}" <if condition="$question_key == 0"> class="form-item on"<else> class="form-item"</if>>
                                 <input class="answer" type="hidden" value="{$question['yes_answer']}">
                                 <div class="question">{$question_key+1}. {$question['question']}</div>
                                 <ul class="answer-list">
                                     <if condition="$question['answerA'] != ''">
-                                        <li><label class="item" for="{$question_key+1}a"><input type="radio" name="three" id="{$question_key+1}a" value="a"><i></i><span>A、{$question['answerA']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}a"><input type="radio" name="three" id="{$question_key+1}a" value="A"><i></i><span>A、{$question['answerA']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerB'] != ''">
-                                        <li><label class="item" for="{$question_key+1}b"><input type="radio" name="three" id="{$question_key+1}b" value="b"><i></i><span>B、{$question['answerB']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}b"><input type="radio" name="three" id="{$question_key+1}b" value="B"><i></i><span>B、{$question['answerB']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerC'] != ''">
-                                        <li><label class="item" for="{$question_key+1}c"><input type="radio" name="three" id="{$question_key+1}c" value="c"><i></i><span>C、{$question['answerC']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}c"><input type="radio" name="three" id="{$question_key+1}c" value="C"><i></i><span>C、{$question['answerC']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerD'] != ''">
-                                        <li><label class="item" for="{$question_key+1}d"><input type="radio" name="three" id="{$question_key+1}d" value="d"><i></i><span>D、{$question['answerD']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}d"><input type="radio" name="three" id="{$question_key+1}d" value="D"><i></i><span>D、{$question['answerD']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerE'] != ''">
-                                        <li><label class="item" for="{$question_key+1}e"><input type="radio" name="three" id="{$question_key+1}e" value="e"><i></i><span>E、{$question['answerE']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}e"><input type="radio" name="three" id="{$question_key+1}e" value="E"><i></i><span>E、{$question['answerE']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerF'] != ''">
-                                        <li><label class="item" for="{$question_key+1}f"><input type="radio" name="three" id="{$question_key+1}f" value="f"><i></i><span>F、{$question['answerF']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}f"><input type="radio" name="three" id="{$question_key+1}f" value="F"><i></i><span>F、{$question['answerF']}</span></label></li>
                                     </if>
                                     
                                     <!-- <li><label class="item" for="3b"><input type="radio" name="three" id="3b" value="b"><i></i><span>B、三个月</span></label></li>
@@ -57,7 +56,7 @@
                                 </ul>
                             </div>
                         <elseif condition="$question['is_danxuan'] == 2">
-                            <div class="form-item">
+                            <div class="form-item" data-id="{$question['id']}">
                                 <input class="answer" type="hidden" value="{$question['yes_answer']}">
                                 <div class="question">{$question_key+1}. {$question['question']}</div>
                                 <ul class="answer-list">
@@ -101,7 +100,6 @@
         </div>
     </main>
     <!-- ================== main 结束 ======================= -->
-
     <script src="__TMPL__/public/answer/dist/js/jquery.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
     <script>
@@ -109,7 +107,6 @@
             var total = 10; // 题数
             var time = 11, timer; // 倒计时
             var answerList = []; // 提交答案
-
             // 倒计时
             initTime()
             function initTime(){
@@ -151,18 +148,21 @@
             // 下一题操作
             $("#next").on("click",function(){
                 // 判断是否作答
-                var answerItem = '';
+                var answerItem = [];
                 $(".form-item.on").find("input:checked").each(function(){
-                    answerItem += $(this).val()
+                    answerItem.push($(this).val())
                 })
-                if(answerItem == '' && time != 0){
+                if(answerItem.length == 0 && time != 0){
                     layer.msg("请选择答案！");
                     return false;
-                }else{
-                    answerList.push(answerItem)
                 }
                 // 判断是否正确
-                if(answerItem == $(".form-item.on").find(".answer").val()){
+                if(answerItem.join(",") == $(".form-item.on").find(".answer").val()){
+                    var row = {
+                        id: $(".form-item.on").data("id"),
+                        isOk: 1
+                    }
+                    answerList.push(row)
                     nextQ()
                 }else{
                     $("#currentAnswer").html("正确答案为：" + $(".form-item.on").find(".answer").val());
@@ -171,25 +171,35 @@
                             $(this).parent().addClass("error")
                         }
                     })
+                    var row = {
+                        id: $(".form-item.on").data("id"),
+                        isOk: 0
+                    }
+                    answerList.push(row)
                     setTimeout(function(){
                         nextQ()
                     },1000)
                 }
+                console.log(answerList)
             })
             // 提交操作
             $("#submit").on("click",function(){
-                var answerItem = '';
+                // 判断是否作答
+                var answerItem = [];
                 $(".form-item.on").find("input:checked").each(function(){
-                    answerItem += $(this).val();
+                    answerItem.push($(this).val())
                 })
-                if(answerItem == '' && time != 0){
+                if(answerItem.length == 0 && time != 0){
                     layer.msg("请选择答案！");
                     return false;
-                }else{
-                    answerList.push(answerItem)
                 }
                 // 判断是否正确
-                if(answerItem == $(".form-item.on").find(".answer").val()){
+                if(answerItem.join(",") == $(".form-item.on").find(".answer").val()){
+                    var row = {
+                        id: $(".form-item.on").data("id"),
+                        isOk: 1
+                    }
+                    answerList.push(row)
                     submit(answerList)
                 }else{
                     $("#currentAnswer").html("正确答案为：" + $(".form-item.on").find(".answer").val());
@@ -198,6 +208,11 @@
                             $(this).parent().addClass("error")
                         }
                     })
+                    var row = {
+                        id: $(".form-item.on").data("id"),
+                        isOk: 0
+                    }
+                    answerList.push(row)
                     setTimeout(function(){
                         submit(answerList)
                     },1000)
