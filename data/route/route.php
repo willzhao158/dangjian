@@ -12,7 +12,7 @@ Route::domain('envidete.nongye.rfyfb.com', 'envidete');
 
 
 //环境检测平台
-Route::domain('adpp.yzata.cn', 'admin');
+Route::domain('dangjian.com', 'admin');
 
 //大数据分析系统
 Route::domain('bigdata.nongye.rfyfb.com', 'bigdata');

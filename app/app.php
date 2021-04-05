@@ -12,5 +12,5 @@ return [
     // 默认操作名
     'default_action'         => 'index',
     //页面title
-    'title'                  => '',
+    'title'                  => '国财财务订单财务管理系统',
 ];

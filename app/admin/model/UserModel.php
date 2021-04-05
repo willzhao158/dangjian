@@ -29,7 +29,17 @@ Class UserModel extends Model
         return $res;
     }
 
-    
+    public function editfielddata($data){
+    	if(array_key_exists('user_pass', $data['params'])){
+    		$data['params']['user_pass'] = cmf_password($data['params']['user_pass']);
+    	}
+
+		$edit = $this->save($data['params'],$data['params']['id']);
+		if(!$edit){
+			return [false,$data];
+		}
+		return [true,$edit];
+	}
 
     public function stringFromColumnIndex($pColumnIndex = 0)
     {
@@ -52,14 +62,6 @@ Class UserModel extends Model
             }
         }
         return $_indexCache[$pColumnIndex];
-    }
-
-    public function editfielddata($data){
-        $edit = $this->save($data,$data['id']);
-        if(!$edit){
-            return [false,$data];
-        }
-        return [true,$edit];
     }
 
     public function adddata($data){
@@ -111,162 +113,60 @@ Class UserModel extends Model
     	return $res[0];
     }
 
-    public function exceltixiandatalist(){
-        $data = input();
-        $from = input('from','');
-        
-        $where = ' 1 = 1';
-
-        if(!empty($from)){
-            $where .= " and ny_tixian_log.from = $from";
-        }
-
-        $start = ((input('page',1))-1)*$this->page_count;
-        $count = $this->where($where)->count();
-        $data = $this->order("id desc")->order('status asc,createtime desc')->where($where)->select()->toArray();
-        $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    } 
-
-    public function tixiandatalist(){
-        $this->page_count = input('limit','');
-        $data = input();
-        $from = input('from','');
-        
-        $where = ' 1 = 1';
-
-        if(!empty($from)){
-            $where .= " and ny_tixian_log.from = $from";
-        }
-
-        $start = ((input('page',1))-1)*$this->page_count;
-        $count = $this->where($where)->count();
-        $data = $this->order("id desc")->order('status asc,createtime desc')->where($where)->limit($start,$this->page_count)->select()->toArray();
-        $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    } 
-
-    public function sdatalist(){
-        $this->page_count = input('limit');
-        $data = input();
-        $username = input('username','');
-        $mobile = input('mobile','');
-        
-        $where = ' 1=1 ';
-
-        if(!empty($username)){
-            $where .= " and a.name like '%{$username}%'";
-        }
-
-        if(!empty($mobile)){
-            $where .= " and a.mobile like '%{$mobile}%'";
-        }
-
-        
-        
-        $start = ((input('page',1))-1)*$this->page_count;
-        // $count = $this->where($where)->count();
-        // $data = $this->order("id", "desc")->where($where)->limit($start,$this->page_count)->select()->toArray();
-        // $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-
-        $count = Db::name('mobile_user')->alias("a")->join('ny_shop b ', ' a.id = b.uid')->where($where)->count();
-        $data = Db::name('mobile_user')->alias("a")->order("b.id desc")->join('ny_shop b ', ' a.id = b.uid')->where($where)->limit($start,$this->page_count)->select()->toArray();
-        $sql = '';
-
-
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    }
-
-    public function adatalist(){
-        $this->page_count = input('limit');
-        $data = input();
-        $mobile = input('mobile','');
-
-        $where = ' 1=1 ';
-
-        if(!empty($mobile)){
-            $where .= " and a.mobile like '%{$mobile}%'";
-        }
-        
-        $start = ((input('page',1))-1)*$this->page_count;
-        // $count = $this->where($where)->count();
-        // $data = $this->order("id", "desc")->where($where)->limit($start,$this->page_count)->select()->toArray();
-        // $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-
-
-        $count = Db::name('mobile_user')->alias("a")->join('ny_advertisement b ', ' a.id = b.uid')->where($where)->count();
-        $data = Db::name('mobile_user')->alias("a")->order("b.id desc")->join('ny_advertisement b ', ' a.id = b.uid')->where($where)->limit($start,$this->page_count)->select()->toArray();
-        $sql = '';
-
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    }
-
-    public function excelvdatalist(){
-        $this->page_count = input('limit');
-        $this->vip_log = 'vip_update';
-        $data = input();
-        $mobile = input('mobile','');
-
-        $where = ' 1=1 ';
-
-        if(!empty($mobile)){
-            $where .= " and a.mobile like '%{$mobile}%'";
-        }
-        
-        $start = ((input('page',1))-1)*$this->page_count;
-        // $count = $this->where($where)->count();
-        // $data = $this->order("id", "desc")->where($where)->limit($start,$this->page_count)->select()->toArray();
-        // $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-
-
-        $count = Db::name('vip_update')->alias("a")->join('ny_address b ', ' a.address_id = b.id')->where($where)->count();
-        $data = Db::name('vip_update')->alias("a")->join('ny_address b ', ' a.address_id = b.id')->order("a.id desc")->where($where)->field('a.*,b.name,b.province,b.city,b.district,b.address,b.mobile')->select()->toArray();
-        $sql = '';
-
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    }
-
-    public function vdatalist(){
-        $this->page_count = input('limit');
-        $this->vip_log = 'vip_update';
-        $data = input();
-        $mobile = input('mobile','');
-
-        $where = ' 1=1 ';
-
-        if(!empty($mobile)){
-            $where .= " and a.mobile like '%{$mobile}%'";
-        }
-        
-        $start = ((input('page',1))-1)*$this->page_count;
-        // $count = $this->where($where)->count();
-        // $data = $this->order("id", "desc")->where($where)->limit($start,$this->page_count)->select()->toArray();
-        // $sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-
-
-        $count = Db::name('vip_update')->alias("a")->join('ny_address b ', ' a.address_id = b.id')->where($where)->count();
-        $data = Db::name('vip_update')->alias("a")->join('ny_address b ', ' a.address_id = b.id')->order("a.id desc")->where($where)->field('a.*,b.name,b.province,b.city,b.district,b.address,b.mobile')->limit($start,$this->page_count)->select()->toArray();
-        $sql = '';
-
-        //var_dump($sql);exit;
-        return LayuiModel::layuiData($data,$count,$sql);
-    }
-
 	public function datalist(){
-		$this->page_count = input('limit');
+		//$this->page_count = $_POST['limit'];
 		$data = input();
-        $mobile = input('mobile','');
-		
+		$user_login = input('user_login','');
+		$level = input('level','');
+		$special_number = input('special_number','');
+		$salesman = input('salesman','');
+		$isxinghuo = input('isxinghuo','');
+		$tran_company = input('tran_company','');
+		$con_number = input('con_number','');
+		$oid = input('oid','');
+		$deliver_time = input('deliver_time','');
 		$where = ' 1=1 ';
+		// echo $where;exit;
+		// if(session('company')!=0){
+		// 	$where .= " and companyid=".session('companyid');
+		// }
+		if($user_login){
+			$where .= " and user_login like '%$user_login%' ";
+		}
+		if($level){
+			$where .= " and level like '%$level%' ";
+		}
+		if($special_number){
+			$where .= " and special_number like '%$special_number%' ";
+		}
+		if($salesman){
+			$where .= " and salesman like '%$salesman%' ";
+		}
+		if($isxinghuo){
+			$where .= " and isxinghuo like '%$isxinghuo%' ";
+		}
+		if($tran_company){
+			$where .= " and tran_company like '%$tran_company%' ";
+		}
+		if($con_number){
+			$where .= " and con_number like '%$con_number%' ";
+		}
+		if($oid){
+			$where .= " and oid = $oid";
+		}
+		if($deliver_time){
+			$deliver_time_arr = explode('~', $deliver_time);
+			$from = strtotime($deliver_time_arr[0]);
+			$end = strtotime($deliver_time_arr[1]);
+			$where .= " and deliver_time >= '{$from}' and deliver_time <= '{$end}'";
+		}
 
-        if(!empty($mobile)){
-            $where .= " and mobile like '%{$mobile}%'";
+		$uid = cmf_get_current_admin_id();
+        $user = $this->getUserById();
+		if($user['level'] == '分公司'){
+			$where .= " and company = '".$user['company']."' ";
         }
+        
 		
 		$start = ((input('page',1))-1)*$this->page_count;
 		$count = $this->where($where)->count();

@@ -262,34 +262,6 @@ Class OrderModel extends Model
 		return $data;
 	} 	
 
-	public function cdatalist(){
-		$data = input();
-		$this->page_count = $data['limit'];
-		$parent = input('parent','');
-
-		$where = ' 1=1 ';
-		// echo $where;exit;
-		// if(session('company')!=0){
-		// 	$where .= " and companyid=".session('companyid');
-		// }
-
-		if($parent != ''){
-			$where .= " and parent = $parent";
-		}
-
-		$start = ((input('page',1))-1)*$this->page_count;
-		$count = $this->where($where)->count();
-		$sql = $this->where($where)->limit($start,$this->page_count)->select(false);
-		$data = $this->where($where)->limit($start,$this->page_count)->select()->toArray();
-		foreach ($data as $key => $value) {
-			$parent_name = Db::table('ny_classify')->where('id', $value['parent'])->value('name');
-			$data[$key]['parent_name'] = $parent_name;
-		}
-		//var_dump($sql);exit;
-		return LayuiModel::layuiData($data,$count,$sql);
-	}
-
-
 	public function datalist($islimit=true){
 
 		//$this->page_count = $_POST['limit'];
