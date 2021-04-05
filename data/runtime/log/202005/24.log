@@ -1,0 +1,106 @@
+---------------------------------------------------------------
+
+[2020-05-24T17:16:51+08:00] 47.101.200.30 GET paopao.yzata.cn/
+[运行时间：0.063867s] [吞吐率：15.66req/s] [内存消耗：2,314.07kb] [文件加载：79]
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'mobile'
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-encoding' => 'gzip',
+  'connection' => 'Keep-Alive',
+  'host' => 'paopao.yzata.cn',
+  'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf/src/behavior/../lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn/common.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/user/lang/zh-cn.php
+---------------------------------------------------------------
+
+[2020-05-24T17:16:52+08:00] 47.101.200.30 GET paopao.yzata.cn/login/login
+[运行时间：0.024573s] [吞吐率：40.69req/s] [内存消耗：2,430.54kb] [文件加载：85]
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'mobile'
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-encoding' => 'gzip',
+  'connection' => 'Keep-Alive',
+  'host' => 'paopao.yzata.cn',
+  'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf/src/behavior/../lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn/common.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/user/lang/zh-cn.php
+[ info ] [ VIEW ] /www/wwwroot/paopao.yzata.cn/public/themes/admin_simpleboot3/mobile/login/login.html [ array (
+) ]
+---------------------------------------------------------------
+
+[2020-05-24T17:16:52+08:00] 47.101.200.30 GET paopao.yzata.cn/index/index.html
+[运行时间：0.019725s] [吞吐率：50.70req/s] [内存消耗：2,314.97kb] [文件加载：79]
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'mobile'
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-encoding' => 'gzip',
+  'connection' => 'Keep-Alive',
+  'host' => 'paopao.yzata.cn',
+  'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf/src/behavior/../lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn/common.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/user/lang/zh-cn.php
+---------------------------------------------------------------
+
+[2020-05-24T17:16:52+08:00] 47.101.200.30 GET paopao.yzata.cn/register/index.html
+[运行时间：0.065560s] [吞吐率：15.25req/s] [内存消耗：2,434.34kb] [文件加载：85]
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'mobile'
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-encoding' => 'gzip',
+  'connection' => 'Keep-Alive',
+  'host' => 'paopao.yzata.cn',
+  'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf/src/behavior/../lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn/common.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/user/lang/zh-cn.php
+[ info ] [ VIEW ] /www/wwwroot/paopao.yzata.cn/public/themes/admin_simpleboot3/mobile/register/index.html [ array (
+) ]
+---------------------------------------------------------------
+
+[2020-05-24T17:16:53+08:00] 47.101.200.30 GET paopao.yzata.cn/login/login
+[运行时间：0.022808s] [吞吐率：43.84req/s] [内存消耗：2,430.54kb] [文件加载：85]
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkphp/lang/zh-cn.php
+[ info ] [ BIND ] 'mobile'
+[ info ] [ ROUTE ] array (
+)
+[ info ] [ HEADER ] array (
+  'accept-encoding' => 'gzip',
+  'connection' => 'Keep-Alive',
+  'host' => 'paopao.yzata.cn',
+  'user-agent' => 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:36.0) Gecko/20100101 Firefox/36.0',
+)
+[ info ] [ PARAM ] array (
+)
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf/src/behavior/../lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/admin/lang/zh-cn/common.php
+[ info ] [ LANG ] /www/wwwroot/paopao.yzata.cn/vendor/thinkcmf/cmf-app/src/user/lang/zh-cn.php
+[ info ] [ VIEW ] /www/wwwroot/paopao.yzata.cn/public/themes/admin_simpleboot3/mobile/login/login.html [ array (
+) ]
