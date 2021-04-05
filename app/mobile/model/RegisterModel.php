@@ -4,7 +4,6 @@ namespace app\mobile\model;
 use think\Model;
 use think\Db;
 use app\order\model\LayuiModel;
-use app\mobile\model\RuleModel;
 
 Class RegisterModel extends Model
 {
@@ -41,8 +40,6 @@ Class RegisterModel extends Model
 
         $top_reference = Db::table('ny_mobile_user')->limit(1)->where(['id' => $reference])->value('reference');
 
-        
-
         $inser_data = array(
         					'mobile'=>$mobile,
         					'name'=>$name,
@@ -51,24 +48,7 @@ Class RegisterModel extends Model
         					'createtime'=>time(),
         					'top_reference'=>$top_reference,
         				);
-        $id = Db::table('ny_mobile_user')->insertGetId($inser_data);
-
-        //积分分成
-        RuleModel::login_rule($id,$reference,$top_reference);
-
-        //生成用户专属二维码
-        require_once($_SERVER['DOCUMENT_ROOT']."../vendor/phpqrcode/phpqrcode.php");
-        $data = "https://yzpaopao.com/register/index?code=$id"; //二维码内容 
-        // 纠错级别：L、M、Q、H
-        $level = 'L';
-        // 点的大小：1到10,用于手机端4就可以了
-        $size = 10;
-        // 下面注释了把二维码图片保存到本地的代码,如果要保存图片,用$fileName替换第二个参数false
-        $qrcode_name = $id.'.png';
-        $path = $_SERVER['DOCUMENT_ROOT']."../public/upload/qrcode/$qrcode_name";
-        // 生成的文件名
-        //$fileName = $path.$size.'.png';
-        $res = \QRcode::png($data, $path, $level, $size);
+        Db::table('ny_mobile_user')->insert($inser_data);
 
         $res['code'] = 1;
         $res['msg'] = '注册成功';

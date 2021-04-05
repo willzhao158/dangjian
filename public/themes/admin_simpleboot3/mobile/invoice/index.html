@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
 </head>
 <body>
+
     <div class="container">
         <div class="weui-form">
             <div class="weui-form__text-area">
@@ -21,45 +22,39 @@
                 <div class="weui-cells__group weui-cells__group_form">
                     <div class="weui-cells weui-cells_form">
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span>*</span>单位名称</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">单位名称</label></div>
                             <div class="weui-cell__bd">
-                                <input class="weui-input" type="text" required="required" id="company" value="{$invoice.company}" placeholder="请输入单位名称"/>
+                                <input class="weui-input" type="text" id="company" value="{$invoice.company}" placeholder="请输入单位名称"/>
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span>*</span>纳税人识别码</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">纳税人识别码</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="text" id="code" value="{$invoice.code}" placeholder="请输入纳税人识别码"/>
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span></span>注册地址</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">注册地址</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="text" id="address" value="{$invoice.address}" placeholder="请输入注册地址"/>
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span></span>注册电话</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">注册电话</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="number" id="mobile" value="{$invoice.mobile}" pattern="[0-9]*" placeholder="请输入注册电话"/>
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span></span>开户银行</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">开户银行</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="text" id="bank" value="{$invoice.bank}" placeholder="请输入开户银行"/>
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span></span>银行账号</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">银行账号</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="text" id="bank_code" value="{$invoice.bank_code}" placeholder="请输入银行账号"/>
-                            </div>
-                        </div>
-                        <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label"><span>*</span>电子邮箱</label></div>
-                            <div class="weui-cell__bd">
-                                <input class="weui-input" type="text" id="email" value="{$invoice.email}" placeholder="请输入邮箱地址"/>
                             </div>
                         </div>
                     </div>
@@ -76,6 +71,7 @@
             </div>
         </div>
     </div>
+
     <!-- success toast-->
     <div id="toastSuccess" style="display: none;">
         <div class="weui-mask_transparent"></div>
@@ -85,6 +81,7 @@
         </div>
     </div>
     <!-- success toast-->
+
     <!-- error toast-->
     <div id="toastError" style="display: none;">
         <div class="weui-mask_transparent"></div>
@@ -94,6 +91,7 @@
         </div>
     </div>
     <!-- error toast-->
+
     <!-- loading toast-->
     <div id="toastLoading" style="display: none;">
         <div class="weui-mask_transparent"></div>
@@ -103,18 +101,20 @@
         </div>
     </div>
     <!-- loading toast-->
+
     <!-- 增票资质确认书 dialog -->
     <div class="js_dialog" id="agreeTipDialog" style="display: none;">
         <div class="weui-mask"></div>
         <div class="weui-dialog">
-            <div class="weui-dialog__hd"><strong class="weui-dialog__title">申请开具增值税发票确认书</strong></div>
-            <div class="weui-dialog__bd" style="text-align:left">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;根据国家税法及发票管理相关规定，任何单位和个人不得要求他人为自己开具与实际经营业务情况不符的増值税发票，否则属于“虚开增值税发票”。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我已充分了解上述各项相关国家税法和发票管理规定，并确认仅就我司实际服务索取发票。如我司未按国家相关规定申请开具或使用增值税发票，由我司自行承担相应法律后果。</div>
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">增票资质确认书</strong></div>
+            <div class="weui-dialog__bd">增票资质确认书增票资质确认书增票资质确认书增票资质确认书增票资质确认书增票资质确认书</div>
             <div class="weui-dialog__ft">
                 <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hideAgreeTipDialog();">知道了</a>
             </div>
         </div>
     </div>
      <!-- 增票资质确认书 dialog -->
+
     <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
     <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
     <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
@@ -148,11 +148,13 @@
             $("#agreeTipDialog").fadeOut(100);
             $("#isAgree").prop("checked","checked");
         }
+
         $(function(){
             // 增票资质确认书
             $("#agreeTip").on("click",function(){
                 $("#agreeTipDialog").fadeIn(100);
             });
+
             $("#submit_data").click(function(){
                 var company = $("#company").val();
                 var code = $("#code").val();
@@ -160,24 +162,42 @@
                 var mobile = $("#mobile").val();
                 var bank = $("#bank").val();
                 var bank_code = $("#bank_code").val();
-                var email = $("#email").val();
-                
+
                 if(company == ''){
                     showToastError('请输入单位名称');
                     return false;
                 }
+
                 if(code == ''){
                     showToastError('请输入纳税人识别码');
                     return false;
                 }
-                if(email == ''){
-                    showToastError('请输入邮箱地址');
+
+                if(mobile == ''){
+                    showToastError('请输入手机号码');
                     return false;
                 }
+
+                if(!isPhoneNo(mobile)){
+                    showToastError('请输入正确的手机号码');
+                    return false;
+                }
+
+                if(bank == ''){
+                    showToastError('请输入开户银行');
+                    return false;
+                }
+
+                if(bank_code == ''){
+                    showToastError('请输入银行账号');
+                    return false;
+                }
+
                 if(!$("input[type='checkbox']").is(':checked')){
-                    showToastError('请同意增票资质确认书');
+                    showToastError('请同意用户注册协议和隐私政策');
                     return false;
                 }
+
                 $.ajax({
                     url: "{:url('invoice/add')}",
                     type: 'post',
@@ -189,7 +209,6 @@
                             address:address,
                             bank:bank,
                             bank_code:bank_code,
-                            email:email
                           },
                     success: function (data) {
                         showToastSuccess('成功');

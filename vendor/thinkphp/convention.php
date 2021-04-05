@@ -16,7 +16,7 @@ return [
         // 应用模式状态
         'app_status'             => '',
         // 是否HTTPS
-        'is_https'               => false,
+        'is_https'               => true,
         // 入口自动绑定模块
         'auto_bind_module'       => false,
         // 注册的根命名空间

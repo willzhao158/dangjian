@@ -54,7 +54,7 @@
 					<div class="layui-form-item">
 					    <div class="layui-input-block">
 					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
-					      <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+					      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
 					    </div>
 				  </div>
 				</form>
@@ -100,6 +100,7 @@ layui.use(['layer','form','upload','laydate'], function(){
     	layer.open(params);
     });
 
+
     form.on('submit(menu)',function(res){
 
 
@@ -113,7 +114,7 @@ layui.use(['layer','form','upload','laydate'], function(){
     		contentType:false,
     		success:function(data){
     			if(data.code){
-    				parent.location.reload();
+    				parent.fun.reload();
     				layer.msg('修改成功',{icon:1});
     				setTimeout(function(){
     					parent.layer.closeAll();

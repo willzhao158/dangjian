@@ -21,7 +21,6 @@ class BaseController extends cmfBaseController
             $url = 'http://'.$_SERVER['HTTP_HOST']."/login/login";
             Header("Location:$url"); exit;
         }
-
         $controller=request()->controller();
         $this->assign('controller',$controller);
     }

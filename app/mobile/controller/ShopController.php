@@ -22,12 +22,9 @@ class ShopController extends BaseController
     {
 
         $uid = session('uid');
-        $status = Db::name('shop')->where(['uid'=>$uid])->value('status');
-        $user = Db::name('mobile_user')->where(['id'=>$uid,'cancel'=>1])->find();
+        $status = Db::name('shop')->where('uid', $uid)->value('status');
 
-        if($user['level'] == 1){
-            return $this->fetch('shop/vip_fail');
-        }
+        
 
         if($status == 1){
             Header("Location:".url('tips/examine')); 
@@ -38,41 +35,25 @@ class ShopController extends BaseController
         }elseif($status == 3){
             Header("Location:".url('tips/success_tip')); 
             exit;
+        }else{
+            $res = ClassifyModel::getAll();
+
+            $this->assign("all_classify", json_encode($res));
+
+            $city = CityModel::getAll();
+
+            $this->assign("city", json_encode($city));
+            return $this->fetch('shop/auth');
         }
 
-        $city = CityModel::getAll();
-        $all_classify = ClassifyModel::getAll();
-        $this->assign("city", json_encode($city));
-        $this->assign("all_classify", json_encode($all_classify));
-        return $this->fetch('shop/auth');
         
-
+        
     }
 
     public function shop_manage()
     {
-        $uid = session('uid');
-        $status = Db::name('shop')->where(['uid'=>$uid])->value('status');
-        $user = Db::name('mobile_user')->where(['id'=>$uid,'cancel'=>1])->find();
-
-        if($user['level'] == 1){
-            return $this->fetch('shop/vip_fail');
-        }
-
-        if(empty($status)){
-            return $this->fetch('shop/first');
-        }
-
-        if($status == 1){
-            Header("Location:".url('tips/examine')); 
-            exit;
-        }elseif($status == 2){
-            Header("Location:".url('tips/fail')); 
-            exit;
-        }else{
-            return $this->fetch('shop/shop_manage');
-        }
-
+        
+        return $this->fetch('shop/shop_manage');
     }
 
     public function edit(){
@@ -146,10 +127,6 @@ class ShopController extends BaseController
         $shop_kind1 = $shop_kind_arr[0];
         $shop_kind2 = $shop_kind_arr[1];
 
-        $shop_info = Db::name('shop')->where('uid', $uid)->find();
-
-        Db::name('shop_address')->where('shop_id', $shop_info['id'])->delete();
-
         $data = array(
                             'province'=>$province,
                             'city'=>$city,
@@ -165,7 +142,9 @@ class ShopController extends BaseController
                         );
         DB::name('shop')->where(['uid'=>session('uid')])->update($data);
 
-        
+        $shop_info = Db::name('shop')->where('uid', $uid)->find();
+
+        Db::name('shop_address')->where('shop_id', $shop_info['id'])->delete();
 
         foreach ($shopAddress_arr as $key => $value) {
             if(!empty($value)){
@@ -300,7 +279,6 @@ class ShopController extends BaseController
     public function pics()
     {
         $files = $_FILES;
-        $img_type = input('type');
         $res = array();
         foreach ($files as $key => $value) {
             $imgname = date('YmdHis').rand(9999,99999);
@@ -308,68 +286,8 @@ class ShopController extends BaseController
             $filepath = "upload/shop/";;
             if(move_uploaded_file($tmp,$filepath.$imgname.".jpg")){
 
-                //指定图片路径
-
-                if($img_type == 1){
-                    ini_set ('memory_limit', '128M') ;
-                    $this->compressedImage($filepath.$imgname.".jpg", $filepath.$imgname.".jpg");
-                    //1.配置图片路径  
-                    $src = $_SERVER['DOCUMENT_ROOT'].$filepath.$imgname.".jpg";
-                    //2.获取图片信息  
-                    $info = getimagesize($src);  
-                    //3.通过编号获取图像类型  
-                    $type = image_type_to_extension($info[2],false);  
-                    //4.在内存中创建和图像类型一样的图像  
-                    $fun = "imagecreatefrom".$type;  
-                    //5.图片复制到内存  
-                    $image = $fun($src);  
-
-
-                    $width = imagesx ( $image );
-                    $height = imagesy ( $image );
-
-                    $target = imagecreatetruecolor ( $width, $height );
- 
-                    $white = imagecolorallocate ( $target, 255, 255, 255 );
-                    imagefill ( $target, 0, 0, $white );
-
-                    $fontSize = 10;
-                    $font = $_SERVER['DOCUMENT_ROOT']."1.ttf";  
-                    $content = "仅限泡泡同城商家认证使用";  
-                    $fontBox = imagettfbbox($fontSize, 0, $font, $content);//文字水平居中实质
-                      
-
-                    /*操作图片*/  
-                    //1.设置字体的路径  
-                    
-                    //echo $font;exit;
-                    //2.填写水印内容  
-                    
-                    //3.设置字体颜色和透明度  
-                    $color = imagecolorallocatealpha($image, 255, 0, 0, 75);
-                    //4.写入文字 (图片资源，字体大小，旋转角度，坐标x，坐标y，颜色，字体文件，内容) 
-                    imagettftext($image, 20, 20, ceil(($width - $fontBox[2]) / 2)-20, 290, $color, $font, $content);  
-
-                    /*输出图片*/  
-                    //浏览器输出  
-                    $fun = "image".$type;
-
-                    //$fun($image);  
-                    
-                    $fun($image,$src); 
-                    ImageDestroy($image);
-
-                    $res[$key] = $filepath.$imgname.".jpg";
-                }
                 $this->compressedImage($filepath.$imgname.".jpg", $filepath.$imgname.".jpg");
-                
                 $res[$key] = $filepath.$imgname.".jpg";
-                
-                //
-                
-
-
-                
                 //echo $filepath.$imgname.'qqq';
             }else{
                 //echo "上传失败";

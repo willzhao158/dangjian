@@ -33,8 +33,6 @@ class UserController extends BaseController
         return $this->error('删除失败');
     }
 
-    
-
     public function addone(){
         $data = input();
         $data['companyid'] = 1;

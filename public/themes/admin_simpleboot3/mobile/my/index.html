@@ -9,20 +9,19 @@
     <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
     <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
     <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
-    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css?v=2">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
 </head>
 <body>
     <div class="container">
         <div class="ucenter-header">
             <div class="user-info flex flex-align-center">
-                <div class="user-img"></div>
+                <!-- <div class="user-img"></div> -->
                 <div class="flex-1">
                     <h1>{$user.name}</h1>
-                    <p>推荐码：{$user.id}</p>
+                    <p>Id号：{$user.id}</p>
                     <p>注册时间：<?php echo date('Y-m-d',$user['createtime'])?></p>
-                    <p>级别：{$user.level_name}</p>
                 </div>
-                <!-- <a href="{:url('charge/index')}" class="btn-charge">充值</a> -->
+                <a href="{:url('charge/index')}" class="btn-charge">充值</a>
             </div>
             <ul class="user-num flex">
                 <li class="flex-1">
@@ -31,27 +30,27 @@
                 </li>
                 <li class="flex-1">
                     <a href="my_fans.html">
-                        <p>{$user.fans_num}</p>
+                        <p>9999</p>
                         <p>粉丝</p>
                     </a>
                 </li>
                 <li class="flex-1">
-                    <p>{$user.team}</p>
+                    <p>9999</p>
                     <p>团队</p>
                 </li>
             </ul>
         </div>
         <div class="ucenter-body">
-            <a class="upgrade-banner flex flex-align-center flex-pack-justify" <if condition = "$user['level']!=1">href="javascript:void(0);"<else/> href="{:url('pay/vip')}"</if>>
+            <a class="upgrade-banner flex flex-align-center flex-pack-justify" href="{:url('my/my_vip')}">
                 <p>升级VIP商家享有更多权益</p>
-                <span><if condition = "$user['level']!=1">已升级<else/>了解详情</if></span>
+                <span>了解详情</span>
             </a>
-            <!-- <a class="upgrade-banner flex flex-align-center flex-pack-justify" href="{:url('shop/auth')}">
+            <a class="upgrade-banner flex flex-align-center flex-pack-justify" href="{:url('shop/auth')}">
                 <p>商家认证</p>
                 <span>了解详情</span>
-            </a> -->
+            </a>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access" href="{:url('wallet/index')}">
+                <a class="weui-cell weui-cell_access" href="my_wallet.html">
                     <div class="weui-cell__hd">
                         <i class="iconfont iconwallet"></i>
                     </div>
@@ -60,25 +59,25 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-                <a class="weui-cell weui-cell_access" href="{:url('my/ticket?ad_type=2')}"><!-- 普通 -->
+                <a class="weui-cell weui-cell_access" href=""><!-- 普通 -->
                     <div class="weui-cell__hd">
                         <i class="iconfont iconbook"></i>
                     </div>
                     <div class="weui-cell__bd">
-                        <p>我的活动彩金劵</p>
+                        <p>我的活动劵</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-                <a class="weui-cell weui-cell_access" href="{:url('my/ticket?ad_type=1')}"><!-- vip -->
+                <a class="weui-cell weui-cell_access" href=""><!-- vip -->
                     <div class="weui-cell__hd">
                         <i class="iconfont iconbook"></i>
                     </div>
                     <div class="weui-cell__bd">
-                        <p>我的广告宣传券</p>
+                        <p>我的广告券</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-                <!-- <a class="weui-cell weui-cell_access" href="">
+                <a class="weui-cell weui-cell_access" href="">
                     <div class="weui-cell__hd">
                         <i class="iconfont iconbook"></i>
                     </div>
@@ -86,19 +85,10 @@
                         <p>我的抢购劵</p>
                     </div>
                     <div class="weui-cell__ft"></div>
-                </a> -->
+                </a>
             </div>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access" href="{:url('my/config')}">
-                    <div class="weui-cell__hd">
-                        <i class="iconfont iconsetting"></i>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <p>设置</p>
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </a>
-                <a class="weui-cell weui-cell_access" href="{:url('message/index')}">
+                <a class="weui-cell weui-cell_access" href="my_message.html">
                     <div class="weui-cell__hd">
                         <i class="iconfont iconmessage"></i>
                     </div>
@@ -116,28 +106,36 @@
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
-                
+                <a class="weui-cell weui-cell_access" href="my_phone.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconphone"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>修改手机号</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="{:url('address/address_list')}">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconlocation"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>收货地址</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="cancelAccount">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconlogout"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>帐号注销</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
             </div>
             <div class="weui-cells">
-                <a class="weui-cell weui-cell_access upgrade-vip" href="{:url('shop/auth')}">
-                    <div class="weui-cell__hd">
-                        <i class="iconfont iconsafetycertificate"></i>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <p>商家认证</p>
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </a>
-                <a class="weui-cell weui-cell_access  upgrade-vip" href="{:url('shop/shop_manage')}">
-                    <div class="weui-cell__hd">
-                        <i class="iconfont iconappstore"></i>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <p>门店管理</p>
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </a>
-                <!-- <a class="weui-cell weui-cell_access" href="{:url('advertisement/index')}">
+                <a class="weui-cell weui-cell_access" href="{:url('advertisement/index')}">
                     <div class="weui-cell__hd">
                         <i class="iconfont iconupload"></i>
                     </div>
@@ -154,7 +152,25 @@
                         <p>增票资质</p>
                     </div>
                     <div class="weui-cell__ft"></div>
-                </a> -->
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="appDown">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont icondownload"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>app下载</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="appShare">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconshare"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>分享</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
             </div>
             <div class="weui-cells">
                 <a class="weui-cell weui-cell_access" href="{:url('content/index?id=1')}">
@@ -172,24 +188,6 @@
                     </div>
                     <div class="weui-cell__bd">
                         <p>推广规则</p>
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </a>
-                <a class="weui-cell weui-cell_access" href="javascript:;" id="appDown">
-                    <div class="weui-cell__hd">
-                        <i class="iconfont icondownload"></i>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <p>app下载</p>
-                    </div>
-                    <div class="weui-cell__ft"></div>
-                </a>
-                <a class="weui-cell weui-cell_access" href="{:url('qrcode/index')}">
-                    <div class="weui-cell__hd">
-                        <i class="iconfont iconshare"></i>
-                    </div>
-                    <div class="weui-cell__bd">
-                        <p>分享</p>
                     </div>
                     <div class="weui-cell__ft"></div>
                 </a>
@@ -232,22 +230,7 @@
                     <div class="weui-cell__ft"></div>
                 </a> -->
             </div>
-            <a class="btn-logout" href="{:url('login/logout')}">退出登录</a>
         </div>
-    </div>
-    <div class="js_dialog" id="conform_msg" style="display: none;">
-        <div class="weui-mask"></div>
-        <div class="weui-dialog">
-            <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">1111</strong></div> -->
-            <div class="weui-dialog__bd">请添加微信客服：paopao1801</div>
-            <div class="weui-dialog__ft">
-                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hide_conform_msg();">知道了</a>
-            </div>
-        </div>
-    </div>
-    <div class="fix-button">
-        <a href="javascript:;" onclick="show_conform_msg();">客服</a><br>
-        <a href="javascript:;" id="goToTop"><i class="iconfont iconvertical-align-top"></i></a>
     </div>
     <!-- ============= 底部导航 start ============== -->
     <include file="public@footer" />
@@ -295,7 +278,7 @@
     <!-- 分享 end -->
     
     <!-- 请升级为VIP商家 start -->
-    <!-- <div class="js_dialog" id="upgradeVipDialog" style="display: none;">
+    <div class="js_dialog" id="upgradeVipDialog" style="display: none;">
         <div class="weui-mask"></div>
         <div class="weui-dialog">
             <div class="weui-dialog__bd">请升级为VIP商家</div>
@@ -303,24 +286,13 @@
                 <a href="my_vip.html" class="weui-dialog__btn weui-dialog__btn_primary">去升级</a>
             </div>
         </div>
-    </div> -->
+    </div>
     <!-- 请升级为VIP商家 end -->
     <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
     <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
     <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
     <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
     <script type="text/javascript">
-        function show_conform_msg(msg){
-            $("#show_msg").html(msg);
-            $("#conform_msg").fadeIn(100);
-        }
-        function hide_conform_msg(){
-            $("#conform_msg").fadeOut(100);
-        }
-        // 回到顶部
-        $("#goToTop").on("click",function(){
-            $('html,body').animate({scrollTop: 0},'slow');
-        })
         function hideCancelAccountDialog(){
             $("#cancelAccountDialog").fadeOut(200);
         }

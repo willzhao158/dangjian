@@ -16,8 +16,6 @@ class RegisterController extends BaseController
     //注册页面
     public function index()
     {
-        $code = input('code','');
-        $this->assign("code", $code);
         return $this->fetch('register/index');
     }
 

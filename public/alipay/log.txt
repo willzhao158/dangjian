@@ -1,0 +1,184 @@
+2020-06-06 16:39:31  {"productCode":"QUICK_WAP_WAY","body":"购买测试商品0.01元","subject":"测试","out_trade_no":"202066163930569","total_amount":"0.01","timeout_express":"1m"}
+2020-06-06 16:39:31  response: '<form id=\'alipaysubmit\' name=\'alipaysubmit\' action=\'https://openapi.alipay.com/gateway.do?charset=UTF-8\' method=\'POST\'><input type=\'hidden\' name=\'biz_content\' value=\'{"productCode":"QUICK_WAP_WAY","body":"购买测试商品0.01元","subject":"测试","out_trade_no":"202066163930569","total_amount":"0.01","timeout_express":"1m"}\'/><input type=\'hidden\' name=\'app_id\' value=\'2021001163632546\'/><input type=\'hidden\' name=\'version\' value=\'1.0\'/><input type=\'hidden\' name=\'format\' value=\'json\'/><input type=\'hidden\' name=\'sign_type\' value=\'RSA2\'/><input type=\'hidden\' name=\'method\' value=\'alipay.trade.wap.pay\'/><input type=\'hidden\' name=\'timestamp\' value=\'2020-06-06 16:39:31\'/><input type=\'hidden\' name=\'alipay_sdk\' value=\'alipay-sdk-php-20180705\'/><input type=\'hidden\' name=\'notify_url\' value=\'http://工程公网访问地址/alipay.trade.wap.pay-PHP-UTF-8/notify_url.php\'/><input type=\'hidden\' name=\'return_url\' value=\'http://mitsein.com/alipay.trade.wap.pay-PHP-UTF-8/return_url.php\'/><input type=\'hidden\' name=\'charset\' value=\'UTF-8\'/><input type=\'submit\' value=\'ok\' style=\'display:none;\'\'></form><script>document.forms[\'alipaysubmit\'].submit();</script>'
+2020-06-24 17:55:20  array (
+)
+2020-06-25 23:20:43  array (
+  'gmt_create' => '2020-06-25 23:20:41',
+  'charset' => 'UTF-8',
+  'seller_email' => '351638274@qq.com',
+  'subject' => '测试',
+  'sign' => 'LjQKMLPQOqVVAlnlAj2oYK1TgVHWSvI9fsXB3svswEkrawyBImD8wrRy9rCQAQ4sWdV9Vgsqgg0svXyY75wuUr107i+EM+D3z7qbAlSHOQnVuvXKKJhvNiDUvdMcMldOjhhhXSdhOyzQ43gQ4AliNZzNmyhg5eDIi4FMR445D+7SYsqiT0RfCSNLDP5Fk3+/ze1uTz+CGUWfe8F6p7uWgZcbCJwai16Wv43idaqJpQWW71QXb97ScXvdvMGb9KRJCTjpLfhYxQeWc/G/TDZ1exso2XkG+V25xMHNpbi4IMPEkgwy9XFtLN1js7yV/WASMZGFoNpsoI+0RLe6R9Q+TQ==',
+  'body' => '购买测试商品0.01元',
+  'buyer_id' => '2088202370901004',
+  'invoice_amount' => '0.01',
+  'notify_id' => '2020062500222232042001000518976499',
+  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"PCREDIT"}]',
+  'notify_type' => 'trade_status_sync',
+  'trade_status' => 'TRADE_SUCCESS',
+  'receipt_amount' => '0.01',
+  'buyer_pay_amount' => '0.01',
+  'app_id' => '2021001163632546',
+  'sign_type' => 'RSA2',
+  'seller_id' => '2088831483532254',
+  'gmt_payment' => '2020-06-25 23:20:41',
+  'notify_time' => '2020-06-25 23:20:42',
+  'version' => '1.0',
+  'out_trade_no' => '2020625231920972',
+  'total_amount' => '0.01',
+  'trade_no' => '2020062522001401000530638564',
+  'auth_app_id' => '2021001163632546',
+  'buyer_logon_id' => '359***@qq.com',
+  'point_amount' => '0.00',
+)
+2020-06-25 23:22:23  array (
+  'gmt_create' => '2020-06-25 23:22:22',
+  'charset' => 'UTF-8',
+  'seller_email' => '351638274@qq.com',
+  'subject' => '测试',
+  'sign' => 'hZBdXlQ+UA5L/iVyDw6CqGgn8Q2w0sT6FPnXkaB+8X5a/EEZeCm8huaXuD0dF81xBe+TJUqqxJm6xmUaXTdeih+VQnH0l32x0wd8QhgEcI3W54JLAIVgv4u7xgxvtMxt1L8iDeB7Hnggh8wrROc/3KcGyYxuE0a/CCp1J54fgYVs/oMpq2WdfKZ+FJIj3mwMj8wGshxtzKql4/PXHlEmIhfPdHR9KkiZSQhvijFCMGVPD5TS0F63TPYMA462KRJGjZyPdZxlx+idgr4FWWbJsw3us05fRz8DwXb10KUF4Kv50t7KjKeFJjZ/cHhLSYTu9okBQFcqNBpD/S6aTWbMpQ==',
+  'body' => '购买测试商品0.01元',
+  'buyer_id' => '2088202370901004',
+  'invoice_amount' => '0.01',
+  'notify_id' => '2020062500222232222001000518413918',
+  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"PCREDIT"}]',
+  'notify_type' => 'trade_status_sync',
+  'trade_status' => 'TRADE_SUCCESS',
+  'receipt_amount' => '0.01',
+  'buyer_pay_amount' => '0.01',
+  'app_id' => '2021001163632546',
+  'sign_type' => 'RSA2',
+  'seller_id' => '2088831483532254',
+  'gmt_payment' => '2020-06-25 23:22:22',
+  'notify_time' => '2020-06-25 23:22:23',
+  'version' => '1.0',
+  'out_trade_no' => '2020625232215310',
+  'total_amount' => '0.01',
+  'trade_no' => '2020062522001401000526539919',
+  'auth_app_id' => '2021001163632546',
+  'buyer_logon_id' => '359***@qq.com',
+  'point_amount' => '0.00',
+)
+2020-06-25 23:22:28  array (
+)
+2020-06-25 23:24:49  array (
+)
+2020-06-25 23:25:30  array (
+  'gmt_create' => '2020-06-25 23:25:29',
+  'charset' => 'UTF-8',
+  'seller_email' => '351638274@qq.com',
+  'subject' => '测试',
+  'sign' => 'WgPIOpNvpZq40+Al7hqtg0mWIn+LIhY/778VOg3HeNuv4ujB3Mx1S/6BG4m1Ot/f3y/x07XwVsn6wKRsPEEBrih8dC1SNt84j05dNiz6SyK4DlEBDNGKBemcT3yp0BwZVAZH2V5JjWbda4YHkVm+MFYYvFMbCsMlTJZQt+mroB9e8JU8irKTnzcQ1SbHkr7nez2d940giUzUoD7cipuKCT4POwI/npyR2CCwjG3LWMjr6od6Yn1rWRy41cfxAnfaF5REXBiH5tM8VyVdRQ0XRIlkyzrc4POuS32l86S5cpPa9NyAMdUIWr6V3lwlJTwEjUx4tX7QeDYSKNeck6HkUg==',
+  'body' => '购买测试商品0.01元',
+  'buyer_id' => '2088202370901004',
+  'invoice_amount' => '0.01',
+  'notify_id' => '2020062500222232529001000518700510',
+  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"PCREDIT"}]',
+  'notify_type' => 'trade_status_sync',
+  'trade_status' => 'TRADE_SUCCESS',
+  'receipt_amount' => '0.01',
+  'buyer_pay_amount' => '0.01',
+  'app_id' => '2021001163632546',
+  'sign_type' => 'RSA2',
+  'seller_id' => '2088831483532254',
+  'gmt_payment' => '2020-06-25 23:25:29',
+  'notify_time' => '2020-06-25 23:25:30',
+  'version' => '1.0',
+  'out_trade_no' => '2020625232520967',
+  'total_amount' => '0.01',
+  'trade_no' => '2020062522001401000529103821',
+  'auth_app_id' => '2021001163632546',
+  'buyer_logon_id' => '359***@qq.com',
+  'point_amount' => '0.00',
+)
+2020-06-25 23:25:31  array (
+)
+2020-06-25 23:26:06  array (
+)
+2020-06-25 23:26:31  array (
+)
+2020-06-25 23:26:47  array (
+)
+2020-06-25 23:27:04  array (
+)
+2020-06-25 23:27:24  array (
+)
+2020-06-25 23:29:05  array (
+)
+2020-06-25 23:29:19  array (
+)
+2020-06-25 23:29:29  array (
+)
+2020-06-25 23:29:30  array (
+)
+2020-06-25 23:29:31  array (
+)
+2020-06-25 23:29:45  array (
+)
+2020-06-25 23:29:45  array (
+)
+2020-06-25 23:29:46  array (
+)
+2020-06-25 23:31:45  array (
+  'gmt_create' => '2020-06-25 23:31:44',
+  'charset' => 'UTF-8',
+  'seller_email' => '351638274@qq.com',
+  'subject' => '测试',
+  'sign' => 'Dgnu9ZJDSP65EE0DJ3eq7V65FzLoHwoU85zmFA2j8gd/9u/VkEpEhv9piu5z1FZtMbcaCwkUlXK2+c8F5fCe/5vP5ITYwFHucW/9WRUnuaZKSGGMd6seF1dMCEsGWID75TNkuWglz85VB8GomMYd9MLTspSnJnBBW3wXLjmmi4F8fMtNk3eKTQdlB14T3F2GfhCCC2vabYwZe2Qjd828Jc8HzqPbtSx2oyBDKKEp5kkZGC14O383LzxOWeBr7LvAIr5LjYGx+7BtAfjAuHvxQE94eec3x/Ys4v6EuWu99Z6eXPCucQ4uiTeVB3vA6h2Jfn1tY6dQDckMEBiqrSi8PQ==',
+  'body' => '购买测试商品0.01元',
+  'buyer_id' => '2088202370901004',
+  'invoice_amount' => '0.01',
+  'notify_id' => '2020062500222233145001000518713728',
+  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"ALIPAYACCOUNT"}]',
+  'notify_type' => 'trade_status_sync',
+  'trade_status' => 'TRADE_SUCCESS',
+  'receipt_amount' => '0.01',
+  'buyer_pay_amount' => '0.01',
+  'app_id' => '2021001163632546',
+  'sign_type' => 'RSA2',
+  'seller_id' => '2088831483532254',
+  'gmt_payment' => '2020-06-25 23:31:45',
+  'notify_time' => '2020-06-25 23:31:45',
+  'version' => '1.0',
+  'out_trade_no' => '2020625233113277',
+  'total_amount' => '0.01',
+  'trade_no' => '2020062522001401000528757501',
+  'auth_app_id' => '2021001163632546',
+  'buyer_logon_id' => '359***@qq.com',
+  'point_amount' => '0.00',
+)
+2020-06-25 23:31:48  array (
+)
+2020-06-25 23:33:01  array (
+  'gmt_create' => '2020-06-25 23:33:00',
+  'charset' => 'UTF-8',
+  'seller_email' => '351638274@qq.com',
+  'subject' => '测试',
+  'sign' => 'BPGy9zSwyRPb92cX0QdjtefIIFuKA9bASP6jZNbUNvsL0aGNLV3OwgndOIGciKgBrOV2x95qgnV+JhW9t2VSBZk1rnnKq0NJLNWRAtgv24fftKz+pXOhng6KlQUpG/AXrj5YWKT4bOMTaT0vSvVtXdsaFnhRxnUArEyAUgkvokPFzI216ak+qCt+5gOiNuCydYiCaqdCe1PCVC11OWnAx6D1yEtr5SND9ArIumzDrrzvkKbZ810iA/KHJrImQURQe2yr/jqjK5JzKRdheTm/ScSfIcVI3kzkFf6CRmyYxta8ULn5X/t3VPgYnadkqBBUwYuxpLFLq/BDPdj9q67DvQ==',
+  'body' => '购买测试商品0.01元',
+  'buyer_id' => '2088202370901004',
+  'invoice_amount' => '0.01',
+  'notify_id' => '2020062500222233301001000518486336',
+  'fund_bill_list' => '[{"amount":"0.01","fundChannel":"ALIPAYACCOUNT"}]',
+  'notify_type' => 'trade_status_sync',
+  'trade_status' => 'TRADE_SUCCESS',
+  'receipt_amount' => '0.01',
+  'buyer_pay_amount' => '0.01',
+  'app_id' => '2021001163632546',
+  'sign_type' => 'RSA2',
+  'seller_id' => '2088831483532254',
+  'gmt_payment' => '2020-06-25 23:33:00',
+  'notify_time' => '2020-06-25 23:33:01',
+  'version' => '1.0',
+  'out_trade_no' => '2020625233251809',
+  'total_amount' => '0.01',
+  'trade_no' => '2020062522001401000529646124',
+  'auth_app_id' => '2021001163632546',
+  'buyer_logon_id' => '359***@qq.com',
+  'point_amount' => '0.00',
+)
+2020-06-25 23:33:04  array (
+)
+2020-06-25 23:34:52  array (
+)
+2020-06-25 23:35:13  array (
+)

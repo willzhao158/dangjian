@@ -108,7 +108,7 @@ Class UserModel extends Model
 
     public function getUserById(){
     	$uid = session('uid');
-    	$sql = "select * from ny_mobile_user where id = $uid and cancel = 1";
+    	$sql = "select * from ny_mobile_user where id = $uid";
     	$res = $this->query($sql);
     	return $res[0];
     }

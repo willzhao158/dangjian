@@ -1,139 +1,91 @@
-<html lang="en"><head>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
     <meta charset="utf-8">
-    <title></title>
-    <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
-    <meta name="author" content="Vincent Garreau">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <link rel="stylesheet" media="screen" href="__TMPL__/public/hplus/login/css/style.css">
-    <link rel="stylesheet" type="text/css" href="__TMPL__/public/hplus/login/css/reset.css">
-    <style type="text/css">
-        .copyright{
-            margin: 0px auto;
-            width: 368px;
-            margin-top: 230px;
-            text-align: center;
-            margin-left: -9px;
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <title>瑞丰智慧农业云平台</title>
+    <link href="__TMPL__/public/hplus/css/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/hplus/css/font-awesome.css?v=4.4.0" rel="stylesheet">
+    <link href="__TMPL__/public/hplus/css/animate.css" rel="stylesheet">
+    <link href="__TMPL__/public/hplus/css/style.css" rel="stylesheet">
+    <link href="__TMPL__/public/hplus/css/login.css" rel="stylesheet">
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+        if (window.top !== window.self) {
+            window.top.location = window.location;
         }
-        .login{
-            opacity: 0.8
-        }
-    </style>
+    </script>
+
 </head>
-<body>
 
-<div id="particles-js">
-    <div class="login">
-        <div class="login-top">
-            
-        </div>
-        <div class="login-center clearfix">
-            <div class="login-center-img"><img src="__TMPL__/public/hplus/login/img/name.png"></div>
-            <div class="login-center-input">
-                <input type="text"  name="username" id="username" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'">
-                <div class="login-center-input-text">用户名</div>
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7">
+                
+            </div>
+            <div class="col-sm-5">
+                <form class="" method="post" action="">
+                    <h4 class="no-margins" style="color: black;font-size:18px;">农业环境信息监测平台</h4>
+                    <input type="text" class="form-control uname" placeholder="{:lang('USERNAME_OR_EMAIL')}" name="username" id="username" autocomplete="off" title="{:lang('USERNAME_OR_EMAIL')}"
+                               value="{:cookie('admin_username')}"/>
+                    <input type="password" name="password" class="form-control pword m-b" id="password" autocomplete="off" placeholder="{:lang('PASSWORD')}" title="{:lang('PASSWORD')}"/>
+                    <button class="btn btn-success btn-block" id="dologin" type="button">登录</button>
+                </form>
             </div>
         </div>
-        <div class="login-center clearfix">
-            <div class="login-center-img"><img src="__TMPL__/public/hplus/login/img/password.png"></div>
-            <div class="login-center-input">
-                <input type="password" name="password"  id="password" value="" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'">
-                <div class="login-center-input-text">密码</div>
+        <div class="signup-footer">
+            <div class="pull-left">
+                版权所有 2018 - 2019 泡泡同城
             </div>
         </div>
-        <div class="login-button">
-            登陆
-        </div>
-        <div class="copyright">版权所有 2018 - 2019 泡泡同城</div>
     </div>
-    <div class="sk-rotating-plane"></div>
-    <canvas class="particles-js-canvas-el" width="1903" height="479" style="width: 100%; height: 100%;"></canvas>
-    
-</div>
-
-<!-- scripts -->
-<script src="__TMPL__/public/hplus/login/js/particles.min.js"></script>
-<script src="__TMPL__/public/hplus/login/js/app.js"></script>
-
 <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
 <script src="__TMPL__/public/login/lib/jquery-plugin/jqueryui/jquery-ui.js"></script>
 <script src="__TMPL__/public/hplus/js/plugins/layer/layer.min.js"></script>
 <script type="text/javascript">
-    function hasClass(elem, cls) {
-      cls = cls || '';
-      if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
-      return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
-    }
-     
-    function addClass(ele, cls) {
-      if (!hasClass(ele, cls)) {
-        ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
-      }
-    }
-     
-    function removeClass(ele, cls) {
-      if (hasClass(ele, cls)) {
-        var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
-        while (newClass.indexOf(' ' + cls + ' ') >= 0) {
-          newClass = newClass.replace(' ' + cls + ' ', ' ');
+    $("#dologin").click(function(){
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if(username == ''){
+            layer.msg('请输入用户名');
+            return false;
         }
-        ele.className = newClass.replace(/^\s+|\s+$/g, '');
-      }
-    }
-        document.querySelector(".login-button").onclick = function(){
-
-            var username = $("#username").val();
-            var password = $("#password").val();
-            if(username == ''){
-                layer.msg('请输入用户名', { offset: '100px' });
-                return false;
-            }
-            if(password == ''){
-                layer.msg('请输入密码', { offset: '100px' });
-                return false;
-            }
-            $.ajax({
-                url: "{:url('login/dologin')}",
-                type: 'post',
-                dataType: 'json',
-                data:{
-                        username:username,
-                        password:password
-                      },
-                success: function (data) {
-                    if(data['code'] == 1){
-                        addClass(document.querySelector(".login"), "active")
-                        setTimeout(function(){
-                            addClass(document.querySelector(".sk-rotating-plane"), "active")
-                            document.querySelector(".login").style.display = "none"
-                        },800)
-                        setTimeout(function(){
-                            removeClass(document.querySelector(".login"), "active")
-                            removeClass(document.querySelector(".sk-rotating-plane"), "active")
-                            document.querySelector(".login").style.display = "block"
-                            layer.msg(data['msg'], { offset: '100px' })
-                            
-                        },2000)
-                        layer.msg(data['msg'], { offset: '100px' });
-                        setTimeout(function(){
-                            window.location.href = "{:url('index/index')}";
-                        },2100)
-                        
-                        
-                    }else{
-                        layer.msg(data['msg'], { offset: '100px' });
-                        return false;
-                    }
-                },
-                error: function () {
-
-                },
-                complete: function () {
-
+        if(password == ''){
+            layer.msg('请输入密码');
+            return false;
+        }
+        $.ajax({
+            url: "{:url('login/dologin')}",
+            type: 'post',
+            dataType: 'json',
+            data:{
+                    username:username,
+                    password:password
+                  },
+            success: function (data) {
+                if(data['code'] == 1){
+                    layer.msg(data['msg']);
+                    window.location.href = "{:url('index/index')}";
+                }else{
+                    layer.msg(data['msg']);
+                    return false;
                 }
-            });
+            },
+            error: function () {
 
-            
-        }
+            },
+            complete: function () {
+
+            }
+        });
+    });
 </script>
-
-</body></html>
+</body>
+</html>

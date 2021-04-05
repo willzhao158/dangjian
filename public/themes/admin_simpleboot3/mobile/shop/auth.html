@@ -42,7 +42,7 @@
                             </div>
                         </div>
                         <div class="weui-cell weui-cell_active">
-                            <div class="weui-cell__hd"><label class="weui-label">商家信息</label></div>
+                            <div class="weui-cell__hd"><label class="weui-label">店铺地址</label></div>
                             <div class="weui-cell__bd">
                                 <input class="weui-input" type="text" placeholder="点击添加" readonly id="showShopAddr"/>
                             </div>
@@ -63,7 +63,7 @@
                                         </ul>
                                         <div class="weui-uploader__input-box">
                                             <input class="img-input" name="imgs1" type="hidden" id="imgs1">
-                                            <input class="weui-uploader__input uploader-input" data-type="0" type="file" accept="image/*" multiple/>
+                                            <input class="weui-uploader__input uploader-input" type="file" accept="image/*" multiple/>
                                         </div>
                                     </div>
                                 </div>
@@ -74,14 +74,14 @@
                                 <div class="weui-uploader">
                                     <div class="weui-uploader__hd">
                                         <p class="weui-uploader__title">营业执照</p>
-                                        <div class="weui-uploader__info"></div>
+                                        <div class="weui-uploader__info">仅限泡泡同城商家认证使用</div>
                                     </div>
                                     <div class="weui-uploader__bd">
                                         <ul class="weui-uploader__files uploader-files">
                                         </ul>
                                         <div class="weui-uploader__input-box">
                                             <input class="img-input" name="imgs2" type="hidden" id="imgs2">
-                                            <input class="weui-uploader__input uploader-input" data-type="1" type="file" accept="image/*" multiple/>
+                                            <input class="weui-uploader__input uploader-input" type="file" accept="image/*" multiple/>
                                         </div>
                                     </div>
                                 </div>
@@ -92,14 +92,14 @@
                                 <div class="weui-uploader">
                                     <div class="weui-uploader__hd">
                                         <p class="weui-uploader__title">法人身份证</p>
-                                        <div class="weui-uploader__info">请上传身份证正反面</div>
+                                        <div class="weui-uploader__info">仅限泡泡同城商家认证使用</div>
                                     </div>
                                     <div class="weui-uploader__bd">
                                         <ul class="weui-uploader__files uploader-files">
                                         </ul>
                                         <div class="weui-uploader__input-box">
                                             <input class="img-input" name="imgs3" type="hidden" id="imgs3">
-                                            <input class="weui-uploader__input uploader-input" data-type="1" type="file" accept="image/*" multiple/>
+                                            <input class="weui-uploader__input uploader-input" type="file" accept="image/*" multiple/>
                                         </div>
                                     </div>
                                 </div>
@@ -174,12 +174,12 @@
                                         <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入联系电话" id="shopTel"/>
                                     </div>
                                 </div>
-                                <!-- <div class="weui-cell weui-cell_active">
+                                <div class="weui-cell weui-cell_active">
                                     <div class="weui-cell__hd"><label class="weui-label">店铺地址</label></div>
                                     <div class="weui-cell__bd">
                                         <input class="weui-input" type="text" placeholder="请输入店铺地址" id="shopAddr"/>
                                     </div>
-                                </div> -->
+                                </div>
                                 <div class="weui-cell weui-cell_active">
                                     <div class="weui-cell__hd"><label class="weui-label">地图标注</label></div>
                                 </div>
@@ -204,7 +204,7 @@
     <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
     <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
     <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
-    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c33813dceb855ebf5e4a2b088b1fdc65"></script> 
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c33813dceb855ebf5e4a2b088b1fdc65&plugin=AMap.Geocoder"></script> 
     <script type="text/javascript">
         function showToastSuccess(msg){
             if ($("#toastSuccess").css('display') != 'none') return;
@@ -293,8 +293,7 @@
             $('#showShopAddr').on('click', function(){
                 $("#shopAddrDialog").fadeIn(200);
                 $("#shopAddrDialogWin").addClass('weui-half-screen-dialog_show');
-                resetDialogForm();
-                mapInit();
+                resetDialogForm()
             });
             var shopAddrValue = ''
             $("#saveShopInfo").on("click",function(){
@@ -302,8 +301,6 @@
                 var shopTel = $("#shopTel").val();
                 var shopAddr = $("#shopAddr").val();
                 var shopLnglat = ($("#shopLnglat").val()+"").replace(',','&');
-                //var shopLnglat = $("#shopLnglat").val();
-                console.log(shopLnglat);
                 if(shopName == ''){
                     showToastError('请输入店铺名称');
                     return false;
@@ -312,10 +309,10 @@
                     showToastError('请输入店铺号码');
                     return false;
                 }
-                // if(shopAddr == ''){
-                //     showToastError('请输入店铺地址');
-                //     return false;
-                // }
+                if(shopAddr == ''){
+                    showToastError('请输入店铺地址');
+                    return false;
+                }
                 if(shopLnglat == ''){
                     showToastError('请选择店铺地址');
                     return false;
@@ -326,9 +323,9 @@
                                         +'<div class="flex-1">'
                                             +'<div class="flex flex-align-center">'
                                                 +'<h1>'+shopName+'</h1>'
-                                                +'<p></p>'
+                                                +'<p>'+shopTel+'</p>'
                                                 +'</div>'
-                                                +'<h6>'+shopTel+'</h6>'
+                                                +'<h6>'+shopAddr+'</h6>'
                                                 +'<input type="hidden" value="'+$("#shopLnglat").val()+'">'
                                             +'</div>'
                                         +'<a href="javascript:;" class="weui-btn weui-btn_warn btn-delete-addr">删除</a>'
@@ -336,7 +333,7 @@
                                 +'</div>'
                             +'</div>';
                 $(".shop-addr-list").append(html);
-                shopAddrValue += shopName+"&"+shopTel+"&111&"+shopLnglat+"@";
+                shopAddrValue += shopName+"&"+shopTel+"&"+shopAddr+"&"+shopLnglat+"@";
                 $("#shopAddress").val(shopAddrValue)
                 hideShopAddrDialog();
             })
@@ -345,44 +342,18 @@
                 var index = $(this).parents(".weui-cell").index()
                 array.splice(index,1)
                 $("#shopAddress").val(array.join("@"))
-                shopAddrValue = array.join("@")
                 $(this).parents(".weui-cell").remove()
             })
 
             // 地图定位
-            function mapInit(){
-                AMap.plugin('AMap.Geolocation', function() {
-                    var map = new AMap.Map("map", {
-                        resizeEnable: true,
-                        zoom: 16
-                    });
-                    var geolocation = new AMap.Geolocation({
-                        enableHighAccuracy: true,
-                        timeout: 10000,
-                        buttonPosition:'RB',
-                        buttonOffset: new AMap.Pixel(10, 20),
-                        zoomToAccuracy: true,
-                        showMarker: true,
-                    });
-                    map.addControl(geolocation);
-                    geolocation.getCurrentPosition(function(status,result){
-                        if(status=='complete'){
-                            // console.log(result.position)
-                            $("#shopLnglat").val(result.position)
-                        }
-                    });
-                    map.on('click',function(e){
-                        var center = e.lnglat
-                        $("#shopLnglat").val(center)
-                        map.clearMap();
-                        var marker = new AMap.Marker({
-                            position: center,
-                        });
-                        marker.setMap(map);
-                    })
-                })
-            }            
-            /* function geoCode() {
+            var center;
+            var map = new AMap.Map("map", {
+                resizeEnable: true,
+                center: [116.418481,39.90833],
+                zoom: 15
+            });
+            var geocoder = new AMap.Geocoder();
+            function geoCode() {
                 var address = $('#shopAddr').val();
                 geocoder.getLocation(address, function(status, result) {
                     if (status === 'complete'&&result.geocodes.length) {
@@ -395,28 +366,32 @@
             }
             $("#shopAddr").on("blur",function(){
                 geoCode();
-            }) */
+            })
+            map.on('click',function(e){
+                center = e.lnglat
+                $("#shopLnglat").val(center)
+                map.clearMap();
+                var marker = new AMap.Marker({
+                    position: center,
+                });
+                marker.setMap(map);
+            })
 
             // 图片删除
             $(".weui-uploader__files").on("click", ".weui-uploader__delete", function(e){
-                $(this).parents(".weui-uploader__bd").find(".weui-uploader__input-box").show();
-                var imgs = $(this).parents(".weui-uploader__bd").find(".img-input").val().split(",");
-                var index = $(this).parent().index();
-                imgs.splice(index,1);
-                $(this).parents(".weui-uploader__bd").find(".img-input").val(imgs.join(","));
-                $(this).parent().remove();
-                e.stopPropagation();
+                var imgs = $(this).parents(".weui-uploader__bd").find(".img-input").val().split(",")
+                var index = $(this).parent().index()
+                imgs.splice(index,1)
+                $(this).parents(".weui-uploader__bd").find(".img-input").val(imgs.join(","))
+                $(this).parent().remove()
+                e.stopPropagation()
             });
             // 上传图片
-            var tmpl = '<li class="weui-uploader__file" style="background-image:url(../#url#)"><img class="weui-uploader__delete" src="__TMPL__/public/massets/images/icon_delete.png"></li>'
-            var tmpl2 = '<li class="weui-uploader__file" style="background-image:url(#url#)"><img class="weui-uploader__delete" src="__TMPL__/public/massets/images/icon_delete.png"></li>'
+            var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"><img class="weui-uploader__delete" src="__TMPL__/public/massets/images/icon_delete.png"></li>'
             $(".uploader-input").on("change", function(e){
-                var type = $(this).data("type");
-
-                var _this = this;
+                var _this = this
                 var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
                 var formData = new FormData();
-                formData.append('type', type);
                 for (var i = 0, len = files.length; i < len; ++i) {
                     var file = files[i];
                     formData.append('photo'+i, file);
@@ -425,11 +400,7 @@
                     } else {
                         src = e.target.result;
                     }
-                    if(type == 0){
-                        $(_this).parent().prev(".uploader-files").append($(tmpl2.replace('#url#', src)));
-                    }
-
-                    // $(_this).parent().prev(".uploader-files").append($(tmpl.replace('#url#', src)));
+                    $(_this).parent().prev(".uploader-files").append($(tmpl.replace('#url#', src)));
                 }
                 $.ajax({
                     url: "{:url('shop/pics')}",
@@ -450,17 +421,11 @@
                             imgs = imgs+','+data;
                             $(_this).prev().val(imgs);
                         }
-                        if(type == 1){
-                            data.split(",").forEach(item => {
-                                $(_this).parent().prev(".uploader-files").append($(tmpl.replace('#url#', item)));
-                            });
-                        }
-                        //$(_this).parent().hide();
+                        //hideLoading();
                     },
                     error: function () {
                     },
                 });
-                
             });
             $(".uploader-files").on("click", "li", function(){
                 $("#galleryImg").attr("style", this.getAttribute("style"));
@@ -481,7 +446,6 @@
                 var imgs2 = $("#imgs2").val();
                 var imgs3 = $("#imgs3").val();
                 var shopAddress = $("#shopAddress").val();
-
                 if(city == ''){
                     showToastError('请选择所属地区');
                     return false;
@@ -504,21 +468,6 @@
                 }
                 if(imgs3 == ''){
                     showToastError('请上传法人身份证');
-                    return false;
-                }
-
-                if((imgs1.split(",").length) != 5){
-                    showToastError('店铺照片最多上传5张');
-                    return false;
-                }
-
-                if((imgs2.split(",").length) != 1){
-                    showToastError('营业执照最多上传1张');
-                    return false;
-                }
-
-                if((imgs3.split(",").length) != 2){
-                    showToastError('身份证照片请上传正反面');
                     return false;
                 }
 

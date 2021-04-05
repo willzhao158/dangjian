@@ -1,36 +1,16 @@
 <include file="public@admin" />
 </head>
-<link rel="stylesheet" href="__TMPL__/public/kindeditor/themes/default/default.css" />
-<script charset="utf-8" src="__TMPL__/public/kindeditor/kindeditor-min.js"></script>
-<script charset="utf-8" src="__TMPL__/public/kindeditor/lang/zh-CN.js"></script>
-<script>
-  var editor;
-  KindEditor.ready(function(K) {
-    editor = K.create('textarea[name="content"]', {
-      allowFileManager : true
-    });
-    K('input[name=clear]').click(function(e) {
-      editor.html('');
-    });
-  });
-</script>
 <body>
 	<div class="layui-fluid">
 		<div class="layui-card">
 			<div class="layui-card-body">
 				<form class="layui-form" >
 				  	<div class="layui-form-item">
-					    <label class="layui-form-label">标题</label>
+					    <label class="layui-form-label">内容</label>
 					    <div class="layui-input-block">
-					      <input type="text" name="title" id="title" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					      <input type="text" name="content" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
 					    </div>
 				  	</div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label">内容</label>
-                        <div class="layui-input-block">
-                          <textarea name="content" id="content" style="width:800px;height:400px;visibility:hidden;"></textarea>
-                        </div>
-                    </div>
 					<div class="layui-form-item">
 					    <div class="layui-input-block">
 					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
@@ -80,9 +60,8 @@ layui.use(['layer','form','upload','laydate'], function(){
     });
 
     form.on('submit(menu)',function(res){
-        editor.sync();
     	var submit = {
-    		url:'/anounce/addanounce',
+    		url:'/anounce/addaction',
     		type:'POST',
     		dataType:'json',
     		data:new FormData(res.form),

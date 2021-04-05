@@ -25,7 +25,6 @@ class InvoiceController extends BaseController
         $address = input('address','');
         $bank = input('bank','');
         $bank_code = input('bank_code','');
-        $email = input('email','');
 
         $inser_data = array(
                             'company'=>$company,
@@ -36,7 +35,6 @@ class InvoiceController extends BaseController
                             'bank_code'=>$bank_code,
                             'createtime'=>time(),
                             'bank_code'=>$bank_code,
-                            'email'=>$email,
                             'uid'=>session('uid')
                         );
 

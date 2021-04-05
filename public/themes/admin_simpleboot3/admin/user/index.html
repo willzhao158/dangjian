@@ -1,143 +1,240 @@
 <include file="public@admin" />
-
 <body>
   <div class="layui-fluid">
     <div class="layui-card">
       <div class="layui-card-body">
         <div class="demoTable">
           <div class="layui-inline">
-            <input class="layui-input" name="" id="mobile" autocomplete="off" placeholder="请输入手机号">
+            <input class="layui-input" name="" id="user_login" autocomplete="off" placeholder="请输入用户名称">
           </div>
-<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
-          <button class="layui-btn " data-type="userreload">搜索</button>
-          <!-- <button class="layui-btn " data-type="adduser">新增</button> -->
-          <!-- <button class="layui-btn " data-type="deluser">批量升级VIP</button> -->
           
+          <div class="layui-inline">
+            <select name='' class="layui-input" id="level" style="width: 100px;">
+              <option value="">请选择角色</option>
+              <if condition="$user['level']=='总公司'">
+              <option value="总公司">总公司</option>
+              </if>
+              <option value="分公司">分公司</option>
+              <option value="业务经理">业务经理</option>
+              
+            </select>
+          </div>
+          
+          <button class="layui-btn" data-type="reload">搜索</button>
+          <button class="layui-btn " data-type="addPlace">新增用户</button>
+          <button class="layui-btn " data-type="delPlace">删除用户</button>
         </div>
-        
       </div>
       <div class="layui-card-body">
-        <table class="layui-hide" id="user" lay-filter="user"></table>
+        <table class="layui-hide" id="Place" lay-filter="Place"></table> 
       </div>
     </div>
-  </div>
+  </div> 
 </body>
-<script type="text/html" id="barDemo">
-  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
-  
+<style type="text/css">
+.layui-table-cell {            overflow: visible !important;        } 
+/* 使得下拉框与单元格刚好合适 */       
+td .layui-form-select{
+  margin-top: -10px;
+  margin-left: -15px;
+  margin-right: -15px;
+} 
+
+</style>
+<style type="text/css">
+  .layui-table-body, .layui-table-box, .layui-table-cell{
+  overflow:visible
+}
+</style>
+<script type="text/html" id="barCol">
+    <a class="layui-btn layui-btn-xs" lay-event="edit">回款计划</a>
+    
+    <a class="layui-btn layui-btn-xs" lay-event="upload">合同上传</a>
+    
+</script>
+<script type="text/html" id="show_link">
+  {{#  if(d.con_link != null){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="show_con">查看</a>
+  {{#  } }} 
+</script>
+<script type="text/html" id="selectLevel" >    
+  <select name='level' lay-filter='level' lay-event="level" lay-search='' data-id="{{ d.id }}">
+    <option value="" {{d.level==''?'selected':''}}>请选择</option>
+    <if condition="$user['level']=='总公司'">
+      <option value="总公司" {{d.level=='总公司'?'selected':''}}>总公司</option>
+    </if>
+      <option value="分公司" {{d.level=='分公司'?'selected':''}}>分公司</option>
+
+      <option value="业务经理" {{d.level=='业务经理'?'selected':''}}>业务经理</option>
+    
+  </select>
+</script>
+<script type="text/html" id="selectCom" >    
+  <select name='company' lay-filter='company' lay-event="company" lay-search='' data-id="{{ d.id }}">
+    <option value="" {{d.company==''?'selected':''}}>请选择</option>
+    <volist name="companys" id="company">
+      <option value="{$company.name}" {{d.company=='{$company.name}'?'selected':''}}>{$company.name}</option>
+    </volist>    
+  </select>
 </script>
 <script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
 <script type="text/javascript">
-layui.use(['table','layer'], function(){
-  var table = layui.table ,$ = layui.$, layer = layui.layer;
-
+layui.use(['laydate','table','layer','form'], function(){
+  var table = layui.table
+      ,layer = layui.layer;
+  var form   = layui.form;
+  var laydate = layui.laydate;
+  laydate.render({
+    elem: '#deliver_time' //指定元素
+    ,range: '~'
+  });
   //方法级渲染
   table.render({
-    elem: '#user'
-    ,url: '/user/udatalist'
-    ,cellMinWidth: 80
-    ,where: {
-            mobile:$('#mobile').val()
-    }
+    elem: '#Place'
+    ,url: '/user/datalist/'
     ,cols: [[
-    {checkbox: true},
-      {field:'id', title:'ID', width:80, sort: true}
-      ,{field:'name', title: '名称'}
-      ,{field:'mobile', title: '电话',width:150}
-      ,{field:'sfz', title: '身份证',width:200}
-      ,{field:'reference_num', title: '直推人数',width:100}
-      ,{field:'reference', title: '上级'}
-      ,{field:'top_reference', title: '上上级'}
-      ,{field:'jifen', title: '积分'}
-      ,{field:'yue', title: '余额'}
-      ,{field:'income', title: '收益',width:100}
-      ,{field:'cancel', title: '是否注销',width:100}
-      ,{field:'isblack', title: '黑名单'}
-      ,{field:'level', title: '层级',width:100}
-      ,{field:'createtime', title: '注册时间',width:180}
-      ,{field:'last_login_time', title: '上次登录时间',width:180}
-      ,{field:'last_login_ip', title: '上次登录IP',width:150}
-      ,{field:'alipay_account', title: '支付宝账号',width:180}
-      ,{fixed: 'right', title: '操作', width:130, align:'center', toolbar: '#barDemo'}
+      {checkbox: true, fixed: true},
+      {field:'id', title: 'ID', sort: true, fixed: true}
+      ,{field:'user_login', title: '用户',   edit: 'text'}
+      ,{field:'user_nickname', title: '昵称', edit: 'text'}
+      ,{field:'user_pass', title: '密码', edit: 'text'}
+      ,{field:'create_time', title: '创建时间',}
+      ,{field:'last_login_ip', title: '上次登录IP'}
+      ,{field:'last_login_time', title: '上次登录时间'}
+      ,{field:'company', title: '所属公司',toolbar: '#selectCom'}
+      ,{field:'level', title: '角色',toolbar: '#selectLevel'}
     ]]
-    ,id: 'userReload'
+    ,id: 'PlaceReload'
     ,page: true
-    ,done:function(res){
-      //$('.layui-table-cell').css({'height':'auto'});
-    }
   });
+ 
   var $ = layui.$, active = {
-    userreload: function(){
+    reload: function(){
+      var demoReload = $('#demoReload');
+      
       //执行重载
-      table.reload('userReload', {
+      table.reload('PlaceReload', {
         page: {
-          curr:1 //重新从第 1 页开始
+          curr: 1 //重新从第 1 页开始
         }
         ,where: {
-            mobile:$('#mobile').val()
+            user_login: $('#user_login').val(),
+            level: $('#level').val(),
         }
       }, 'data');
     },
-    adduser:function(){
-        layer.open({
-          type:2,
-          area:area,
-          title:SystemName,
-          content:'/user/add'
-        });
+    addPlace:function(){
+      $.post('/user/addone',{id:''},function(res){
+        if(res.code){
+          table.reload('PlaceReload');
+          layer.msg(res.msg,{icon:1});
+        }else{
+          layer.msg(res.msg,{icon:2});
+        }
+      });
     },
-    deluser:function(){
+    delPlace:function(){
     var that = this;
-    var checkStatus = table.checkStatus('userReload');
+    var checkStatus = table.checkStatus('PlaceReload');
     var data = checkStatus.data;
         var id = new Array();
         data.forEach(function(item){
           id.push(item.id);
         });
-        active.delaction(id.join(','));
-    },
-    delaction:function(params){
-       layer.confirm('确定删除吗？',{icon:3},function(index){
-        $.post('/user/delaction',{params:params},function(res){
-          if(res.code){
-            layer.msg(res.msg,{icon:1});
-            setTimeout(function(){
-              table.reload('userReload');
-            },1000);
-          }else{
-            layer.msg(res.msg,{icon:2});
-          }
+        
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/user/delaction',{params:id.join(',')},function(res){
+            if(res.code){
+              table.reload('PlaceReload');
+              layer.msg(res.msg,{icon:1});
+            }else{
+              layer.msg(res.msg,{icon:2});
+            }
+          });
         });
-      });
+
+       
+
+
     },
-    
-    edit:function(obj){
-      layer.open({
-        type:2,
-        area:area,
-        title:SystemName,
-        content:'/farm/user/edit/id/' + obj.data.id
-      });
-    },
-    del:function(obj){
-      active.delaction(obj.data.id);
-    }
   };
   window.fun = active;
   $('.demoTable .layui-btn').on('click', function(){
     var type = $(this).data('type');
     active[type] ? active[type].call(this) : '';
   });
-  table.on('tool(user)',function(obj){
-      var data = obj.data //获得当前行数据
-      ,layEvent = obj.event //获得 lay-event 对应的值
-      switch(obj.event){
+
+  form.on('select(company)', function(data){
+    //alert(data.value);
+    let id = $(data.elem).data('id');
+    // console.log(obj);
+    // console.log(id+'->'+obj.value);
+    var update = {id:id,company:data.value};
+    $.post('/user/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      //layer.close(load);
+    });
+  });
+  form.on('select(level)', function(data){
+    //alert(data.value);
+    let id = $(data.elem).data('id');
+    // console.log(obj);
+    // console.log(id+'->'+obj.value);
+    var update = {id:id,level:data.value};
+    $.post('/user/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      //layer.close(load);
+    });
+  });
+
+  //监听单元格编辑
+  table.on('edit(Place)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0.5});
+    $.post('/user/editaction',{params:update},function(res){
+      if(res.code){
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      layer.close(load);
+    });
+
+  });
+
+  table.on('tool(Place)', function(obj){
+    var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+    switch(obj.event){
       case 'edit':
         layer.open({
             type:2,
             area:area,
             title:SystemName,
-            content:'/user/edit/id/'+data.id+'.html'
+            content:'/index/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'upload':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/addupload/id/'+data.id+'.html'
         });
         break;
       case 'show_con':
@@ -148,41 +245,9 @@ layui.use(['table','layer'], function(){
             content:'/index/show_con/id/'+data.id+'.html'
         });
         break;
-      case 'del':
-        layer.confirm('确定删除吗？',{icon:3},function(index){
-          $.post('/user/delaction',{params:data.id},function(res){
-              if(res.code){
-                layer.msg(res.msg,{icon:1});
-                setTimeout(function(){
-                  table.reload('userReload');
-                },1000);
-              }else{
-                layer.msg(res.msg,{icon:2});
-              }
-          });
-          layer.close(index);
-        });
-    break;
     };
   });
-  //监听单元格编辑
-  table.on('edit(user)', function(obj){
-    var value = obj.value //得到修改后的值
-    ,data = obj.data //得到所在行所有键值
-    ,field = obj.field; //得到字段
-    var update = {id:data.id,[field]:value};
-    var load = layer.load(0,{shade:0});
-    $.post('/farm/user/editaction',{params:update},function(res){
-      if(res.code){
-        layer.msg(res.msg);
-      }else{
-        layer.msg(res.msg);
-      }
-      table.reload('userReload');
-      layer.close(load);
-    });
-  });
+  
 });
 </script>
-
 </html>

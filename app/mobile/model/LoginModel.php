@@ -13,9 +13,7 @@ Class LoginModel extends Model
 
         $res = array();
         
-        $user = Db::table('ny_mobile_user')->where(['mobile' => $mobile,'cancel' => 1])->find();
-
-
+        $user = Db::table('ny_mobile_user')->where(['mobile' => $mobile])->find();
 
         if(empty($user)){
             $res['code'] = 3;
@@ -44,7 +42,6 @@ Class LoginModel extends Model
         session('uid', $user["id"]);
         session('name', $user["name"]);
         session('mobile', $user['mobile']);
-        session('level', $user['level']);
 
         return $res;
 	}

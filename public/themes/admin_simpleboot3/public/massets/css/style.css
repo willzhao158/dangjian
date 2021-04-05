@@ -112,18 +112,6 @@
     font-size: .37rem;
     border-radius: 1px;
 }
-.list-good .good-item .good-img .good-tag{
-    position: absolute;
-    top: .4rem;
-    left: 0;
-    padding: 0 .4rem;
-    height: .53rem;
-    line-height: .53rem;
-    background-color: #ff5d02;
-    color: #ffffff;
-    font-size: .37rem;
-    border-radius: 1px;
-}
 .list-good .good-item .good-info{
     font-size: .37rem;
     color: #333333;
@@ -362,7 +350,7 @@
     -moz-border-radius: 50%;
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
-    background: url(../images/head.png) no-repeat center;
+    background: url(../images/2.png) no-repeat center;
     background-size: cover;
     margin-right: .4rem;
 }
@@ -601,7 +589,7 @@
 .list-message .message-item .message-user .user-img{
     width: .8rem;
     height: .8rem;
-    background: url(../images/head.png) no-repeat center;
+    background: url(../images/2.png) no-repeat center;
     background-size: cover;
     border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -613,13 +601,6 @@
 .list-message .message-item .message-user .user-name{
     font-size: .35rem;
     color: #333333;
-}
-.btn-select-address{
-    display: block;
-    margin: .4rem 0;
-    color: #666;
-    font-size: .37rem;
-    text-align: center;
 }
 .btn-upgrade{
     display: block;
@@ -677,7 +658,7 @@
 }
 
 .weui-half-screen-dialog__bd{
-    max-height: 70vh;
+    max-height: 60vh;
 }
 .shop-addr-item h1{
     font-size: .37rem;
@@ -698,12 +679,4 @@
     width: 1.5rem;
     padding: .2rem;
     font-size: .32rem;
-}
-.btn-logout{
-    display: block;
-    text-align: center;
-    font-size: .4rem;
-    color: #333333;
-    padding: .4rem 0;
-    background-color: #ffffff;
 }

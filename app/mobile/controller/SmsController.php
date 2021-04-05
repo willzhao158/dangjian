@@ -17,7 +17,6 @@ class SmsController extends BaseController
 
     //发送短信
     public function sendsms(){
-        echo 321;exit;
         $mobile = $this->request->param("mobile");
         $code = rand(99999,999999);
 
