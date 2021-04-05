@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“百年初心·筑梦远航”邗江区庆祝中国共产党成立100周年党史知识竞赛</title>
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/style.css">
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/lib/layui/css/layui.css">
+    <style>
+        .layui-laypage a:hover{color: #d53737;}
+    </style>
+</head>
+<body>
+    <img class="bg-logo" src="__TMPL__/public/answer/dist/img/logo.png" alt="">
+    <!-- ================== header 开始 ======================= -->
+    <header class="page-header">
+        <div class="page-container">
+            <div class="flex flex-align-center flex-pack-end">
+                <!-- <a href="">登录</a>
+                <a href="">注册</a> -->
+                <!-- <span>李大伟</span> -->
+            </div>
+        </div>
+    </header>
+    <!-- ================== header 开始 ======================= -->
+
+    <!-- ================== main 开始 ======================= -->
+    <main class="page-main">
+        <div class="page-container">
+            <div class="page-card">
+                <div class="page-title">题库</div>
+                <form class="page-form" method="POST" action="">
+                    <div class="form-item on">
+                        <div class="question">1. 必须坚持党员个人服从党的组织，少数服从多数，下级组织服从上级组织，全党各个组织和全体党员服从党的全国代表大会和中央委员会，核心是( )</div>
+                        <ul class="answer-list">
+                            <li><label class="item" for="1a"><input type="radio" name="one" id="1a" value="a" disabled checked><i></i><span>A、党员个人服从党的组织</span></label></li>
+                            <li><label class="item" for="1b"><input type="radio" name="one" id="1b" value="b" disabled><i></i><span>B、少数服从多数</span></label></li>
+                            <li><label class="item" for="1c"><input type="radio" name="one" id="1c" value="c" disabled><i></i><span>C、下级组织服从上级组织</span></label></li>
+                            <li><label class="item" for="1d"><input type="radio" name="one" id="1d" value="d" disabled><i></i><span>D、全党各个组织和全体党员服从党的全国代表大会和中央委员会</span></label></li>
+                        </ul>
+                    </div>
+                    <div class="form-item on">
+                        <div class="question">2. ( )是党的根本组织原则，是党内政治生活正常开展的重要制度保障。</div>
+                        <ul class="answer-list">
+                            <li><label class="item" for="2a"><input type="checkbox" name="two" id="2a" value="a" disabled checked><i></i><span>A、集中统一制</span></label></li>
+                            <li><label class="item" for="2b"><input type="checkbox" name="two" id="2b" value="b" disabled checked><i></i><span>B、民主多元制</span></label></li>
+                            <li><label class="item" for="2c"><input type="checkbox" name="two" id="2c" value="c" disabled checked><i></i><span>C、集体领导制</span></label></li>
+                            <li><label class="item" for="2d"><input type="checkbox" name="two" id="2d" value="d" disabled><i></i><span>D、民主集中制</span></label></li>
+                        </ul>
+                    </div>
+                    <div class="form-item on">
+                        <div class="question">3. 党支部每( )对入党积极分子进行一次考察。</div>
+                        <ul class="answer-list">
+                            <li><label class="item" for="3a"><input type="radio" name="three" id="3a" value="a" disabled><i></i><span>A、一个月</span></label></li>
+                            <li><label class="item" for="3b"><input type="radio" name="three" id="3b" value="b" disabled><i></i><span>B、三个月</span></label></li>
+                            <li><label class="item" for="3c"><input type="radio" name="three" id="3c" value="c" disabled><i></i><span>C、半年</span></label></li>
+                            <li><label class="item" for="3d"><input type="radio" name="three" id="3d" value="d" disabled checked><i></i><span>D、一年</span></label></li>
+                        </ul>
+                    </div>
+                </form>
+                <div id="page"></div>
+            </div>
+        </div>
+    </main>
+    <!-- ================== main 结束 ======================= -->
+
+    <script src="__TMPL__/public/answer/dist/lib/layui/layui.js"></script>
+    <script>
+        layui.use(['laypage'], function(){
+            var laypage = layui.laypage;
+            laypage.render({
+                elem: 'page',
+                count: 600,
+                theme: '#d53737',
+                layout: ['count', 'prev', 'page', 'next', 'limit', 'refresh', 'skip']
+            });
+        })
+    </script>
+</body>
+</html>

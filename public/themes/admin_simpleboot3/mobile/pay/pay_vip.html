@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>升级VIP商家</title>
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css?v=1">
+
+</head>
+
+<style type="text/css">
+
+    .btn-select-address{
+
+        font-size: 16px;
+
+    }
+
+</style>
+
+<body>
+
+    <div class="container">
+
+        <img src="__TMPL__/public/massets/images/vip.jpg?v=1" width="100%" alt="">
+
+        <form name=alipayment action="{:url('pay/payvip')}" method=post onsubmit="return checkform();">
+
+            <input type="hidden" <if condition="!empty($address)">value="{$address.id}"</if> name="address_id" id="address_id">
+
+            <if condition="!empty($address)">
+
+                <a href="{:url('my/select_address')}?address_id={$address['id']}" class="btn-select-address">{$address.province}{$address.city}{$address.district}{$address.address}</a>
+
+            <else/>
+
+                <a href="{:url('my/select_address')}" class="btn-select-address">请选择收货地址</a>
+
+            </if>
+
+            <p style="text-align:center;color:#666;font-size:12px;"><span style="color:red">*</span>发票类型：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不开发票</p>
+
+            <button class="weui-btn weui-btn_primary m-t-30" style="width: 90%;font-size: 20px;" type="submit">立即升级</button>
+
+        </form>
+
+    </div>
+
+    <!-- error toast-->
+
+    <div id="toastError" style="display: none;">
+
+        <div class="weui-mask_transparent"></div>
+
+        <div class="weui-toast">
+
+            <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+
+            <p class="weui-toast__content">请检查您的输入</p>
+
+        </div>
+
+    </div>
+
+    <!-- error toast-->
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+
+            $('.btn-upgrade').on('click', function () {
+
+                weui.picker([{
+
+                    label: '支付宝',
+
+                    value: 0
+
+                }, {
+
+                    label: '余额支付',
+
+                    value: 1
+
+                }], {
+
+                    onConfirm: function (result) {
+
+                        console.log(result);
+
+                    },
+
+                    title: '请选择支付方式'
+
+                });
+
+            });
+
+        })
+
+        function checkform(){
+
+            var address_id = $("#address_id").val();
+
+            if(address_id == ''){
+
+                showToastError('请选择地址');
+
+                return false;
+
+            }
+
+            return true;
+
+        }
+
+        function showToastError(msg){
+
+            if ($("#toastError").css('display') != 'none') return;
+
+            $("#toastError").fadeIn(100);
+
+            $("#toastError .weui-toast__content").html(msg)
+
+            setTimeout(function () {
+
+                $("#toastError").fadeOut(100);
+
+            }, 2000);
+
+        }
+
+    </script>
+
+</body>
+
+</html>

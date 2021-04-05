@@ -1,0 +1,263 @@
+	<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<form class="layui-form" >
+	
+			<div class="layui-card cards" >
+				<div class="layui-card-header" >
+					<fieldset class="layui-elem-field layui-field-title" style="margin:0">
+					  <legend> 请选择地块位置 </legend>
+					</fieldset>
+				</div>
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<div class="layui-block">
+						    <label class="layui-form-label">选择农作物</label>
+						    <div class="layui-input-inline">
+						      	<select name="park" lay-filter="park">
+						      		<option value="">选择园区</option>
+						      	</select>
+						    </div>
+						    <div class="layui-input-inline places layui-hide">
+						      	<select name="place" lay-filter="crop">
+						      		<option value="">选择地块</option>
+						      	</select>
+						    </div>
+						</div>
+					</div>
+				</div>
+                <div class="layui-card-body">
+                    <div class="layui-form-item">
+                        <div class="layui-input-block crop"></div>
+                    </div>
+                </div>
+			</div>
+		</form>
+	</div>
+</body>
+
+<script type="text/html" id="park">
+	{{#  layui.each(d.park, function(index, item){ }}
+		<option value="{{ item.id }}">{{ item.parkname }}</option>
+	{{# }); }}
+</script>
+<script type="text/html" id="place">
+    {{#  layui.each(d.place, function(index, item){ }}
+        <option value="{{ item.id }}">{{ item.plotname }}</option>
+    {{# }); }}
+</script>
+<script type="text/html" id="crop">
+    {{#  layui.each(d.crop, function(index, item){ }}
+        <input type="checkbox" name="like[{{ item.aid }}]" title=" [ {{ item.endtime }} ] {{ item.name }}">
+    {{# }); }}
+</script>
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','form','laydate','laytpl'], function(){
+    var 
+    	table = layui.table
+    	,form   = layui.form
+        ,$     = layui.$
+        ,laytpl = layui.laytpl
+        ,layer = layui.layer
+        ,laydate = layui.laydate
+        ,parkdata = {$data}
+        ,goodsid;
+
+
+    laydate.render({
+    	elem: '#date'
+    });
+
+    var active = {
+    	parent:function(){
+    		return $('#detail');
+    	},
+    	park:function(data){
+            var that = this;
+            that.init();
+
+			var getTpl = park.innerHTML
+			laytpl(getTpl).render(data, function(html){
+			   $('[name="park"]').html(html);
+			});
+			form.render();
+    	},
+        place:function(data){
+            if(data.place.length==0){
+                $('.places').addClass('layui-hide');
+                return false;
+            }
+            $('.places').removeClass('layui-hide');
+
+            var getTpl = place.innerHTML
+            laytpl(getTpl).render(data, function(html){
+               $('[name="place"]').html(html);
+            });
+            form.render();
+        },
+        crop:function(data){
+            var getTpl = crop.innerHTML;
+            laytpl(getTpl).render(data, function(html){
+               $('.crop').html(html);
+            });
+            form.render();
+        },
+    	lastremove:function(){
+    		var that = this;
+    		len = that.parent().find('.layui-form-item').length;
+    		that.parent().find('.layui-form-item').eq(len-1).remove();
+    	},
+    	add:function(){
+    		params = {
+    			type:2,
+    			title:SystemName,
+    			id:'goodsBox',
+    			area:['100%','80%'],
+    			offset:'b',
+    			content:'/farm/sale/goodslist'
+    		},
+    		GoodsWindow = layer.open(params);
+    	},
+    	append:function(data){
+    		var that = this;
+    		that.parent().append(active.module(data));
+    	},
+    	del:function(){
+    		active.lastremove();
+    	},
+    	setGoodsId:function(){
+    		// console.log(goodsid);
+    	},
+        changePlaceOption:function(value){
+            var arr = new Array();
+            parkdata.place.forEach(function(item){
+                if(item.parkid == value){
+                    arr.push(item);
+                }
+            });
+
+            active.place({place:arr});
+            // console.log(arr);
+            if(arr.length){
+                active.changeCropOption(arr[0].id);
+            }
+        },
+        changeCropOption:function(value){
+            var arr1 = new Array();
+            parkdata.crop.forEach(function(item){
+                if(item.place_id == value){
+                    arr1.push(item);
+                }
+            });
+          
+            active.crop({crop:arr1});
+        },
+        init:function(){
+            var that = this;
+            that.changePlaceOption(parkdata.park[0].id);
+
+            that.changeCropOption(parkdata.place[0].id);
+        },
+        submit:function(){
+            var submit = {
+                url:'/farm/index/chooseCrop',
+                type:'POST',
+                dataType:'json',
+                data:new FormData($('.layui-form')[0]),
+                cache:false,
+                processData:false,
+                contentType:false,
+                success:function(data){
+                    // console.log(data);
+                    if(data.code){
+                        parent.fun.reload();
+                        layer.msg(data.msg,{icon:1});
+                        setTimeout(function(){
+                            parent.layer.closeAll();
+                            
+                        },1000);
+                    }else{
+                        layer.msg(data.msg,{icon:2});
+                    }
+                }
+            };
+            $.ajax(submit);
+        }
+
+    };
+
+    window.active = active;
+    active.park(parkdata);
+    
+    form.on('select(park)',function(obj){
+        active.changePlaceOption(obj.value);
+    });
+
+
+    form.on('select(crop)',function(obj){
+        console.log(obj.value);
+        active.changeCropOption(obj.value);
+       
+    });
+
+
+
+    $('.cards .layui-btn').on('click',function(){
+    	var type = $(this).data('type');
+    	active[type]?active[type].call(this) : '';
+    });  
+
+    $("#detail").on('input',"input[name='goods_count[]']",function(){
+	    let val = $(this).val();
+	    let price = $(this).parent().parent().parent().find("input[name='goods_price[]']").val();
+	    $(this).parent().parent().parent().find("input[name='goods_money[]']").val(val*price);
+	});
+
+
+    form.on('submit(sale)',function(res){
+    	var len = active.parent().find('.layui-form-item').length;
+    	// console.log(len);
+    	if(len==0){
+    		// active.parent().find('.layui-form-item').find('input[name="goods_id[0]"]').attr('name','goods_id[]');
+    		layer.msg('请添加订单信息',{icon:2});
+    		return false;
+    	}
+    	var data = new FormData(res.form);
+    	var submit = {
+    		url:'/farm/sale/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:data,
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			// console.log(data);
+    			if(data.code){
+    				parent.fun.reloadAll();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+    
+    
+});
+
+
+
+
+</script>
+
+</html>

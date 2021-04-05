@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>积分商城</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<style type="text/css">
+
+</style>
+<body>
+    <div class="container bg-ffffff">
+        <div style="padding: .53rem .53rem 0 .53rem;">
+            <div class="mall-banner flex flex-align-center flex-pack-center">
+                <div>
+                    <h1>积分兑换</h1>
+                    <p>豪礼等你拿</p>
+                    <div class="weui-search-bar" id="searchBar">
+                        <form class="weui-search-bar__form">
+                            <div class="weui-search-bar__box">
+                                <i class="weui-icon-search"></i>
+                                <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入商品名称" required/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mall-enter"><a href="{:url('mall/list')}">
+            <img src="__TMPL__/public/massets/images/mall_enter.png" alt=""></a>
+        </div>
+        <div class="mall-section">
+            <div class="section-header">
+                <div class="flex flex-align-center flex-pack-justify">
+                    <h1 class="section-title">热门商品</h1>
+                    <a href="{:url('mall/all_hot')}" class="section-more">查看全部<i class="iconfont iconright"></i></a>
+                </div>
+            </div>
+            <div class="section-body">
+                <div class="list-point clearfix">
+                    <volist name="hot_goods" id="hot_good">
+                        <a href="{:url('mall/mall_order')}?id={$hot_good['id']}" class="point-item">
+                            <div class="point-img" style="background-image: url(../{$hot_good['cover']});height:4rem;"></div>
+                            <h1 class="point-name text-es1" style="margin-top: 18px;line-height:20px;">{$hot_good['name']}</h1>
+                            <p class="point-price">{$hot_good['jifen']}<span style="font-size:8px;">积分</span>+￥{$hot_good['price']}</p>
+                        </a>
+                    </volist>
+                    <!-- <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a>
+                    <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a>
+                    <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a> -->
+                </div>
+            </div>
+        </div>
+        <div class="mall-section">
+            <div class="section-header">
+                <div class="flex flex-align-center flex-pack-justify">
+                    <h1 class="section-title">新品推荐</h1>
+                    <a href="{:url('mall/all_recommended')}" class="section-more">查看全部<i class="iconfont iconright"></i></a>
+                </div>
+            </div>
+            <div class="section-body">
+                <div class="list-point clearfix">
+                    <volist name="recommended_goods" id="recommended_good">
+                        <a href="{:url('mall/mall_order')}?id={$recommended_good['id']}" class="point-item">
+                            <div class="point-img" style="background-image: url(../{$recommended_good['cover']});height:4rem;"></div>
+                            <h1 class="point-name text-es1" style="margin-top: 18px;line-height:20px;">{$recommended_good['name']}</h1>
+                            <p class="point-price" style="margin-top: 8px">{$recommended_good['jifen']}<span style="font-size:8px;">积分</span>+￥{$recommended_good['price']}</p>
+                        </a>
+                    </volist>
+                    <!-- <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a>
+                    <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a>
+                    <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a>
+                    <a href="" class="point-item">
+                        <div class="point-img" style="background-image: url(__TMPL__/public/massets/images/1.png);"></div>
+                        <h1 class="point-name text-es1">最新AIR 15.6寸苹果电脑苹果电脑苹果电脑</h1>
+                        <p class="point-price">3999积分</p>
+                    </a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <include file="public@footer" />
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+</body>
+</html>

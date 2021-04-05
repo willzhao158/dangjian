@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“百年初心·筑梦远航”邗江区庆祝中国共产党成立100周年党史知识竞赛</title>
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/style.css">
+</head>
+<body>
+    <img class="bg-logo" src="__TMPL__/public/answer/dist/img/logo.png" alt="">
+    <!-- ================== header 开始 ======================= -->
+    <header class="page-header">
+        <div class="page-container">
+            <div class="flex flex-align-center flex-pack-end">
+                <!-- <a href="">登录</a>
+                <a href="">注册</a> -->
+            </div>
+        </div>
+    </header>
+    <!-- ================== header 开始 ======================= -->
+
+    <!-- ================== main 开始 ======================= -->
+    <main class="page-main">
+        <div class="page-container">
+            <div class="page-card">
+                <div class="page-title">党建知识竞赛</div>
+                <form class="page-form" method="POST" action="">
+                    <foreach name="questions" key="question_key" item="question">
+                        <if condition="$question['is_danxuan'] == 1">
+                            <div <if condition="$question_key == 0"> class="form-item on"<else> class="form-item"</if>>
+                                <input class="answer" type="hidden" value="{$question['yes_answer']}">
+                                <div class="question">{$question_key+1}. {$question['question']}</div>
+                                <ul class="answer-list">
+                                    <if condition="$question['answerA'] != ''">
+                                        <li><label class="item" for="{$question_key+1}a"><input type="radio" name="three" id="{$question_key+1}a" value="a"><i></i><span>A、{$question['answerA']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerB'] != ''">
+                                        <li><label class="item" for="{$question_key+1}b"><input type="radio" name="three" id="{$question_key+1}b" value="b"><i></i><span>B、{$question['answerB']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerC'] != ''">
+                                        <li><label class="item" for="{$question_key+1}c"><input type="radio" name="three" id="{$question_key+1}c" value="c"><i></i><span>C、{$question['answerC']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerD'] != ''">
+                                        <li><label class="item" for="{$question_key+1}d"><input type="radio" name="three" id="{$question_key+1}d" value="d"><i></i><span>D、{$question['answerD']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerE'] != ''">
+                                        <li><label class="item" for="{$question_key+1}e"><input type="radio" name="three" id="{$question_key+1}e" value="e"><i></i><span>E、{$question['answerE']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerF'] != ''">
+                                        <li><label class="item" for="{$question_key+1}f"><input type="radio" name="three" id="{$question_key+1}f" value="f"><i></i><span>F、{$question['answerF']}</span></label></li>
+                                    </if>
+                                    
+                                    <!-- <li><label class="item" for="3b"><input type="radio" name="three" id="3b" value="b"><i></i><span>B、三个月</span></label></li>
+                                    <li><label class="item" for="3c"><input type="radio" name="three" id="3c" value="c"><i></i><span>C、半年</span></label></li>
+                                    <li><label class="item" for="3d"><input type="radio" name="three" id="3d" value="d"><i></i><span>D、一年</span></label></li> -->
+                                </ul>
+                            </div>
+                        <elseif condition="$question['is_danxuan'] == 2">
+                            <div class="form-item">
+                                <input class="answer" type="hidden" value="{$question['yes_answer']}">
+                                <div class="question">{$question_key+1}. {$question['question']}</div>
+                                <ul class="answer-list">
+                                    <if condition="$question['answerA'] != ''">
+                                        <li><label class="item" for="{$question_key+1}a"><input type="checkbox" name="two" id="{$question_key+1}a" value="a"><i></i><span>A、{$question['answerA']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerB'] != ''">
+                                        <li><label class="item" for="{$question_key+1}b"><input type="checkbox" name="two" id="{$question_key+1}b" value="b"><i></i><span>B、{$question['answerB']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerC'] != ''">
+                                        <li><label class="item" for="{$question_key+1}c"><input type="checkbox" name="two" id="{$question_key+1}c" value="c"><i></i><span>C、{$question['answerC']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerD'] != ''">
+                                        <li><label class="item" for="{$question_key+1}d"><input type="checkbox" name="two" id="{$question_key+1}d" value="d"><i></i><span>D、{$question['answerD']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerE'] != ''">
+                                        <li><label class="item" for="{$question_key+1}e"><input type="checkbox" name="two" id="{$question_key+1}e" value="e"><i></i><span>E、{$question['answerE']}</span></label></li>
+                                    </if>
+                                    <if condition="$question['answerF'] != ''">
+                                        <li><label class="item" for="{$question_key+1}f"><input type="checkbox" name="two" id="{$question_key+1}f" value="f"><i></i><span>F、{$question['answerF']}</span></label></li>
+                                    </if>
+                                </ul>
+                            </div>
+                        </if>
+                    </foreach>
+                    
+                    
+                    
+                    <div class="font-14 text-left" id="currentAnswer"></div>
+                    <div class="flex flex-align-center flex-pack-center">
+                        <div class="font-14 text-center" id="time"></div>
+                    </div>
+                    <div class="flex flex-align-center flex-pack-center m-t-15">
+                        <button class="form-submit" type="button" id="next">下一题</button>
+                    </div>
+                    <div class="flex flex-align-center flex-pack-center">
+                        <button class="form-submit" type="button" id="submit" style="display: none;">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+    <!-- ================== main 结束 ======================= -->
+
+    <script src="__TMPL__/public/answer/dist/js/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+    <script>
+        $(function(){
+            var total = 10; // 题数
+            var time = 11, timer; // 倒计时
+            var answerList = []; // 提交答案
+
+            // 倒计时
+            initTime()
+            function initTime(){
+                time = 11;
+                timer = setInterval(function(){
+                    if(time > 0){
+                        time--;
+                        $("#time").html('还有'+time+'秒');
+                    }else{
+                        clearInterval(timer);
+                        var index = $(".form-item.on").index();
+                        if(index == total - 1){
+                            layer.msg("时间到了，提交",function(){
+                                $("#submit").click();
+                            })
+                        }else{
+                            layer.msg("时间到了，下一题",function(){
+                                $("#next").click();
+                            })
+                        }
+                    }
+                },1000)
+            }
+            // 下一题方法
+            function nextQ(){
+                $("#currentAnswer").empty();
+                var index = $(".form-item.on").index();
+                if(index >= 0 && index < (total-1)){
+                    if(index == (total-2)){
+                        $("#next").hide()
+                        $("#submit").show()
+                    }
+                    $(".form-item").removeClass("on");
+                    $(".form-item").eq(index + 1).addClass("on");
+                    clearInterval(timer);
+                    initTime();
+                };
+            }
+            // 下一题操作
+            $("#next").on("click",function(){
+                // 判断是否作答
+                var answerItem = '';
+                $(".form-item.on").find("input:checked").each(function(){
+                    answerItem += $(this).val()
+                })
+                if(answerItem == '' && time != 0){
+                    layer.msg("请选择答案！");
+                    return false;
+                }else{
+                    answerList.push(answerItem)
+                }
+                // 判断是否正确
+                if(answerItem == $(".form-item.on").find(".answer").val()){
+                    nextQ()
+                }else{
+                    $("#currentAnswer").html("正确答案为：" + $(".form-item.on").find(".answer").val());
+                    $(".form-item.on").find("input:checked").each(function(){
+                        if(($(".form-item.on").find(".answer").val()).indexOf($(this).val()) == -1){
+                            $(this).parent().addClass("error")
+                        }
+                    })
+                    setTimeout(function(){
+                        nextQ()
+                    },1000)
+                }
+            })
+            // 提交操作
+            $("#submit").on("click",function(){
+                var answerItem = '';
+                $(".form-item.on").find("input:checked").each(function(){
+                    answerItem += $(this).val();
+                })
+                if(answerItem == '' && time != 0){
+                    layer.msg("请选择答案！");
+                    return false;
+                }else{
+                    answerList.push(answerItem)
+                }
+                // 判断是否正确
+                if(answerItem == $(".form-item.on").find(".answer").val()){
+                    submit(answerList)
+                }else{
+                    $("#currentAnswer").html("正确答案为：" + $(".form-item.on").find(".answer").val());
+                    $(".form-item.on").find("input:checked").each(function(){
+                        if(($(".form-item.on").find(".answer").val()).indexOf($(this).val()) == -1){
+                            $(this).parent().addClass("error")
+                        }
+                    })
+                    setTimeout(function(){
+                        submit(answerList)
+                    },1000)
+                }
+            })
+            // 提交方法
+            function submit(data){
+                console.log(data)
+                // $.post({
+                //     url: '',
+                //     data: {
+                //         data: data
+                //     },
+                //     dataType: 'json',
+                //     success: function(res){
+                        
+                //     }
+                // })
+            }    
+        })
+    </script>
+</body>
+</html>

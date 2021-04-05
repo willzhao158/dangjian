@@ -1,0 +1,93 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">品种</label>
+				    <div class="layui-input-block">
+				      <select name="parent_id">
+				      		<option value="0">一级分类</option>
+				      		<volist name="kind" id="kind">
+				      			<option value="{$kind.id}">{$kind.name}</option>
+				      		</volist>
+				      </select>
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="required" autocomplete="off"  class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">备注</label>
+				    <div class="layui-input-block">
+				     
+				      <textarea id="remarks" name="remarks"></textarea>
+				    </div>
+				  </div>
+				  
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','layedit'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,layedit = layui.layedit
+        ,layer = layui.layer;
+
+    var index = layedit.build('remarks'); //建立编辑器
+
+
+    form.on('submit(menu)',function(res){
+    	layedit.sync(index);
+
+    	var load = layer.load();
+    	var submit = {
+    		url:'/farm/crop/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				layer.msg(data.msg,{icon:1});
+    				parent.load.init();
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

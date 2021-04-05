@@ -1,0 +1,219 @@
+<include file="public@farm" />
+
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+            <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入园区名称">
+          </div>
+          <button class="layui-btn" data-type="reload">搜索</button>
+          <button class="layui-btn" data-type="addfertilize">新增施肥事务</button>
+          <button class="layui-btn" data-type="delfertilize">删除施肥事务</button>
+          <button class="layui-btn" data-type="fertilizereload">刷新</button>
+        </div>
+      </div>
+      <div class="layui-card-body">
+          <div style="padding: 10px; background-color: #F2F2F2;">
+
+            <div class="layui-row layui-col-space15">
+
+              <div class="layui-col-md3">
+                <div class="layui-card">
+                  <div class="layui-card-header">
+                      <div class="layui-row">
+                          <div class="layui-col-md5 ">
+                            <span class="layui-badge layui-bg-green ">施肥</span> &nbsp;标准任务
+                          </div>
+                          <div class="layui-col-md3 layui-col-md-offset4">
+                            优先级：<span class="layui-badge">高</span>
+                          </div>
+                      </div>
+                     
+                  </div>
+                  <div class="layui-card-body">
+                      <div class="layui-row">
+                        <br>
+                          <div class="layui-col-md5 ">
+
+                              东里旺旺葡萄园
+                          </div>
+                          <div class="layui-col-md3 layui-col-md-offset4">
+                              <i class="layui-icon layui-icon-survey"></i> 任务未开始
+                          </div>
+
+                          <div class="layui-col-md12">
+                            <br>
+                            2019-10-24至2019-10-27
+                          </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+             
+              
+            </div>
+
+
+          </div> 
+      </div>
+    </div>
+  </div> 
+</body>
+
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="information">详情</a>
+  <a class="layui-btn layui-btn-xs" lay-event="sample">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','laytpl'], function(){
+  var table = layui.table
+      ,laytpl = layui.laytpl
+      ,layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#fertilize'
+    ,url: '/farm/fertilize/datalist'
+ 
+    ,cols: [[
+    {checkbox: true, fixed: true},
+      {field:'id', title:'ID', width:80, fixed: 'left', unresize: true, sort: true, totalRowText: '合计行'}
+      ,{field:'name', title: '名称', edit: 'text'}
+      ,{field:'address', title: '地址',  sort: true,edit: 'text'}
+      ,{field:'remarks', title: '备注',edit: 'text', totalRow: true}
+      ,{fixed: 'right', width:178, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'fertilizeReload'
+    ,page: true
+    ,done:function(res){
+      console.log(res);
+    }
+  });
+ 
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      //执行重载
+      table.reload('fertilizeReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addfertilize:function(){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/fertilize/add'
+      });
+    },
+    delfertilize:function(){
+        var that = this;
+        var checkStatus = table.checkStatus('fertilizeReload');
+        var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/farm/fertilize/delaction',{params:id.join(',')},function(res){
+            if(res.code){
+              table.reload('fertilizeReload');
+              layer.msg(res.msg,{icon:1});
+            }else{
+              layer.msg(res.msg,{icon:2});
+            }
+          });
+        });
+    },
+    fertilizereload:function(){
+      table.reload('fertilizeReload');
+    },
+    getDetail:function(id){
+        let result;
+        $.ajax({
+          url:'/farm/fertilize/getfertilizeDetail',
+          data:{params:id},
+          type:'post',
+          dataType:'json',
+          async:false,
+          success:function(res){
+            result = res;
+          }
+        });
+        return result;
+    },
+    information:function(id){
+        var that = this
+            ,data = that.getDetail(id) 
+            ,templet = document.getElementById('fertilizeinfo').innerHTML
+            ,content;
+        laytpl(templet).render(data,function(html){
+            content = html;
+        });
+        return content;
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(fertilize)',function(obj){
+      if(obj.event == 'sample'){
+          layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/farm/fertilize/edit/id/'+obj.data.id
+          });
+      }else if(obj.event == 'del'){
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/farm/fertilize/delaction',{params:obj.data.id},function(res){
+            if(res.code){
+              obj.del();
+              layer.msg(res.msg,{icon:1});
+            }else{
+              layer.msg(res.msg,{icon:2});
+            }
+          });
+        });
+      }else if(obj.event == 'information'){
+          layer.open({
+            type:1,
+            area:area,
+            title:SystemName,
+            content:active.information(obj.data.id)
+          });
+      }
+  });
+  //监听单元格编辑
+  table.on('edit(fertilize)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/fertilize/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(data.name + res.msg);
+      }else{
+        layer.msg(data.name + res.msg);
+      }
+      table.reload('fertilizeReload');
+      layer.close(load);
+    });
+  });
+});
+</script>
+</html>

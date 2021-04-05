@@ -1,0 +1,1 @@
+[{"goods_id":"24","goods_name":"\u897f\u74dc","goods_count":"6","goods_price":"2","goods_money":"12","remarks":"","purchase_id":"106"},{"goods_id":"24","goods_name":"\u897f\u74dc","goods_count":"1111","goods_price":"1","goods_money":"1111","remarks":"","purchase_id":"106"}]

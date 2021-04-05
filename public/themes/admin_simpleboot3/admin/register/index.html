@@ -1,0 +1,189 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.33,minimum-scale=1.0,maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>“百年初心·筑梦远航”邗江区庆祝中国共产党成立100周年党史知识竞赛</title>
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/iconfont.css" type="text/css" media="all">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/txcstx.css" type="text/css" media="all">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/css/base.css" type="text/css" media="all">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/css/style.css" type="text/css" media="all">
+    <style>
+        .tx-btn{
+            background-color: #d53737;
+            outline: none;
+            width: 100%;
+        }
+        .tx-btn:disabled{
+            background-color: #ccc;
+        }
+        .tx-login-box{
+            padding-top: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <img class="bg-logo" src="__TMPL__/public/answer/img/logo.png" alt="">
+    <div class="page-container flex flex-align-center flex-pack-center" style="height: 100%;">
+        <div class="page-main">
+            <h1 class="slogan-h1">“百年初心·筑梦远航”</h1>
+            <h2 class="slogan-h2">邗江区庆祝中国共产党成立100周年党史知识竞赛</h2>
+            <div class="tx-login-box">
+                <h3 class="font-18">注册</h3>
+                <!-- <div class="login-avatar bg-black"><i class="iconfont icon-wode"></i></div> -->
+                <ul class="tx-form-li row m-t-15">
+                    <li class="col-24 col-m-24"><p><input type="text" id="mobile" name="mobile" placeholder="请输入手机号" class="tx-input"><i>手机号(*)</i></p></li>
+                    <li class="col-24 col-m-24">
+                        <div class="row">
+                            <div class="col-16 col-m-16">
+                                <p><input type="text" id="code" name="code" placeholder="请输入验证码" class="tx-input"><i>验证码(*)</i></p>
+                            </div>
+                            <div class="col-8 col-m-8">
+                                <p><button type="button" id="get_code" class="tx-btn" style="font-size: 12px;">获取验证码</button></p>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="col-24 col-m-24"><p><input type="text" id="bumen" name="bumen" placeholder="请输入部门" class="tx-input"><i>部门(*)</i></p></li>
+                    <li class="col-24 col-m-24"><p><input type="password" id="password" name="password" placeholder="请输入登录密码" class="tx-input"><i>密码(*)</i></p></li>
+                    <li class="col-24 col-m-24"><p class="tx-input-full"><button type="button" id="submit_data" name="submit_data" class="tx-btn tx-btn-big bg-black">注册</button></p></li>
+                </ul>
+            </div>
+        </div>
+        <!-- success toast-->
+        <div id="toastSuccess" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">操作成功</p>
+            </div>
+        </div>
+        <!-- success toast-->
+        <!-- error toast-->
+        <div id="toastError" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+                <p class="weui-toast__content">请检查您的输入</p>
+            </div>
+        </div>
+        <!-- error toast-->
+        <!-- loading toast-->
+        <div id="toastLoading" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content">正在加载...</p>
+            </div>
+        </div>
+        <!-- loading toast-->
+    </div>
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/common.js?v=1"></script>
+    <script type="text/javascript">
+        // 获取验证码
+        $("#get_code").on("click",function(){
+            var mobile = $("#mobile").val();
+            if(mobile == ''){
+                showToastError('请输入手机号');
+                return false;
+            }
+            if(!isPhoneNo(mobile)){
+                showToastError('请输入正确的手机号码');
+                return false;
+            }
+
+            sendsms(mobile);
+            var time = 60;
+            var timer = setInterval(function(){
+                time--;
+                $("#get_code").html(time+"后重新获取");
+                $("#get_code").attr("disabled",true);
+                if(time == 0){
+                    clearInterval(timer)
+                    $("#get_code").html("重新获取");
+                    $("#get_code").removeAttr("disabled");
+                }
+            },1000)
+
+            
+        })
+        function sendsms(mobile){
+            $.ajax({
+                url: "{:url('sms/sendsms')}",
+                type: 'post',
+                dataType: 'json',
+                data: {mobile: mobile},
+                success: function (data) {
+                    if(data.code == 1){
+                        showToastSuccess(data.msg);
+                        return false;
+                    }else{
+                        showToastError(data.msg);
+                        return false;
+                    }
+                },
+                error: function () {
+                },
+                complete: function () {
+                }
+            });
+        }
+        $("#submit_data").click(function(){
+            var mobile = $("#mobile").val();
+            var bumen = $("#bumen").val();
+            var password = $("#password").val();
+            var code = $("#code").val();
+            if(mobile == ''){
+                showToastError('请输入手机号');
+                return false;
+            }
+            if(!isPhoneNo(mobile)){
+                showToastError('请输入正确的手机号码');
+                return false;
+            }
+            if(bumen == ''){
+                showToastError('请选择部门');
+                return false;
+            }
+            if(code == ''){
+                showToastError('请输入验证码');
+                return false;
+            }
+            if(password == ''){
+                showToastError('请输入密码');
+                return false;
+            }
+            $.ajax({
+                url: "{:url('register/doregister')}",
+                type: 'post',
+                dataType: 'json',
+                data:{
+                        mobile:mobile,
+                        bumen:bumen,
+                        password:password,
+                        code:code
+                        },
+                success: function (data) {
+                    if(data['code'] == 1){
+                        showToastSuccess(data['msg']);
+                        setTimeout(function(){ window.location.href = "{:url('login/login')}"; }, 2000);
+                    }else{
+                        showToastError(data['msg']);
+                        return false;
+                    }
+                },
+                error: function () {
+                    showToastError('未知错误');
+                },
+                complete: function () {
+                }
+            });
+        });
+    </script>
+</body>
+</html>

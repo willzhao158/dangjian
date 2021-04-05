@@ -1,0 +1,1006 @@
+@font-face {
+  font-family: 'TCA-ICON';
+  src:  url('fonts/TCA-ICON.eot');
+  src:  url('fonts/TCA-ICON.eot#iefix') format('embedded-opentype'),
+    url('fonts/TCA-ICON1.ttf') format('truetype'),
+    url('fonts/TCA-ICON2.woff') format('woff'),
+    url('fonts/TCA-ICON3.svg#TCA-ICON') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icfont {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'TCA-ICON' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/*氨氮*/
+.ic_DC0_DT53:before {
+  content: "\e900";
+}
+/*氨气*/
+.ic_DC0_DT21:before {
+  content: "\e901";
+}
+/*二氧化氮*/
+.ic_DC0_DT34:before {
+  content: "\e902";
+}
+/*二氧化硫*/
+.ic_DC0_DT35:before {
+  content: "\e903";
+}
+/*二氧化碳传感器*/
+.ic_DC0_DT6:before {
+  content: "\e904";
+}
+/*二氧化碳含量*/
+.ic_DC0_DT31:before {
+  content: "\e904";
+}
+/*COD*/
+.ic_DC0_DT52:before {
+  content: "\e905";
+}
+/*甲烷*/
+.ic_DC0_DT32:before {
+  content: "\e906";
+}
+/*一氧化碳*/
+.ic_DC0_DT33:before {
+  content: "\e907";
+}
+/*溶解氧*/
+.ic_DC0_DT43:before {
+  content: "\e908";
+}
+/*氧含量*/
+.ic_DC0_DT30:before {
+  content: "\e909";
+}
+/*氧气*/
+.ic_氧气:before {
+  content: "\e90a";
+}
+/*硫化氢*/
+.ic_DC0_DT20:before {
+  content: "\e90b";
+}
+/*温度*/
+.ic_temperature:before {
+  content: "\e90c";
+}
+/*空气温度*/
+.ic_DC0_DT1:before {
+  content: "\e90d";
+}
+/*空气湿度*/
+.ic_DC0_DT2:before {
+  content: "\e90e";
+}
+/*湿度*/
+.ic_DC0_DT4:before {
+  content: "\e90f";
+}
+/*光照度*/
+.ic_DC0_DT5:before {
+  content: "\e910";
+}
+/*降雨量*/
+.ic_DC0_DT7:before {
+  content: "\e911";
+}
+/*气压*/
+.ic_DC0_DT12:before {
+  content: "\e912";
+}
+/*水压*/
+.ic_DC0_DT11:before {
+  content: "\e913";
+}
+/*光合有效辐射*/
+.ic_DC0_DT23:before {
+  content: "\e914";
+}
+/*叶面湿度*/
+.ic_DC0_DT16:before {
+  content: "\e915";
+}
+/*粉尘*/
+.ic_DC0_DT36:before {
+  content: "\e916";
+}
+/*液位*/
+.ic_DC0_DT13:before {
+  content: "\e917";
+}
+/*噪音*/
+.ic_DC0_DT17:before {
+  content: "\e918";
+}
+/*蒸发量*/
+.ic_DC0_DT24:before {
+  content: "\e919";
+}
+/*实时流量*/
+.ic_DC0_DT15:before {
+  content: "\e91a";
+}
+/*流量*/
+.ic_DC0_DT9:before {
+  content: "\e91b";
+}
+/*土壤电导率*/
+.ic_DC0_DT56:before {
+  content: "\e91c";
+}
+/*土壤湿度*/
+.ic_DC0_DT4:before {
+  content: "\e91d";
+}
+/*土壤温度*/
+.ic_DC0_DT3:before {
+  content: "\e91e";
+}
+/*土壤张力*/
+.ic_DC0_DT54:before {
+  content: "\e91f";
+}
+/*大气压力*/
+.ic_DC0_DT22:before {
+  content: "\e920";
+}
+/*风速*/
+.ic_DC0_DT8:before {
+  content: "\e921";
+}
+/*风向*/
+.ic_DC0_DT10:before {
+  content: "\e922";
+}
+/*照明*/
+.ic_DC1_TM5:before {
+  content: "\e923";
+}
+/*降温*/
+.ic_DC1_TM1:before {
+  content: "\e924";
+}
+/*滴灌*/
+.ic_DC1_TM8:before {
+  content: "\e925";
+}
+/*球机*/
+.ic_DC2_DT99:before {
+  content: "\e926";
+}
+/*视频*/
+.ic_DC2_DT99:before {
+  content: "\e927";
+}
+/*相机*/
+.ic_DC2_DT300:before {
+  content: "\e928";
+}
+/*图像采集*/
+.ic_DC1_TM0:before {
+  content: "\e928";
+}
+/*加温灯*/
+.ic_DC1_TM55:before {
+  content: "\e929";
+}
+/*加湿*/
+.ic_DC1_TM6:before {
+  content: "\e92a";
+}
+/*排风*/
+.ic_DC1_TM2:before {
+  content: "\e92b";
+}
+/*风机*/
+.ic_DC1_TM10:before {
+  content: "\e92c";
+}
+/*搅拌机*/
+.ic_DC1_TM7:before {
+  content: "\e92d";
+}
+/*水泵*/
+.ic_DC1_TM8:before {
+  content: "\e92e";
+}
+/*阀门*/
+.ic_DC1_TM18:before {
+  content: "\e92f";
+}
+/*输送机*/
+.ic_DC1_TM9:before {
+  content: "\e930";
+}
+/*外遮阳*/
+.ic_DC1_TM16:before {
+  content: "\e931";
+}
+/*抓料机*/
+.ic_DC1_TM12:before {
+  content: "\e932";
+}
+/*声光报警*/
+.ic_DC1_TM4:before {
+  content: "\e933";
+}
+/*内遮阴*/
+.ic_DC1_TM15:before {
+  content: "\e934";
+}
+/*电机*/
+.ic_DC1_TM14:before {
+  content: "\e935";
+}
+/*破壳机*/
+.ic_DC1_TM13:before {
+  content: "\e936";
+}
+/*破碎机*/
+.ic_DC1_TM11:before {
+  content: "\e937";
+}
+/*麦克风*/
+.ic_DC1_TM21:before {
+  content: "\e938";
+}
+/*导出*/
+.ic_export:before {
+  content: "\e939";
+}
+/*监控*/
+.ic_monitor:before {
+  content: "\e93a";
+}
+/*报表*/
+.ic_chart:before {
+  content: "\e93b";
+}
+/*溯源*/
+.ic_tracing:before {
+  content: "\e93c";
+}
+/*保存*/
+.ic_save:before {
+  content: "\e93d";
+}
+/*编辑*/
+.ic_edit:before {
+  content: "\e93e";
+}
+/*标准档案*/
+.ic_standard_files:before {
+  content: "\e93f";
+}
+/*布局*/
+.ic_layout:before {
+  content: "\e940";
+}
+/*采集*/
+.ic_collection:before {
+  content: "\e941";
+}
+/*操作记录*/
+.ic_operation_record:before {
+  content: "\e942";
+}
+/*查询*/
+.ic_search:before {
+  content: "\e943";
+}
+/*产品*/
+.ic_product:before {
+  content: "\e944";
+}
+/*产品管理*/
+.ic_product_manage:before {
+  content: "\e945";
+}
+/*产品认证*/
+.ic_product_certification:before {
+  content: "\e946";
+}
+/*产品中心*/
+.ic_product_center:before {
+  content: "\e947";
+}
+/*抄送我的*/
+.ic_copy_me:before {
+  content: "\e948";
+}
+/*导入*/
+.ic_import:before {
+  content: "\e94a";
+}
+/*地理位置*/
+.ic_geographical_position:before {
+  content: "\e94b";
+}
+/*调整布局*/
+.ic_change_layout:before {
+  content: "\e94c";
+}
+/*发布*/
+.ic_release:before {
+  content: "\e94d";
+}
+/*反馈*/
+.ic_feedback:before {
+  content: "\e94e";
+}
+/*返回*/
+.ic_back:before {
+  content: "\e94f";
+}
+/*分享*/
+.ic_share:before {
+  content: "\e950";
+}
+/*分组*/
+.ic_group:before {
+  content: "\e951";
+}
+/*附件*/
+.ic_attachment:before {
+  content: "\e952";
+}
+/*更多*/
+.ic_more:before {
+  content: "\e953";
+}
+/*固定*/
+.ic_fixed:before {
+  content: "\e954";
+}
+/*关闭*/
+.ic_close:before {
+  content: "\e955";
+}
+/*确定*/
+.ic_confirm:before {
+  content: "\e956";
+}
+/*灌溉*/
+.ic_DC1_TM3:before {
+  content: "\e957";
+}
+/*归档*/
+.ic_file:before {
+  content: "\e958";
+}
+/*汉堡菜单*/
+.ic_burger:before {
+  content: "\e959";
+}
+/*回复*/
+.ic_comment:before {
+  content: "\e95a";
+}
+/*基地风采*/
+.ic_基地风采:before {
+  content: "\e95b";
+}
+/*加工记录*/
+.ic_加工记录:before {
+  content: "\e95c";
+}
+/*检验记录*/
+.ic_检验记录:before {
+  content: "\e95d";
+}
+/*建站*/
+.ic_website:before {
+  content: "\e95e";
+}
+/*交流*/
+.ic_exchange:before {
+  content: "\e95f";
+}
+/*居中对齐*/
+.ic_居中对齐:before {
+  content: "\e960";
+}
+/*卷被*/
+.ic_DC1_TM20:before {
+  content: "\e961";
+}
+/*卷帘*/
+.ic_DC1_TM19:before {
+  content: "\e962";
+}
+/*开始*/
+.ic_Open:before {
+  content: "\e963";
+}
+/*流程*/
+.ic_process:before {
+  content: "\e965";
+}
+/*模块*/
+.ic_模块:before {
+  content: "\e966";
+}
+/*农事*/
+.ic_farming:before {
+  content: "\e967";
+}
+/*农业标准*/
+.ic_农业标准:before {
+  content: "\e968";
+}
+/*拍照*/
+.ic_Photograph:before {
+  content: "\e969";
+}
+/*配送记录*/
+.ic_配送记录:before {
+  content: "\e96a";
+}
+/*批次*/
+.ic_批次:before {
+  content: "\e96b";
+}
+/*品种*/
+.ic_breed:before {
+  content: "\e96c";
+}
+/*企业监管*/
+.ic_企业监管:before {
+  content: "\e96d";
+}
+/*全屏*/
+.ic_fullScreen:before {
+  content: "\e96e";
+}
+/*任务*/
+.ic_task:before {
+  content: "\e96f";
+}
+/*任务动态*/
+.ic_task_dynamics:before {
+  content: "\e971";
+}
+/*任务进行中*/
+.ic_task-ongoing:before {
+  content: "\e972";
+}
+/*任务确认*/
+.ic_任务确认:before {
+  content: "\e973";
+}
+/*任务未开始*/
+.ic_task-no-begin:before {
+  content: "\e974";
+}
+/*任务详情*/
+.ic_任务详情:before {
+  content: "\e975";
+}
+/*任务延迟中*/
+.ic_task-delay:before {
+  content: "\e976";
+}
+/*任务已完成*/
+.ic_task-completed:before {
+  content: "\e977";
+}
+/*任务中止*/
+.ic_task-ignore:before {
+  content: "\e978";
+}
+/*任务待审批*/
+.ic_task-wait-approval:before {
+  content: "\e970";
+}
+/*入库*/
+.ic_InStorage:before {
+  content: "\e979";
+}
+/*出库*/
+.ic_OutStorage:before {
+  content: "\e949";
+}
+/*退料*/
+.ic_ReturnMaterial:before {
+  content: "\e97a";
+}
+/*库存查询*/
+.ic_stockQuery:before {
+  content: "\e964";
+}
+/*删除*/
+.ic_delete:before {
+  content: "\e97b";
+}
+/*删除(缩小)*/
+.ic_narrow:before {
+  content: "\e97c";
+}
+/*删除项*/
+.ic_删除项:before {
+  content: "\e97d";
+}
+/*上传*/
+.ic_upload:before {
+  content: "\e97e";
+}
+/*设备离线*/
+.ic_device_disconnected:before {
+  content: "\e97f";
+}
+/*设备列表*/
+.ic_设备列表:before {
+  content: "\e980";
+}
+/*设备预警*/
+.ic_device_warn:before {
+  content: "\e981";
+}
+/*设备正常*/
+.ic_device_properly:before {
+  content: "\e982";
+}
+/*设置*/
+.ic_setting:before {
+  content: "\e983";
+}
+/*设置*/
+.ic_settings:before {
+  /*content: "\e983";*/
+  content: "";
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  background: url("../../../Images/common/ic_deviceSetting.jpg") no-repeat center center;
+}
+/*施肥*/
+.ic_fertilize:before {
+  content: "\e984";
+}
+/*施药*/
+.ic_Spraying:before {
+  content: "\e985";
+}
+/*时间*/
+.ic_Time:before {
+  content: "\e986";
+}
+/*酸碱度*/
+.ic_DC0_DT14:before {
+  content: "\e987";
+}
+/*添加(放大)*/
+.ic_add:before {
+  content: "\e988";
+}
+/*添加项*/
+.ic_add_item:before {
+  content: "\e989";
+}
+/*停止*/
+.ic_Stop:before {
+  content: "\e98a";
+}
+/*通知*/
+.ic_notice:before {
+  content: "\e98b";
+}
+/*图片*/
+.ic_picture:before {
+  content: "\e98c";
+}
+/*退出*/
+.ic_退出:before {
+  content: "\e98d";
+}
+/*文章*/
+.ic_article:before {
+  content: "\e98e";
+}
+/*我下发的*/
+.ic_我下发的:before {
+  content: "\e98f";
+}
+/*我要做的*/
+.ic_我要做的:before {
+  content: "\e990";
+}
+/*下属地块*/
+.ic_下属地块:before {
+  content: "\e991";
+}
+/*下载*/
+.ic_download:before {
+  content: "\e992";
+}
+/*详情*/
+.ic_detail:before {
+  content: "\e993";
+}
+/*向上*/
+.ic_arrow_up:before {
+  content: "\e994";
+}
+/*向下*/
+.ic_arrow_down:before {
+  content: "\e995";
+}
+/*向右*/
+.ic_toright:before {
+  content: "\e996";
+}
+/*向左*/
+.ic_toleft:before {
+  content: "\e997";
+}
+/*向上箭头*/
+.ic_toUpArrow:before {
+  content: "\e998";
+}
+/*向下箭头*/
+.ic_toDownArrow:before {
+  content: "\e999";
+}
+/*向右箭头*/
+.ic_toRightArrow:before {
+  content: "\e99a";
+}
+/*向左箭头*/
+.ic_toLeftArrow:before {
+  content: "\e99b";
+}
+/*新闻动态*/
+.ic_新闻动态:before {
+  content: "\e99c";
+}
+/*修改项*/
+.ic_修改项:before {
+  content: "\e99d";
+}
+/*业务介绍*/
+.ic_business:before {
+  content: "\e99e";
+}
+/*页面*/
+.ic_page:before {
+  content: "\e99f";
+}
+/*右对齐*/
+.ic_align-right:before {
+  content: "\e9a0";
+}
+/*预览*/
+.ic_preview:before {
+  content: "\e9a1";
+}
+/*云平台*/
+.ic_cloud:before {
+  content: "\e9a2";
+}
+/*暂停*/
+.ic_Pause:before {
+  content: "\e9a3";
+}
+/*账户*/
+.ic_account:before {
+  content: "\e9a4";
+}
+/*质量*/
+.ic_safely:before {
+  content: "\e9a5";
+}
+/*置顶*/
+.ic_置顶:before {
+  content: "\e9a6";
+}
+/*专业档案*/
+.ic_专业档案:before {
+  content: "\e9a7";
+}
+/*转发*/
+.ic_forward:before {
+  content: "\e9a8";
+}
+/*左对齐*/
+.ic_左对齐:before {
+  content: "\e9a9";
+}
+/*作物*/
+.ic_crop:before {
+  content: "\e9aa";
+}
+/*地图视图*/
+.ic_mapview:before {
+  content: "\e9ac";
+}
+/*卡片视图*/
+.ic_listview:before {
+  content: "\e9ab";
+}
+/*电导率*/
+.ic_DC0_DT42:before {
+  content: "\e9ad";
+}
+/*红外双鉴*/
+.ic_DC0_DT19:before {
+  content: "\e9ae";
+}
+/*红外对射*/
+.ic_DC0_DT18:before {
+  content: "\e9af";
+}
+/*开窗*/
+.ic_DC1_TM17:before {
+  content: "\e9b0";
+}
+/*显示屏*/
+.ic_DC0_DT55:before {
+  content: "\e9b1";
+}
+/*太阳辐射*/
+.ic_DC0_DT25:before {
+  content: "\e9b2";
+}
+/*投入品管理*/
+.ic_input_manage:before {
+  content: "\e9b3";
+}
+.ic_采摘管理:before {
+  content: "\e9b4";
+}
+.ic_产品入库:before {
+  content: "\e9b5";
+}
+/*虫情测报灯*/
+.ic_DC0_DT60:before {
+  content: "\e9b6";
+}
+.ic_intelligent_warning:before {
+  content: "\e9b7";
+}
+.ic_device_run:before {
+  content: "\e9b8";
+}
+/*HCL*/
+.ic_DC0_DT37:before {
+  content: "\e9b9";
+}
+/*签到*/
+.ic_sign_in:before {
+  content: "\e9ba";
+}
+
+
+/*设备设置*/
+.ic_deviceSettings:before {
+  content: "\e9bb";
+}
+.ic_收藏:before {
+  content: "\e9bc";
+}
+.ic_收藏选中:before {
+  content: "\e9bd";
+}
+.ic_任务新增:before {
+  content: "\e9be";
+}
+.ic_homepage:before {
+  content: "\e9bf";
+}
+/*工具箱*/
+.ic_toolbox:before {
+  content: "\e9c0";
+}
+/*笔记本*/
+.ic_notebook:before {
+  content: "\e9c1";
+}
+/*管理*/
+.ic_manage:before {
+  content: "\e9c2";
+}
+/*识别*/
+.ic_distinguish:before {
+  content: "\e9c3";
+}
+.ic_基础:before {
+  content: "\e9c4";
+}
+.ic_左侧栏:before {
+  content: "\e9c5";
+}
+.ic_右侧栏:before {
+  content: "\e9c6";
+}
+/*优先级*/
+.ic_priority:before {
+  content: "\e9c7";
+}
+/*溯源标识*/
+.ic_trace:before {
+  content: "\e9c8";
+}
+/*库存正常*/
+.ic_stock-normal:before {
+  content: "\e9c9";
+}
+/*库存预警*/
+.ic_stock-alarm:before {
+  content: "\e9ca";
+}
+/*组织树*/
+.ic_org-tree:before {
+  content: "\e9cb";
+}
+/*监控云*/
+.ic_monitor-cloud:before {
+  content: "\e9cd";
+}
+/*管家云*/
+.ic_butler-cloud:before {
+  content: "\e9ce";
+}
+/*追溯云*/
+.ic_trace-cloud:before {
+  content: "\e9cf";
+}
+/*品牌云*/
+.ic_brand-cloud:before {
+  content: "\e9d0";
+}
+/*上锁*/
+.ic_lock:before {
+  content: "\e9d1";
+}
+/*病虫害预警*/
+.ic_weather_warning:before {
+  content: "\e9cc";
+}
+/*环境预警*/
+.ic_environmental_warning:before {
+  content: "\e9d2";
+}
+/*设备预警*/
+.ic_device_warning:before {
+  content: "\e9d7";
+}
+/*病虫害预警*/
+.ic_disease_warning:before {
+  content: "\e9d3";
+}
+/*农事预警*/
+.ic_agricultural_warning:before {
+  content: "\e9d4";
+}
+/*长势预警*/
+.ic_grow_warning:before {
+  content: "\e9d5";
+}
+/*管理*/
+.ic_管理:before {
+  content: "\e9d6";
+}
+/*出差*/
+.ic_travel:before {
+  content: "\e9d8";
+}
+/*请假*/
+.ic_leave:before {
+  content: "\e9d9";
+}
+/*通讯录*/
+.ic_UserBook:before {
+  content: "\e9da";
+}
+/*群聊*/
+.ic_GroupChat:before {
+  content: "\e9db";
+}
+/*空白*/
+.ic_empty:before {
+  content: "\e9dc";
+}
+/*负氧离子*/
+.ic_DC0_DT26:before {
+  content: "\e9dd";
+}
+/*过滤*/
+.ic_filter:before {
+  content: "\e9de";
+}
+/*规划*/
+.ic_plan:before {
+  content: "\e9df";
+}
+/*公司*/
+.ic_company:before {
+  content: "\e9e0";
+}
+/*园区*/
+.ic_park:before {
+  content: "\e9e1";
+}
+/*地块*/
+.ic_block:before {
+  content: "\e9e2";
+}
+/*土壤盐分*/
+.ic_DC0_DT57:before {
+  content: "\e9e3";
+}
+/*快门*/
+.ic_shutter:before {
+  content: "\e9e4";
+}
+/*减少*/
+.ic_reduce:before {
+  content: "\e9e5";
+}
+/*水质氨氮*/
+.ic_DC0_DT61:before {
+  content: "\e9e6";
+}
+/*水质浊度*/
+.ic_DC0_DT62:before {
+  content: "\e9e7";
+}
+/*水质余氯*/
+.ic_DC0_DT63:before {
+  content: "\e9e8";
+}
+/*232*/
+.ic_232:before {
+  content: "\e9e9";
+}
+/*uniE9EA*/
+.ic_uniE9EA:before {
+  content: "\e9ea";
+}
+/*233*/
+.ic_233:before {
+  content: "\e9eb";
+}
+/*商店*/
+.ic_shop:before {
+  content: "\e9ec";
+}
+/*空调*/
+.ic_DC1_TM25:before {
+  content: "\e9ed";
+}
+/*uniE9EE*/
+.ic_uniE9EE:before {
+  content: "\e9ee";
+}
+/*uniE9EF*/
+.ic_uniE9EF:before {
+  content: "\e9ef";
+}
+/*235*/
+.ic_235:before {
+  content: "\e9f0";
+}
+/*236*/
+.ic_236:before {
+  content: "\e9f1";
+}
+/*237*/
+.ic_237:before {
+  content: "\e9f2";
+}

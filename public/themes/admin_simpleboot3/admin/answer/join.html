@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“百年初心·筑梦远航”邗江区庆祝中国共产党成立100周年党史知识竞赛</title>
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/style.css">
+</head>
+<body>
+    <img class="bg-logo" src="__TMPL__/public/answer/dist/img/logo.png" alt="">
+    <!-- ================== header 开始 ======================= -->
+    <header class="page-header">
+        <div class="page-container">
+            <div class="flex flex-align-center flex-pack-end">
+                <!-- <a href="">登录</a>
+                <a href="">注册</a> -->
+                <!-- <span>李大伟</span> -->
+            </div>
+        </div>
+    </header>
+    <!-- ================== header 开始 ======================= -->
+
+    <!-- ================== main 开始 ======================= -->
+    <main class="page-main">
+        <div class="page-container">
+            <div class="page-card">
+                <div class="page-title">前日参与人数排行</div>
+                <div class="page-hr"></div>
+                <div class="page-table m-t-30">
+                    <table>
+                        <tbody>
+                            <foreach name="records" key="record_key" item="record">
+                                <tr>
+                                    
+                                    <if condition="$record['rank'] == 1">
+                                        <td style="width: 150px;">
+                                            <img src="__TMPL__/public/answer/dist/img/r_1.png" alt="">
+                                        </td>
+                                    <elseif condition="$record['rank'] == 2"> 
+                                        <td style="width: 150px;">
+                                            <img src="__TMPL__/public/answer/dist/img/r_2.png" alt="">
+                                        </td>
+                                    <elseif condition="$record['rank'] == 3"> 
+                                        <td style="width: 150px;">
+                                            <img src="__TMPL__/public/answer/dist/img/r_3.png" alt="">
+                                        </td>
+                                    <else>
+                                        <td style="width: 150px;">
+                                            <h2>{$record['rank']}</h2>
+                                        </td>
+                                    </if>
+                                    <td class="text-left"><strong>单位：{$record['bumen']}</strong></td>
+                                    <td>
+                                        <div class="flex flex-align-center flex-pack-end">
+                                            <span>参与人数：</span>
+                                            <h1>{$record['bumen_num']}</h1>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- ================== main 结束 ======================= -->
+</body>
+</html>

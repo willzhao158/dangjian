@@ -1,0 +1,141 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">地块</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="plotName" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">产品名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="product_name" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>			 
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">产品批次</label>
+						<div class="layui-input-block">
+						  <input type="text" name="product_batch" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+				  </div>
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">配送时间</label>
+						<div class="layui-input-block">
+						  <input type="text" name="deliver_time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" id="deliver_time">
+						</div>
+				  </div>
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">配送目的地</label>
+						<div class="layui-input-block">
+						  <input type="text" name="deliver_destination" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+				  </div>
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">配送员</label>
+						<div class="layui-input-block">
+						  <input type="text" name="deliver_man" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+				  </div>
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">收货员</label>
+						<div class="layui-input-block">
+						  <input type="text" name="receiver" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+						</div>
+				  </div>
+
+				  <div class="layui-form-item">
+						<label class="layui-form-label">配送车辆管理</label>
+						<table class="layui-table" style="display:inline">
+								<thead>
+								  <tr>
+									<th>车牌号</th>
+									<th>司机姓名</th>
+									<th>联系方式</th>
+									<th>司机照片</th>
+									<th>操作</th>
+								  </tr> 
+								</thead>
+								<tbody>
+								  <tr>
+									<td align = center><input type="text" name="plate_number" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"></td>
+									<td align = center><input type="text" name="driver" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"></td>
+									<td align = center><input type="text" name="driver_contact" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"></td>
+									<td align = center><input type="text" name="driver_photo" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input"></td>
+									<td align = center></td>
+								  </tr>
+								</tbody>
+							  </table>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script src="/static/build/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,layer = layui.layer;
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/farm/deliver/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+	
+	layui.use('laydate', function(){
+  	var laydate = layui.laydate;
+  	//执行一个laydate实例
+  	laydate.render({
+    elem: '#deliver_time' //指定元素
+  });
+});
+
+
+});
+
+</script>
+
+</html>

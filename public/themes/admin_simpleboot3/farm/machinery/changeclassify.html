@@ -1,0 +1,53 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  <div class="layui-form-item">
+				      <select name="type" lay-filter="classify">
+				        <option value="0">作为一级菜单</option>
+				        {$select_category}
+				      </select>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,layer = layui.layer;
+    form.on('select(classify)',function(res){
+    	var id = parent.fun.getCheckedData().join(',');
+    	if(id.length==0){
+    		parent.fun.ChooseOption();
+    		return;
+    	}
+    	console.log(id);
+    	$.post('/farm/machinery/changemachineryclassify',{id:id,type:res.value},function(data){
+    		console.log(data);
+			if(data.code){
+				layer.msg(data.msg,{icon:1});
+				setTimeout(function(){
+					parent.fun.reload();
+					parent.layer.closeAll();
+				},1000);
+			}else{
+				layer.msg(data.msg,{icon:2});
+			}
+    	});
+
+
+    });
+
+
+});
+
+</script>
+
+</html>

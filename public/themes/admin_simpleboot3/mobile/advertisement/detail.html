@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>广告详情</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="detail-banner swiper-container" style="height:280px;">
+            <!-- <div class="good-time">00时00分00秒</div> -->
+            <div class="swiper-wrapper">
+                <volist name="imgs" id="img">
+                    <div class="swiper-slide">
+                        <a href=""><img src="../{$img}" alt=""></a>
+                    </div>
+                </volist>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="detail-info">
+            <p style="font-size:.43rem;">{$ad_info['subject']}</p>
+            <div class="flex flex-align-center m-t-30">
+                <!-- <h1>￥99.9</h1>
+                <del>门市价￥186</del> -->
+            </div>
+            <div class="flex flex-align-center flex-pack-justify m-t-30">
+                <if condition="$ad_info['type']==1"><span>已关注：<span id="already_join">{$already_join}</span></span>
+                <span>关注名额：{$ad_info['number']}</span><else/><span>已参加：<span id="already_join">{$already_join}</span></span>
+                <span>活动名额：{$ad_info['number']}</span></if>
+                
+            </div>
+        </div>
+        <div class="detail-card">
+            <div class="card-header">商家信息</div>
+            <div class="card-body">
+                <volist name="shop_address" id="address">
+                    <div class="shop-info flex flex-align-center flex-pack-justify">
+                        <a class="flex-1" href="https://uri.amap.com/marker?position={$address.lng},{$address.lat}">
+                            <div class="flex flex-align-center">
+                                <i class="iconfont iconlocation-fill m-r-15"></i>
+                                <div>
+                                    <span>{$address.name}</span>
+                                    <p>{$address.address}</p>
+                                </div>
+                            </div>
+                        </a>
+                        <a href="tel:{$address.mobile}"><i class="iconfont iconphone-fill"></i></a>
+                    </div>
+                </volist>
+            </div>
+        </div>
+        <div class="detail-card">
+            <div class="card-header"><if condition="$ad_info['type']==1">宣传详情<else/>活动详情</if></div>
+            <div class="card-body">
+                <article class="weui-article">
+                    <section>
+                        <p>
+                            {$ad_info['content']}
+                        </p>
+                        <p>
+                            <volist name="detail_imgs" id="img">
+                                <img src="../{$img}" alt="">
+                            </volist>
+                        </p>
+                    </section>
+                </article>
+            </div>
+        </div>
+    </div>
+    <div class="good-handle">
+        <div class="flex flex-align-center flex-pack-justify">
+            <div class="flex handle-left flex-1">
+                <a href="{:url('index/index')}"><i class="iconfont iconhome"></i></a>
+                <a href="javascript:;"><i class="iconfont iconcomment"></i></a>
+                <a href="javascript:;"<if condition="$ismine==1"> id="btnCollect"</if>><i class="iconfont iconheart <if condition="$iscollect==2">iconheart-fill</if>"></i></a>
+                <!-- <a href="javascript:;" <i class="iconfont iconheart <if condition="$iscollect==2"></if>"></i></a> -->
+            </div>
+            <div class="handle-right flex-1">
+                <a href="javascript:;"<if condition="($ismine==1) && ($isnumber==1)">id="join"</if>><if condition="$ad_info['type']==1">我要关注<else/>我要参加</if></a>
+            </div>
+        </div>
+    </div>
+    <div class="js_dialog" id="explainDialog">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title" style="color:black"><if condition="$ad_info['type']==1">宣传类广告须知<else/>活动类广告须知</if></strong></div>
+            <div class="weui-dialog__bd" style="text-align: left"><if condition="$ad_info['type']==1">1.领【广告宣传劵】的用户无需前往商家线下店铺参加体验活动；<br>2.用户领取【广告宣传劵】后应在商家活动截止日期内提交使用，过期失效；<br>3.商家半年之内发布的【广告宣传劵】，用户无法重复领取。<else/>1.领【活动彩金劵】的用户须在商家活动截止日期内前往商家线下店铺参加体验活动，否则提交【活动彩金劵】为失效；<br>2.用户领取【活动彩金劵】后应在商家活动截止日期内提交使用，过期失效并在该活动截止日起一个月之内无法领取本平台所有商家的【活动彩金劵】；<br>3.若用户无法参加商家线下活动，可在领取【活动彩金劵】后24小时之内点击“我的--我的活动彩金劵”中退回，退回后无法再次领取；<br>4.商家半年之内发布的【活动彩金劵】，用户无法重复领取。</if></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hideExplainDialog();">知道了</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="js_dialog" id="conform_msg" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">1111</strong></div> -->
+            <div class="weui-dialog__bd" id="show_msg"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hide_conform_msg();">知道了</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- success toast-->
+    <div id="toastSuccess" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">操作成功</p>
+        </div>
+    </div>
+    <!-- success toast-->
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        window.confirm = function (message) {
+            var iframe = document.createElement("IFRAME");
+            iframe.style.display = "none";
+            iframe.setAttribute("src", 'data:text/plain,');
+            document.documentElement.appendChild(iframe);
+            var alertFrame = window.frames[0];
+            var result = alertFrame.window.confirm(message);
+            iframe.parentNode.removeChild(iframe);
+            return result;
+        }
+        function showToastSuccess(msg){
+            if ($("#toastSuccess").css('display') != 'none') return;
+            $("#toastSuccess").fadeIn(100);
+            $("#toastSuccess .weui-toast__content").html(msg)
+            setTimeout(function () {
+                $("#toastSuccess").fadeOut(100);
+            }, 2000);
+        }
+        function hideExplainDialog(){
+            $("#explainDialog").fadeOut(100);
+        }
+        function hide_conform_msg(){
+            $("#conform_msg").fadeOut(100);
+        }
+        function show_conform_msg(msg){
+            $("#show_msg").html(msg);
+            $("#conform_msg").fadeIn(100);
+        }
+        $(function(){
+            var ad_type = "{$ad_info['type']}";
+            var ad_id = "{$ad_info['id']}";
+            var isjoin = "{$isjoin}";
+            var half_year = "{$half_year}";
+            var au_id = "{$ad_info['uid']}";
+            var is_tuihui = "{$is_tuihui}";
+            var this_month_tuihui = "{$this_month_tuihui}";
+            var is_tijiao = "{$is_tijiao}";
+            var same_kind = "{$same_kind}";
+            var overtime = "{$overtime}";
+            var isused = "{$isused}";
+            var isused1 = "{$isused1}";
+            $("#join").click(function(){
+                
+                var message = '';
+
+                if(is_tijiao == 2 && ad_type == 2){
+                    show_conform_msg("您无法参加平台所有商家活动，请一个月后再参加！");
+                    return false;
+                }
+
+                
+
+                if(overtime == 2 && ad_type == 2){
+                    show_conform_msg("您已违反平台相关规定，请联系在线客服！");
+                    return false;
+                }
+
+
+                if(this_month_tuihui == 2 && ad_type == 2){
+                    show_conform_msg("您已退回商家【活动彩金劵】累计3次，故无法参加平台所有商家活动，请一个月后再参加！");
+                    return false;
+                }
+
+                if(is_tuihui == 2 && ad_type == 2){
+                    show_conform_msg("您之前已退回本商家【活动彩金劵】，故无法再次参加本商家活动，请下次活动再参加！");
+                    return false;
+                }
+                
+                if(isjoin == 2){
+                    if(isused == 2){
+                        show_conform_msg("您已参加过本商家的广告活动，请半年期限过后再参加！");
+                    }else{
+                        show_conform_msg("请在【我的活动彩金劵】中查看获取的活动彩金劵");
+                    }
+                    return false;
+                }
+
+                if(same_kind == 2 && ad_type == 2){
+                    show_conform_msg("当月仅限参加2个分类别商家活动，您没有权限参加本商家活动，请下个月再参加！");
+                    return false;
+                }
+
+                if(half_year == 2){
+                    show_conform_msg('您参加本商家上一次的店面活动还没有达到半年期限，故无法参加本次活动！');
+                    return false;
+                }
+
+                if(ad_type == 1){
+                    if(isused1 == 2){
+                        show_conform_msg("您已参加过本商家的广告活动，请半年期限过后再关注！");
+                        return false;
+                    }else{
+                        show_conform_msg("请在【我的广告宣传券】中查看获取的广告宣传券");
+                    }
+                }else{
+                    message = "您是否接受商家电话邀请参加线下店面体验活动？";
+                    var res = confirm(message);
+                    if(res){
+                        show_conform_msg("请在【我的活动彩金劵】中查看获取的活动彩金劵");
+                    }else{
+                        return false;
+                    }
+                }
+
+                $.ajax({
+                    url: "{:url('advertisement/join')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data:{
+                            ad_id:ad_id,
+                            ad_type:ad_type,
+                            au_id:au_id
+                          },
+                    success: function (data) {
+
+                        var already_join = parseInt($("#already_join").html());
+                        $("#already_join").html(already_join+1);
+                        // if(data['code']==1){
+                            
+                        //     var already_join = parseInt($("#already_join").html());
+                        //     $("#already_join").html(already_join+1);
+                        // }else if(data['code']==2){
+                        //     if(ad_type == 1){
+                        //         show_conform_msg("请在【我的广告宣传券】中查看获取的广告宣传券");
+                        //     }else{
+                        //         show_conform_msg(data['msg']);
+                        //     }
+                        // }
+                    },
+                    error: function () {
+                        // showToastError('未知错误');
+                    },
+                    complete: function () {}
+
+                });
+                isjoin = 2;
+                //alert('成功');
+            });
+            // 轮播图
+            var detailBanner = new Swiper ('.detail-banner', {
+                loop: true,
+                autoplay: true,
+                pagination: {
+                    el: '.detail-banner .swiper-pagination',
+                }
+            });  
+            // 收藏
+            $("#btnCollect").on("click",function(){
+                var ad_id = "{$ad_info['id']}";
+                if($(this).find("i").hasClass("iconheart-fill")){
+                    $(this).find("i").removeClass("iconheart-fill");
+                    showToastSuccess("已取消收藏");
+                    $.ajax({
+                        url: "{:url('advertisement/collect')}",
+                        type: 'post',
+                        dataType: 'json',
+                        data:{
+                                ad_id:ad_id,
+                                action:2
+                              },
+                        success: function (data) {
+                            
+                        },
+                        error: function () {
+                            // showToastError('未知错误');
+                        },
+                        complete: function () {}
+                    });
+                }else{
+                    $(this).find("i").addClass("iconheart-fill");
+                    showToastSuccess("已收藏");
+                    $.ajax({
+                        url: "{:url('advertisement/collect')}",
+                        type: 'post',
+                        dataType: 'json',
+                        data:{
+                                ad_id:ad_id,
+                                action:1
+                              },
+                        success: function (data) {
+                            
+                        },
+                        error: function () {
+                            // showToastError('未知错误');
+                        },
+                        complete: function () {}
+                    });
+                }
+            });
+            // 倒计时
+            // var time = 15686;
+            // setInterval(function(){
+            //     if(time > 0){
+            //         var day = parseInt(time / 60 / 60 / 24);
+            //         var hour = parseInt(time / 60 / 60 % 24);
+            //         var minute = parseInt(time / 60 % 60);
+            //         var seconds = parseInt(time % 60);
+            //         $(".good-time").html(day+'天'+hour+'时'+minute+'分'+seconds+'秒')
+            //         time -= 1;
+            //     }
+            // },1000)
+        })
+    </script>
+</body>
+</html>

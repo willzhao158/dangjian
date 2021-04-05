@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>我的钱包</title>
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="wallet-header">
+
+            <div class="main-data">
+
+                <p>收益</p>
+
+                <h1>9999.99</h1>
+
+                <a href="my_wallet_cash.html">去提现 ></a>
+
+            </div>
+
+            <!-- VIP -->
+
+            <ul class="vip-data flex">
+
+                <li class="flex-1">
+
+                    <p>已提现</p>
+
+                    <p>0</p>
+
+                </li>
+
+                <li class="flex-1">
+
+                    <a href="{:url('my/yue')}">
+
+                    <p>余额</p>
+
+                    <p>0</p>
+
+                    </a>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <div class="wallet-body">
+
+            <div class="weui-tab">
+
+                <div class="weui-navbar">
+
+                    <div class="weui-navbar__item weui-bar__item_on">收益明细</div>
+
+                    <div class="weui-navbar__item">提现明细</div>
+
+                </div>
+
+                <div class="weui-tab__panel">
+
+                    <div class="list-detail pannel-item weui-bar__item_on">
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>社区用户15248885555消费成功奖励</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>社区用户15248885555消费成功奖励</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>社区用户15248885555消费成功奖励</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                    </div>
+
+                    <div class="list-detail pannel-item">
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>微信提现</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>微信提现</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                        <div class="detail-item">
+
+                            <div class="flex flex-align-center flex-pack-justify">
+
+                                <h1>支付宝提现</h1>
+
+                                <span>+9.99</span>
+
+                            </div>
+
+                            <p>2020-05-05 15:55</p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+
+            $('.weui-navbar__item').on('click', function () {
+
+                var index = $(this).index()
+
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+                $(".pannel-item").eq(index).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+            });
+
+        })
+
+    </script>
+
+</body>
+
+</html>

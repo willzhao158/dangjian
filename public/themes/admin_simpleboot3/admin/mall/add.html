@@ -1,0 +1,96 @@
+<include file="public@admin" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">商品分类</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" id="name" placeholder="" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				
+					<div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/banner/upload'
+	    ,data:{dir:'banner'}
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	$('#samples').removeClass('layui-hide');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="img"]').val(res.msg);
+	    }
+	});
+
+
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/mall/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg('添加成功',{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg('添加失败',{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+    
+	   
+
+
+
+});
+    
+
+</script>
+
+</html>

@@ -1,0 +1,168 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width,initial-scale=1.33,minimum-scale=1.0,maximum-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="renderer" content="webkit">
+    <title>建党100周年答题活动</title>
+    <meta http-equiv="Content-Language" content="zh-CN">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/iconfont.css" type="text/css" media="all">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/txcstx.css" type="text/css" media="all">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" rev="stylesheet" href="__TMPL__/public/answer/css/base.css" type="text/css" media="all">
+    <style>
+        html,body,.page-container{
+            width: 100%;
+            height: 100%;
+        }
+        .page-container{
+            background: url(__TMPL__/public/answer/img/bg.png) no-repeat center;
+            background-size: 100% 100%;
+            padding-top: 10vh;
+        }
+        .tx-btn{
+            background-color: #d53737;
+            outline: none;
+            width: 100%;
+        }
+        .tx-btn:disabled{
+            background-color: #ccc;
+        }
+        .tx-login-box{
+            padding-top: 20px;
+        }
+        h1{
+            font-size: 85px;
+            color: #d53838;
+            font-weight: 600;
+            line-height: 1.5;
+            text-align: center;
+        }
+        h2{
+            font-size: 65px;
+            color: #d53838;
+            font-weight: normal;
+            margin-top: 2vh;
+            text-align: center;
+        }
+        h3{
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+            margin: 0 0 20px 0;
+        }
+        /* 媒体查询 */
+        @media screen and (max-width: 1380px) {
+            h1{
+                font-size: 70px;
+            }
+            h2{
+                font-size: 50px;
+            }
+        }
+        @media screen and (max-width: 1000px) {
+            h1{
+                font-size: 60px;
+            }
+            h2{
+                font-size: 40px;
+            }
+        }
+        @media screen and (max-width: 500px) {
+            h1{
+                font-size: 40px;
+            }
+            h2{
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div>
+            <h1>“百年初心 筑梦远航”</h1>
+            <h2>邗江区庆祝中国共产党成立100周年党史知识竞赛</h2>
+            <div class="tx-login-box">
+                <h3>注册</h3>
+                <!-- <div class="login-avatar bg-black"><i class="iconfont icon-wode"></i></div> -->
+                <ul class="tx-form-li row">
+                    <li class="col-24 col-m-24"><p><input type="text" id="mobile" name="mobile" placeholder="请输入手机号" class="tx-input"><i>账号(*)</i></p></li>
+                    <li class="col-24 col-m-24"><p><input type="password" id="password" name="password" placeholder="请输入登录密码" class="tx-input"><i>密码(*)</i></p></li>
+                    <li class="col-24 col-m-24"><p class="tx-input-full"><button type="button" id="submit_data" name="submit_data" class="tx-btn tx-btn-big bg-black">登录</button></p></li>
+                </ul>
+            </div>
+        </div>
+        <!-- success toast-->
+        <div id="toastSuccess" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+                <p class="weui-toast__content">操作成功</p>
+            </div>
+        </div>
+        <!-- success toast-->
+        <!-- error toast-->
+        <div id="toastError" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+                <p class="weui-toast__content">请检查您的输入</p>
+            </div>
+        </div>
+        <!-- error toast-->
+        <!-- loading toast-->
+        <div id="toastLoading" style="display: none;">
+            <div class="weui-mask_transparent"></div>
+            <div class="weui-toast">
+                <i class="weui-loading weui-icon_toast"></i>
+                <p class="weui-toast__content">正在加载...</p>
+            </div>
+        </div>
+        <!-- loading toast-->
+    </div>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/common.js?v=1"></script>
+    <script src="__TMPL__/public/answer/dist/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#submit_data").click(function(){
+            var mobile = $("#mobile").val();
+            var password = $("#password").val();
+            if(mobile == ''){
+                showToastError('请输入手机号');
+                return false;
+            }
+            if(!isPhoneNo(mobile)){
+                showToastError('请输入正确的手机号码');
+                return false;
+            }
+            if(password == ''){
+                showToastError('请输入密码');
+                return false;
+            }
+            $.ajax({
+                url: "{:url('login/dologin')}",
+                type: 'post',
+                dataType: 'json',
+                data:{
+                        mobile:mobile,
+                        password:password,
+                        },
+                success: function (data) {
+                    if(data['code'] == 1){
+                        showToastSuccess(data['msg']);
+                        setTimeout(function(){ window.location.href = "{:url('answer/index')}"; }, 2000);
+                    }else{
+                        showToastError(data['msg']);
+                        return false;
+                    }
+                },
+                error: function () {
+                    showToastError('未知错误');
+                },
+                complete: function () {
+                }
+            });
+        });
+    </script>
+</html>

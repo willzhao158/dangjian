@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>账户注销</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css?v=1">
+</head>
+<body>
+    <div class="container">
+        <div class="page-bg">
+            <div class="page-box">
+                <article class="weui-article">
+                    <h1>账户注销须知</h1>
+                    <?php echo htmlspecialchars_decode($content['content'])?>
+                </article>
+            </div>
+        </div>
+        <div class="fix-agree">
+            <div class="flex flex-align-center flex-pack-justify">
+                <div class="flex-1">
+                    <label id="weuiAgree" for="isAgree" class="weui-agree">
+                        <input id="isAgree" name="isAgree" type="checkbox" class="weui-agree__checkbox"/>
+                        <span class="weui-agree__text">我已阅读并同意上文注销须知</span>
+                    </label>
+                </div>
+                <a class="next-step">下一步</a>
+            </div>
+        </div>
+    </div>
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            $("#isAgree").on("click",function(){
+                if($(this).prop("checked")){
+                    $(".next-step").addClass("active");
+                }else{
+                    $(".next-step").removeClass("active");
+                }
+            });
+            $(".next-step").on("click",function(){
+                if($("#isAgree").prop("checked")){
+                    window.location.href = "{:url('my/cancel_form')}";
+                }
+            });
+        })
+    </script>
+</body>
+</html>

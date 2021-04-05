@@ -1,0 +1,180 @@
+<include file="public@admin" />
+
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <button class="layui-btn " data-type="excelHref">导出Excel</button>
+<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
+          <!-- <button class="layui-btn " data-type="userreload">搜索</button> -->
+          <!-- <button class="layui-btn " data-type="adduser">新增</button> -->
+          <!-- <button class="layui-btn " data-type="deluser">批量升级VIP</button> -->
+          
+        </div>
+        
+      </div>
+      <div class="layui-card-body">
+        <table class="layui-hide" id="user" lay-filter="user"></table>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table ,$ = layui.$, layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#user'
+    ,url: '/user/vdatalist'
+    ,cellMinWidth: 80
+    ,where: {
+            mobile:$('#mobile').val()
+    }
+    ,cols: [[
+    {checkbox: true},
+      {field:'id', title:'ID', width:80, sort: true}
+      ,{field:'real_name', title: '用户',width:100}
+      ,{field:'real_mobile', title: '电话',width:150}
+      ,{field:'name', title: '收货人姓名',width:150}
+      ,{field:'mobile', title: '收货电话',width:150}
+      ,{field:'place', title: '省市区',width:200}
+      ,{field:'address', title: '详细地址'}
+      ,{field:'createtime', title: '升级日期',width:180}
+      
+    ]]
+    ,id: 'userReload'
+    ,page: true
+    ,done:function(res){
+      //$('.layui-table-cell').css({'height':'auto'});
+    }
+  });
+  var $ = layui.$, active = {
+    userreload: function(){
+      //执行重载
+      table.reload('userReload', {
+        page: {
+          curr:1 //重新从第 1 页开始
+        }
+        ,where: {
+            mobile:$('#mobile').val()
+        }
+      }, 'data');
+    },
+    excelHref: function(){
+      window.location.href = "{:url('user/vip_excel')}";
+    },
+    adduser:function(){
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/user/add'
+        });
+    },
+    deluser:function(){
+    var that = this;
+    var checkStatus = table.checkStatus('userReload');
+    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        active.delaction(id.join(','));
+    },
+    delaction:function(params){
+       layer.confirm('确定删除吗？',{icon:3},function(index){
+        $.post('/user/delaction',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('userReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+      });
+    },
+    
+    edit:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/user/edit/id/' + obj.data.id
+      });
+    },
+    del:function(obj){
+      active.delaction(obj.data.id);
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(user)',function(obj){
+      var data = obj.data //获得当前行数据
+      ,layEvent = obj.event //获得 lay-event 对应的值
+      switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/user/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+      case 'del':
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/user/delaction',{params:data.id},function(res){
+              if(res.code){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){
+                  table.reload('userReload');
+                },1000);
+              }else{
+                layer.msg(res.msg,{icon:2});
+              }
+          });
+          layer.close(index);
+        });
+    break;
+    };
+  });
+  //监听单元格编辑
+  table.on('edit(user)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/user/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        layer.msg(res.msg);
+      }
+      table.reload('userReload');
+      layer.close(load);
+    });
+  });
+});
+</script>
+
+</html>

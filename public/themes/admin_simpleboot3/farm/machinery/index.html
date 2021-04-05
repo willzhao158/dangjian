@@ -1,0 +1,298 @@
+<include file="public@farm" />
+<style type="text/css">
+  .sampleimg{
+    width:100px;
+    height:100px;
+    border-radius:50px
+  }
+</style>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+
+				<div class="demoTable">
+          <div class="layui-inline">
+              <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入农机名称">
+          </div>
+          <div class="layui-btn-group">
+            <button class="layui-btn" data-type="reload">搜索</button>
+          </div> 
+          <div class="layui-btn-group">
+            <button type="button" class="layui-btn" lay-demo="addMenu">新增菜单</button>
+            <button type="button" class="layui-btn" lay-demo="delMenu">删除菜单</button>
+            <button type="button" class="layui-btn" lay-demo="reload">刷新菜单</button>
+          </div> 
+          <div class="layui-btn-group">
+  				  <button class="layui-btn " data-type="addMachinery">新增农机</button>
+            <button class="layui-btn " data-type="delMachinery">删除农机</button>
+  				  <button class="layui-btn " data-type="changeMachinery">修改类型</button>
+  				  <button class="layui-btn " data-type="Machineryreload">刷新农机</button>
+          </div> 
+				</div>
+				
+			</div>
+			<div class="layui-card-body">
+          <div class="layui-row layui-col-space15">
+            <div class="layui-col-md2">
+              <div class="layui-card">
+                <div class="layui-card-header">物资分类</div>
+                <div class="layui-card-body">
+                    
+                  <div id="test1" lay-filter="test1"></div>
+
+                </div>
+              </div>
+            </div>
+            <div class="layui-col-md10">
+              <div class="layui-card">
+                <div class="layui-card-header machinery">物资管理</div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="machinery" lay-filter="machinery"></table> 
+                </div>
+              </div>
+            </div>
+          </div>
+			</div>
+		</div>
+	</div> 
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','tree','util','form','flow','laytpl'], function(){
+  var table = layui.table
+      ,tree   = layui.tree
+      ,util = layui.util
+  	  ,layer = layui.layer
+      ,form   = layui.form
+      ,upload = layui.upload
+      ,$ = layui.$
+      ,flow = layui.flow;
+
+  window.classify = 0;
+  //方法级渲染
+  table.render({
+    elem: '#machinery'
+    ,url: '/farm/machinery/machinerylist/'
+    ,cols: [[
+      {checkbox: true, fixed: true}
+    
+      ,{field:'number', title: '编号',  sort: true,edit: 'text'}
+      ,{field:'name', title: '名称', edit: 'text'}
+      ,{field:'spec', title: '规格型号', edit: 'text'}
+      ,{field:'unit', title: '单位',  sort: true,edit: 'text'}
+      ,{field:'sell_price', title: '销售价',  sort: true,edit: 'text'}
+      ,{field:'purchase_price', title: '采购价',  sort: true,edit: 'text'}
+      ,{field:'supplier', title: '供应商',  sort: true,edit: 'text'}
+      ,{field:'remarks', title: '备注',edit: 'text'}
+    ]]
+    ,id: 'machineryReload'
+    ,page: true
+    ,done:function(res){
+      console.log(res);
+    }
+  });
+  var active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      //执行重载
+      table.reload('machineryReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addMachinery:function(){
+    	layer.open({
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/machinery/add/id/' + classify,
+        end:function(){
+          flowload.init();
+        }
+    	});
+    },
+    delMachinery:function(){
+		  var id = active.getCheckedData();
+      layer.confirm('确定删除吗？',{icon:3},function(index){
+      	$.post('/farm/machinery/delaction',{params:id.join(',')},function(res){
+        	if(res.code){
+        		table.reload('machineryReload');
+        		layer.msg(res.msg,{icon:1});
+        	}else{
+        		layer.msg(res.msg,{icon:2});
+        	}
+        });
+      });
+    },
+    getCheckedData:function(){
+      var checkStatus = table.checkStatus('machineryReload');
+      var data = checkStatus.data;
+      var id = new Array();
+      data.forEach(function(item){
+        id.push(item.id);
+      });
+      return id;
+    },
+    changeMachinery:function(){
+      layer.open({
+        type:2,
+        offset:'l',
+        id:'classifys',
+        area:['100','100%'],
+        shade:0,
+        content:'/farm/machinery/changeclassify'
+      });
+    },
+    Machineryreload:function(){
+    	table.reload('machineryReload');
+    },
+    ClassifyReload:function(){
+        window.location.reload();
+    },
+    ChooseOption:function(){
+      layer.msg('请选择农机信息');
+    },
+  };
+  window.fun = active;
+  var action = {
+      getMenu:function(){
+        var data = [];
+        $.ajax({
+          url:'/farm/machineryclassify/all',
+          type:'POST',
+          dataType:'json',
+          async:false,
+          success:function(rq){
+            data = rq;
+          }
+        });
+        return data;
+      },
+      showMenu:function(){
+        var that = this;
+        var data = that.getMenu();
+        console.log(data);
+        tree.render({
+              elem: '#test1'
+              ,data: data
+              ,id: 'demoId'
+              ,showCheckbox: true  //是否显示复选框
+              ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+              ,edit: ['add','update','del'] //操作节点的图标
+              ,click: function(obj){
+                // console.log(obj);
+                $('.layui-tree-txt').css({'background':'','color':'','padding':''});
+                $(obj.elem).find('.layui-tree-txt').css({'background':'rgb(0, 150, 136)','color':'white','padding':'2px 5px'});
+                var dom = $(obj.elem); 
+                $('.machinery').text(dom.find('.layui-tree-txt').eq(0).text());
+                window.classify = obj.data.id;
+                table.reload('machineryReload',{
+                  where:{
+                    type:obj.data.id
+                  }
+                });
+              },
+              operate:function(obj){
+                that.showMenu();
+                var id = obj.data.id;
+                switch(obj.type){
+                  case 'add':
+                      layer.open({
+                        type:2,
+                        area:area,
+                        title:SystemName,
+                        content:'/farm/machinery/addclassify/id/' + obj.data.id
+                      });
+                    break;
+                  case 'update':
+                        var data = {
+                            id:id,
+                            name:obj.data.title
+                        };
+                        console.log(data);
+                        $.post('/farm/machineryclassify/editaction',data,function(data){
+                            if(data.code){
+                              layer.msg(data.msg,{icon:1});
+                              that.showMenu();
+                            }else{
+                              layer.msg(data.msg,{icon:2});
+                            }
+                        });                
+                  break;
+                  case 'del':
+                      that.delMenu(id);
+                    break;
+                }
+              }
+          });
+      },
+      addMenu:function(){
+        layer.open({
+          type:2,
+          title:SystemName,
+          area:area,
+          content:'/farm/machineryclassify/add'
+        });
+      },
+      delMenu:function(id){
+        var that = this;
+        $.post('/farm/machineryclassify/delmenu',{params:id},function(data){
+          console.log(data);
+            if(data.code){
+              layer.msg(data.msg,{icon:1});
+              that.showMenu();
+            }else{
+              layer.msg(data.msg,{icon:2});
+            }
+        });
+      },
+      treeReload:function(){
+        this.showMenu();
+      }
+  };
+  action.showMenu();
+  window.action = action;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  //监听单元格编辑
+  table.on('edit(machinery)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0.5});
+    $.post('/farm/machinery/editaction',{params:update},function(res){
+        if(res.code){
+          layer.close(load);
+        }else{
+          table.reload('machineryReload');
+          layer.msg(res.msg);
+        }
+    });
+  });
+  util.event('lay-demo',{
+      addMenu:function(){
+        action.addMenu()
+      },
+      reload:function(){
+           action.showMenu();
+      },
+      delMenu:function(){
+        var checkedData = tree.getChecked('demoId'); //获取选中节点的数据
+        var id = [];
+        checkedData.forEach(function(item){
+            id.push(item.id);
+        });
+        action.delMenu(id.join(','));
+      }
+   });
+});
+</script>
+</html>

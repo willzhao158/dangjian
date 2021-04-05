@@ -1,0 +1,141 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+          <div class="layui-inline">
+            <form class="layui-form">
+              <select lay-filter="warehouse">
+                <volist name="warehouse" id="warehouse">
+                    <option value="{$warehouse.id}">{$warehouse.name}</option>
+                </volist>
+              </select>
+            </form>
+          </div>
+				  <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入商品名称">
+				  </div>
+				  <button class="layui-btn" data-type="reload">搜索</button>
+
+				  <button class="layui-btn " data-type="inventoryreload">刷新</button>
+				</div>
+			</div>
+			<div class="layui-card-body">
+				<table class="layui-hide" id="inventory" lay-filter="inventory"></table> 
+        <table class="layui-hide" id="inventorydetail" lay-filter="inventorydetail"></table> 
+			</div>
+		</div>
+	</div> 
+</body>
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','form'], function(){
+  var table = layui.table
+      ,form = layui.form
+      ,$ = layui.$
+  	  ,layer = layui.layer;
+
+
+
+ 
+ 
+
+
+  form.on('select(warehouse)',function(obj){
+      active.search({
+        warehouseid:obj.value
+      });
+  });
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      active.search({
+          name:demoReload.val()
+      });
+    },
+    inventoryreload:function(){
+        table.reload('inventory');
+    },
+    search:function(params){
+      table.reload('inventory', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: params
+      });
+    },
+    list:function(obj){
+        var goods_id = obj.data.goods_id;
+        var warehouse_id = obj.data.warehouse_id;
+        table.render({
+          elem: '#inventorydetail'
+          ,url: '/farm/inventory/showinventorydetail/goods_id/' + goods_id + '/warehouse_id/' + warehouse_id
+          ,totalRow: true
+          ,cols: [[
+            {field:'number', title: '商品编码', totalRowText: '合计'}
+            ,{field:'bname', title: '商品名称',  sort: true,}
+            ,{field:'goods_count', title: '采购数量'}
+            ,{field:'goods_price', title: '单价价格',totalRow: true}
+            ,{field:'goods_money', title: '价格合计',totalRow: true}
+            ,{field:'type', title: '类型',templet:function(res){
+                let name = '';
+                switch(res.type){
+                  case 'purchase':
+                      name = '采购入库';
+                    break;
+                  case 'sale':
+                      name = '销售出库';
+                }
+                return name;
+            }}
+            ,{field:'remarks', title: '备注',edit: 'text'}
+          ]]
+          ,id: 'inventorydetail'
+          ,page: false
+          ,done:function(rq){
+            console.log(rq);
+          }
+        });
+     
+    },
+    init:function(){
+      //方法级渲染
+      table.render({
+        elem: '#inventory'
+        ,url: '/farm/inventory/datalist '
+        ,cols: [[
+          {checkbox: true, fixed: true}
+          ,{field:'number', title: '商品编号', width:200, sort: true, fixed: true,event:'list'}
+          ,{field:'name', title: '商品名称', width:200}
+          ,{field:'spec', title: '商品规格', width:200, sort: true}
+          ,{field:'unit', title: '单位'}
+          ,{field:'goods_count', title: '商品数量',}
+          ,{field:'goods_money', title: '商品总价',}
+        ]]
+        ,where:{
+          warehouseid:$('select').val()
+        }
+        ,id: 'inventory'
+        ,page: true 
+        // ,done:function(res){
+        //   console.log(res);
+        // }
+      });
+    }
+
+  };
+    active.init();
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('row(inventory)',function(obj){
+    active.list(obj);
+  });
+});
+
+
+</script>
+</html>

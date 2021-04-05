@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>{$classify['name']}</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- ============= 定位+搜索 start ============== -->
+        <div class="index-top flex flex-align-center flex-pack-justify">
+            <a href="" class="position-area"><i class="iconfont iconaim"></i><span id="lname">定位中</span></a>
+            <div class="weui-search-bar flex-1" id="searchBar">
+                <form class="weui-search-bar__form">
+                    <div class="weui-search-bar__box">
+                        <i class="weui-icon-search"></i>
+                        <input type="search" class="weui-search-bar__input" id="searchInput" placeholder="请输入搜索内容" required/>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!-- ============= 定位+搜索 end ============== -->
+        <!-- ============= 轮播图广告位 start ============== -->
+        <div class="index-banner swiper-container">
+            <div class="swiper-wrapper">
+                <volist name="banners" id="banner">
+                    <div class="swiper-slide">
+                        <a href="<if condition="empty($banner['link']) neq true">{$banner.link}<else/>javascript:void(0);</if>"><img src="../{$banner.img}" alt=""></a>
+                    </div>
+                </volist>
+                
+                <!-- <div class="swiper-slide">
+                    <a href=""><img src="__TMPL__/public/massets/images/1.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href=""><img src="__TMPL__/public/massets/images/1.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href=""><img src="__TMPL__/public/massets/images/1.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href=""><img src="__TMPL__/public/massets/images/1.jpg" alt=""></a>
+                </div>
+                <div class="swiper-slide">
+                    <a href=""><img src="__TMPL__/public/massets/images/1.jpg" alt=""></a>
+                </div> -->
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <!-- ============= 轮播图广告位 end ============== -->
+        <!-- ============= 首页菜单 start ============== -->
+        <div class="index-menu clearfix">
+            <volist name="all_classify" id="classify">
+                <a href="{:url('index/index_third')}?kind1={$kind1}&kind2={$classify.id}" class="menu-item">
+                    <img src="../{$classify.img}" alt="">
+                    <p>{$classify.name}</p>
+                </a>
+            </volist>
+        </div>
+        <!-- ============= 首页菜单 end ============== -->
+        <!-- ============= 公告 start ============== -->
+        <div class="index-notice flex flex-align-center flex-pack-justify">
+            <h1>公告</h1>
+            <div class="swiper-container flex-1">
+                <div class="swiper-wrapper">
+                    <volist name="anounces" id="anounce">
+                        
+                            <div class="swiper-slide text-es1"><a href="{:url('message/detail',array('id'=>$anounce['id']))}" style="color:black;">{$anounce.title}</a></div>
+                        
+                    </volist>    
+                </div>
+            </div>
+        </div>
+        <!-- ============= 公告 end ============== -->
+        <!-- ============= 列表 start ============== -->
+        <div class="list-good">
+            <!-- <a href="good_detail.html" class="good-item">
+                <div class="good-img">
+                    <p class="good-time">00时00分00秒</p>
+                </div>
+                <div class="good-info">产品描述产品描述产品描述产品描述产品描述品描述产品描述产品描述产品描述</div>
+                <div class="good-sale flex flex-align-center flex-pack-justify">
+                    <div class="flex flex-align-center">
+                        <h1>￥99.9</h1>
+                        <del>门市价￥999</del>
+                    </div>
+                    <p>销售量：9999</p>
+                </div>
+            </a>
+            <a href="good_detail.html" class="good-item">
+                <div class="good-img">
+                    <p class="good-time">00时00分00秒</p>
+                </div>
+                <div class="good-info">产品描述产品描述产品描述产品描述产品描述品描述产品描述产品描述产品描述</div>
+                <div class="good-sale flex flex-align-center flex-pack-justify">
+                    <div class="flex flex-align-center">
+                        <h1>￥99.9</h1>
+                        <del>门市价￥999</del>
+                    </div>
+                    <p>销售量：9999</p>
+                </div>
+            </a>
+            <a href="good_detail.html" class="good-item">
+                <div class="good-img">
+                    <p class="good-time">00时00分00秒</p>
+                </div>
+                <div class="good-info">产品描述产品描述产品描述产品描述产品描述品描述产品描述产品描述产品描述</div>
+                <div class="good-sale flex flex-align-center flex-pack-justify">
+                    <div class="flex flex-align-center">
+                        <h1>￥99.9</h1>
+                        <del>门市价￥999</del>
+                    </div>
+                    <p>销售量：9999</p>
+                </div>
+            </a> -->
+        </div>
+        <!-- ============= 列表 end ============== -->
+        
+    </div>
+    <div class="js_dialog" id="conform_msg" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">1111</strong></div> -->
+            <div class="weui-dialog__bd">请添加微信客服：paopao1801</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hide_conform_msg();">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!-- ============= 悬浮按钮（客服+回到顶部）start ============== -->
+    <div class="fix-button">
+        <a href="javascript:;" onclick="show_conform_msg();">客服</a><br>
+        <a href="javascript:;" id="goToTop"><i class="iconfont iconvertical-align-top"></i></a>
+    </div>
+    <!-- ============= 悬浮按钮（客服+回到顶部）end ============== -->
+    <!-- ============= 底部导航 start ============== -->
+    <include file="public@footer" />
+    
+    <!-- ============= 底部导航 end ============== -->
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=2f5bc3950cfdbdfed65791bf7d829392"></script>
+    <script type="text/javascript">
+        function show_conform_msg(msg){
+            $("#show_msg").html(msg);
+            $("#conform_msg").fadeIn(100);
+        }
+        function hide_conform_msg(){
+            $("#conform_msg").fadeOut(100);
+        }
+        $(function(){
+            // 商品加载更多
+            var page = 1,
+                timers = null;
+            var location = null;
+            // 轮播图
+            var indexBanner = new Swiper ('.index-banner', {
+                loop: true,
+                autoplay: true,
+                pagination: {
+                    el: '.index-banner .swiper-pagination',
+                }
+            })  
+            // 公告 
+            var noticeBanner = new Swiper('.index-notice .swiper-container', {
+                direction: 'vertical',
+                autoplay: true,
+                slidesPerView: 1
+            });   
+            // 回到顶部
+            $("#goToTop").on("click",function(){
+                $('html,body').animate({scrollTop: 0},'slow');
+            })
+            
+            //定位
+            function LoadingDataFn(location) {
+                if(location == null){
+                    return false;
+                }
+                $.ajax({
+                    url: "{:url('index/getAd')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data:{
+                            location:location,
+							page:page,
+                            kind1:{$kind1}
+                          },
+                    success: function (data) {
+                        var dom = '';
+                        if(data){
+                            for (i in data) {
+                                dom += '<a href="'+data[i]['link']+'" class="good-item">'
+                                        +'<div class="good-img" style="background-image:url(../'+data[i]['cover']+')">'
+                                            +'<p class="good-tag">'+data[i]['type_name']+'</p>'
+                                            +'<p class="good-time" data-count="'+data[i]['count']+'">00天00时00分00秒</p>'
+                                            +'</div>'
+                                        +'<div class="good-info">'+data[i]['subject']+'</div>'
+                                        +'<div class="good-sale flex flex-align-center flex-pack-justify">'
+                                            +'<div class="flex flex-align-center">'
+                                                
+                                                +'</div>'
+                                            +'<p>'+data[i]['ac_number']+'</p>'
+                                        +'</div>'
+                                    +'</a>';
+                            }
+                        }
+                        $('.list-good').append(dom);
+                        page++;
+                        $(".good-time").each(function(){
+                            if($(this).data('timer'))
+                                return true;
+                            var _this = $(this);
+                            var timer = countDown($(_this).data("count"),function( msg ) { 
+                                $(_this).html(msg);
+                             }) 
+                            $(this).data('timer', timer);
+                        })
+                        // countTimer();
+                    },
+                    error: function () {
+                        //alert('失败');
+                    },
+                });
+            }
+            function countDown( maxtime,fn ) {  
+                var timer = setInterval(function() { 
+                    if( !!maxtime ){  
+                        var day = Math.floor(maxtime / 86400),
+                        hour = Math.floor((maxtime % 86400) / 3600),
+                        minutes = Math.floor((maxtime % 3600) / 60), 
+                        seconds = Math.floor(maxtime % 60), 
+                        msg = day+"天"+hour+"时"+minutes+"分"+seconds+"秒";  
+                        fn(msg); 
+                        --maxtime;  
+                    } else {  
+                        clearInterval(timer); 
+                        fn("时间到，结束!"); 
+                    }  
+                }, 1000); 
+                return timer;
+            }
+            /* function countTimer(){
+                setInterval(function(){
+                    $(".good-time").each(function(){
+                        var time = parseInt($(this).data("count"));
+                        if(time > 0){
+                            var day = parseInt(time / 60 / 60 / 24);
+                            var hour = parseInt(time / 60 / 60 % 24);
+                            var minute = parseInt(time / 60 % 60);
+                            var seconds = parseInt(time % 60);
+                            $(this).html(day+'天'+hour+'时'+minute+'分'+seconds+'秒')
+                            time -= 1;
+                            $(this).data('count',time);
+                        }
+                    })
+                },1000)
+            } */
+            var mapObj = new AMap.Map('iCenter');
+            mapObj.plugin('AMap.Geolocation', function () {
+                geolocation = new AMap.Geolocation({
+                    enableHighAccuracy: true, // 是否使用高精度定位，默认:true
+                    timeout: 10000,           // 超过10秒后停止定位，默认：无穷大
+                    maximumAge: 0,            // 定位结果缓存0毫秒，默认：0
+                });
+                mapObj.addControl(geolocation);
+                geolocation.getCurrentPosition();
+                AMap.event.addListener(geolocation, 'complete', onComplete); // 返回定位信息
+                AMap.event.addListener(geolocation, 'error', onError);       // 返回定位出错信息
+            });
+            function onComplete(obj){
+                var res = JSON.stringify(obj.addressComponent, null, 4);
+                LoadingDataFn(res);
+                location = res;
+                $("#lname").html(obj.addressComponent.district);
+            }
+            function onError(obj) {
+                alert(obj.info + '--' + obj.message);
+                console.log(obj);
+            }
+            
+            $(window).scroll(function() {
+                if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+                    clearTimeout(timers);
+                    timers = setTimeout(function() {
+                        console.log("第" + page + "页");
+                        LoadingDataFn(location);
+                    }, 300);
+                }
+            });
+            //初始化， 第一次加载
+            //LoadingDataFn(location);
+        });
+    
+    </script>
+    
+</body>
+</html>

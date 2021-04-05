@@ -1,0 +1,260 @@
+	<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<form class="layui-form" >
+	
+			<div class="layui-card cards" >
+				<div class="layui-card-header" >
+					<fieldset class="layui-elem-field layui-field-title" style="margin:0">
+					  <legend>供应商信息</legend>
+					</fieldset>
+				</div>
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<div class="layui-inline">
+						    <label class="layui-form-label">供应商</label>
+						    <div class="layui-input-inline">
+						      <input type="text" name="supplier_id" autocomplete="off" class="layui-input">
+						    </div>
+						</div>
+						<div class="layui-inline">
+						    <label class="layui-form-label">联系人</label>
+						    <div class="layui-input-inline">
+						      <input type="text" name="contacts" autocomplete="off" class="layui-input">
+						    </div>
+					    </div>
+
+					    <div class="layui-inline">
+					       <label class="layui-form-label">电话</label>
+					       <div class="layui-input-inline">
+					          <input type="text" name="phone" autocomplete="off" class="layui-input">
+					       </div>
+					    </div>
+
+					    <div class="layui-inline">
+					      <label class="layui-form-label">传真</label>
+					      <div class="layui-input-inline">
+					          <input type="text" name="fax" autocomplete="off" class="layui-input">
+					      </div>
+					    </div>
+					</div>
+				</div>
+			</div>
+
+			<div class="layui-card cards"  >
+				<div class="layui-card-header" >
+					<fieldset class="layui-elem-field layui-field-title" style="margin:0">
+					  <legend>采购信息</legend>
+					</fieldset>
+				</div>
+				<div class="layui-card-body">
+					 <div class="layui-form-item">
+							<div class="layui-inline">
+							    <label class="layui-form-label">交货日期</label>
+							    <div class="layui-input-inline">
+							      <input type="text" name="delivery" id="date" autocomplete="off" class="layui-input">
+							    </div>
+							</div>
+							
+							<div class="layui-inline">
+							    <label class="layui-form-label">组织机构</label>
+							    <div class="layui-input-inline">
+							      <input type="text" name="machinery"  autocomplete="off" class="layui-input">
+							    </div>
+							</div>
+							<div class="layui-inline">
+							    <label class="layui-form-label">业务员</label>
+							    <div class="layui-input-inline">
+							      <input type="text" name="user_id"  autocomplete="off" class="layui-input">
+							    </div>
+							</div>
+							<div class="layui-inline">
+							    <label class="layui-form-label">付款方式</label>
+							    <div class="layui-input-inline">
+							      <input type="text" name="payment_type" autocomplete="off" class="layui-input">
+							    </div>
+							</div>
+					</div>
+				
+				</div>
+			</div>
+			<div class="layui-card cards"  >
+				<div class="layui-card-header" >
+					<fieldset class="layui-elem-field layui-field-title" style="margin:0">
+					  <legend>
+					  	 订单信息 &nbsp;
+					  	 <span class="layui-btn layui-btn-xs" data-type="add">添加</span>
+					  	 <span class="layui-btn layui-btn-xs" data-type="del">删除</span>
+					  </legend>
+					</fieldset>
+				</div>
+				<div class="layui-card-body" id="detail">
+					 
+
+				</div>
+				<div class="layui-form-item ">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="purchase">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				  &nbsp;
+			</div>
+
+		</form>
+
+
+		
+	</div>
+</body>
+
+<script type="text/html" id="formTemplet">
+
+		<input type="hidden" name="goods_id[]" readonly autocomplete="off" class="layui-input" value="{{ d.id }}" ></div>
+		<div class="layui-form-item">
+		  <div class="layui-inline">
+		    <label class="layui-form-label">选择商品</label>
+		    <div class="layui-input-inline">
+		     
+		      <input type="text" name="goods_name[]" readonly autocomplete="off" class="layui-input" value="{{ d.name }}" ></div>
+		  </div>
+		  <div class="layui-inline">
+		    <label class="layui-form-label">数量</label>
+		    <div class="layui-input-inline">
+		      <input type="text" name="goods_count[]" autocomplete="off" class="layui-input" value="" ></div>
+		  </div>
+		  <div class="layui-inline">
+		    <label class="layui-form-label">价格</label>
+		    <div class="layui-input-inline">
+		      <input type="tel" name="goods_price[]" autocomplete="off" class="layui-input" value="{{ d.purchase_price }}" ></div>
+		  </div>
+		  <div class="layui-inline">
+		    <label class="layui-form-label">合计</label>
+		    <div class="layui-input-inline">
+		      <input type="tel" name="goods_money[]" autocomplete="off" class="layui-input" value="" ></div>
+		  </div>
+		  <div class="layui-inline">
+		    <label class="layui-form-label">备注</label>
+		    <div class="layui-input-inline">
+		      <input type="tel" name="remarks[]" autocomplete="off" class="layui-input" value="" ></div>
+		  </div>
+		</div>
+</script>
+
+
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','form','laydate','laytpl'], function(){
+    var 
+    	table = layui.table
+    	,form   = layui.form
+        ,$     = layui.$
+        ,laytpl     = layui.laytpl
+        ,layer = layui.layer
+        ,laydate = layui.laydate
+        ,goodsid;
+
+
+    laydate.render({
+    	elem: '#date'
+    });
+
+    var active = {
+    	parent:function(){
+    		return $('#detail');
+    	},
+    	module:function(data){
+    		var temp;
+			var getTpl = formTemplet.innerHTML
+			laytpl(getTpl).render(data, function(html){
+			   temp = html;
+			});
+			form.render();
+			return temp;
+    	},
+    	lastremove:function(){
+    		var that = this;
+    		len = that.parent().find('.layui-form-item').length;
+    		that.parent().find('.layui-form-item').eq(len-1).remove();
+    		
+    	},
+    	add:function(){
+    		params = {
+    			type:2,
+    			title:SystemName,
+    			id:'goodsBox',
+    			area:['100%','80%'],
+    			offset:'b',
+    			content:'/farm/purchase/goodslist'
+    		},
+    		GoodsWindow = layer.open(params);
+    	},
+    	append:function(data){
+    		var that = this;
+    		that.parent().append(active.module(data));
+    	},
+    	del:function(){
+    		active.lastremove();
+    	},
+    	setGoodsId:function(){
+    		console.log(goodsid);
+    	}
+    };
+
+    window.active = active;
+
+    $('.cards .layui-btn').on('click',function(){
+    	var type = $(this).data('type');
+    	active[type]?active[type].call(this) : '';
+    });  
+
+      $("#detail").on('input',"input[name='goods_count[]']",function(){
+	      let val = $(this).val();
+	      let price = $(this).parent().parent().parent().find("input[name='goods_price[]']").val();
+	      $(this).parent().parent().parent().find("input[name='goods_money[]']").val(val*price);
+	  });
+
+
+    form.on('submit(purchase)',function(res){
+    	var len = active.parent().find('.layui-form-item').length;
+    	console.log(len);
+    	if(len==0){
+    		// active.parent().find('.layui-form-item').find('input[name="goods_id[0]"]').attr('name','goods_id[]');
+    		layer.msg('请添加订单信息',{icon:2});
+    		return false;
+    	}
+    	var data = new FormData(res.form);
+    	var submit = {
+    		url:'/farm/purchase/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:data,
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reloadAll();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

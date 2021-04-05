@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="__TMPL__/www/assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/font/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/css/style.css">
+    <link rel="shortcut icon" href="__TMPL__/www/assets/images/favicon.ico" />
+    <title>首页</title>
+</head>
+<body>
+    <!-- ====== 头部 ======== -->
+    <header>
+        <div class="header-sub">
+            <div class="container">
+                <div class="header-phone">
+                    <i class="fa fa-phone"></i>
+                    <span>0514-80786099</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="flex flex-align-center flex-pack-justify">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="__TMPL__/www/assets/images/logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="header-menu">
+                        <div class="flex flex-align-center">
+                              <a href="{:url('index/index')}" class="on">首页</a>
+                            <a href="{:url('index/list')}">产品库</a>
+                            <a href="{:url('index/help')}">帮助</a>
+                        </div>
+                    </div>
+                    <a href="" target="_blank" class="header-link m-r-30">
+                        <i class="fa fa-link"></i>
+                        <span>瑞丰智慧农业云平台</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ====== 头部 ======== -->
+
+    
+    <!-- ====== 主体 ======== -->
+    <main>
+        <div class="index-banner">
+            <div class="container">
+                <form class="index-form" action="" onsubmit="check()">
+                    <h1 class="form-title">溯源档案查询</h1>
+                    <div class="form-item">
+                        <input type="text" placeholder="请输入14位查询码" name="" id="searchCode">
+                    </div>
+                    <div class="form-item">
+                        <input type="submit" placeholder="查询">
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="index-section">
+            <div class="section-title">
+                <p></p>
+                <h1>HOT SELLING</h1>
+                <h2>热门推荐</h2>
+            </div>
+            <div class="section-content">
+                <div class="container">
+                    <div class="hot-list flex flex-align-center flex flex-pack-justify">
+                        <div class="hot-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="hot-img img-box"><img src="__TMPL__/www/assets/images/2.png" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="hot-name text-es1">阳光玫瑰</h1>
+                                    <p class="hot-time">上市时间：2019-06-25</p>
+                                    <div class="hot-star" data-rank="1"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="hot-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="hot-img img-box"><img src="__TMPL__/www/assets/images/caomei.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="hot-name text-es1">草莓</h1>
+                                    <p class="hot-time">上市时间：2019-05-25</p>
+                                    <div class="hot-star" data-rank="2"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="hot-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="hot-img img-box"><img src="__TMPL__/www/assets/images/chelizi.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="hot-name text-es1">车厘子</h1>
+                                    <p class="hot-time">上市时间：2019-05-30</p>
+                                    <div class="hot-star" data-rank="4"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="hot-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="hot-img img-box"><img src="__TMPL__/www/assets/images/xioabaicai.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="hot-name text-es1">小白菜</h1>
+                                    <p class="hot-time">上市时间：2019-02-05</p>
+                                    <div class="hot-star" data-rank="3"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="index-section bg-f2f2f2">
+            <div class="section-title">
+                <p></p>
+                <h1>FRESH LISTING</h1>
+                <h2>新鲜上市</h2>
+            </div>
+            <div class="section-content">
+                <div class="container">
+                    <div class="fresh-list flex flex-align-center flex flex-pack-justify">
+                        <div class="fresh-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="fresh-img img-box"><img src="__TMPL__/www/assets/images/fanqie.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="fresh-name text-es1">番茄</h1>
+                                    <p class="fresh-time">上市时间：2019-03-05</p>
+                                    <div class="fresh-star" data-rank="1"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="fresh-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="fresh-img img-box"><img src="__TMPL__/www/assets/images/heimeiren.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="fresh-name text-es1">黑美人</h1>
+                                    <p class="fresh-time">上市时间：2019-04-25</p>
+                                    <div class="fresh-star" data-rank="3"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="fresh-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="fresh-img img-box"><img src="__TMPL__/www/assets/images/mihoutao.jpg" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="fresh-name text-es1">猕猴桃</h1>
+                                    <p class="fresh-time">上市时间：2019-06-05</p>
+                                    <div class="fresh-star" data-rank="3"></div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="fresh-item flex-1">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="fresh-img img-box"><img src="__TMPL__/www/assets/images/miyou.png" alt=""></div>
+                                <div style="padding: 10px;">
+                                    <h1 class="fresh-name text-es1">蜜柚</h1>
+                                    <p class="fresh-time">上市时间：2019-07-18</p>
+                                    <div class="fresh-star" data-rank="5"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="index-section">
+            <div class="section-title">
+                <p></p>
+                <h1>MOST POPULAR</h1>
+                <h2>人气最高</h2>
+            </div>
+            <div class="section-content">
+                <div class="container">
+                    <div class="most-list clearfix">
+                        <div class="most-item">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <div class="most-img" style="background-image: url(__TMPL__/www/assets/images/mioamu.jpg);"></div>
+                                    <div class="flex-1 bg-f2f2f2 text-center" style="padding: 15px;height: 300px;">
+                                        <h1 class="most-name text-es1">苗木</h1>
+                                        <p class="most-time">上市时间：2019-01-08</p>
+                                        <div class="most-star" data-rank="1"></div>
+                                        <img class="most-qrcode" src="__TMPL__/www/assets/images/qrcode.png" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="most-item">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <div class="most-img" style="background-image: url(__TMPL__/www/assets/images/nanshaohoog.jpg);"></div>
+                                    <div class="flex-1 bg-f2f2f2 text-center" style="padding: 15px;height: 300px;">
+                                        <h1 class="most-name text-es1">南诏红</h1>
+                                        <p class="most-time">上市时间：2019-07-25</p>
+                                        <div class="most-star" data-rank="3"></div>
+                                        <img class="most-qrcode" src="__TMPL__/www/assets/images/qrcode.png" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="most-item">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <div class="most-img" style="background-image: url(__TMPL__/www/assets/images/xiangnuomi.jpg);"></div>
+                                    <div class="flex-1 bg-f2f2f2 text-center" style="padding: 15px;height: 300px;">
+                                        <h1 class="most-name text-es1">香糯米</h1>
+                                        <p class="most-time">上市时间：2019-4-11</p>
+                                        <div class="most-star" data-rank="2"></div>
+                                        <img class="most-qrcode" src="__TMPL__/www/assets/images/qrcode.png" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="most-item">
+                            <a href="{:url('index/detail')}" target="_blank">
+                                <div class="flex flex-align-center flex-pack-justify">
+                                    <div class="most-img" style="background-image: url(__TMPL__/www/assets/images/nujingdou.jpg);"></div>
+                                    <div class="flex-1 bg-f2f2f2 text-center" style="padding: 15px;height: 300px;">
+                                        <h1 class="most-name text-es1">无茎豆</h1>
+                                        <p class="most-time">上市时间：2019-06-10</p>
+                                        <div class="most-star" data-rank="5"></div>
+                                        <img class="most-qrcode" src="__TMPL__/www/assets/images/qrcode.png" alt="">
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="index-section bg-section">
+            <div class="section-title">
+                <p></p>
+                <h1>ADVANTAGE</h1>
+                <h2>我们的优势</h2>
+            </div>
+            <div class="section-content">
+                <div class="container">
+                    <div class="van-list flex flex-align-center flex-pack-justify">
+                        <div class="van-item flex-1">
+                            <img src="__TMPL__/www/assets/images/van1.png" alt="">
+                            <h1>智能监控</h1>
+                            <p>生长期全程实时监控</p>
+                        </div>
+                        <div class="van-item flex-1">
+                            <img src="__TMPL__/www/assets/images/van2.png" alt="">
+                            <h1>查询便捷</h1>
+                            <p>随时随地查询产品信息</p>
+                        </div>
+                        <div class="van-item flex-1">
+                            <img src="__TMPL__/www/assets/images/van3.png" alt="">
+                            <h1>信息全面</h1>
+                            <p>全面展现产品各种信息</p>
+                        </div>
+                        <div class="van-item flex-1">
+                            <img src="__TMPL__/www/assets/images/van4.png" alt="">
+                            <h1>综合销售</h1>
+                            <p>网店链接+实体店地址</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- ====== 主体 ======== -->
+
+
+    <!-- ====== 尾部 ======== -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="flex flex-align-start flex-pack-justify">
+                    <div class="footer-left">
+                        <a href="{:url('index/detail')}" target="_blank">
+                            <img src="__TMPL__/www/assets/images/logo_ruifeng.png" alt="">
+                        </a>
+                        <p>电话：0514-80786099</p>
+                        <p>地址：江苏省扬州市邗江区智谷大厦A座10楼</p>
+                        <p>主页：<a href="http://www.rui-feng.cn/" target="_blank">http://www.rui-feng.cn/</a></p>
+                    </div>
+                    <div class="footer-right">
+                        <div class="flex flex-align-center">
+                            <h1 class="m-r-15">关注我们</h1>
+                            <p>获取最新资讯</p>
+                        </div>
+                        <div class="footer-qrcode flex flex-align-center">
+                            <div class="text-center m-r-30">
+                                <img src="__TMPL__/www/assets/images/qrcode_shouji.png" alt="">
+                                <p>手机站</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="__TMPL__/www/assets/images/qrcode_weixin.png" alt="">
+                                <p>官方微信</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-sub">
+            <p class="text-center font-14">Copyright © 2019 江苏瑞丰信息技术股份有限公司 版权所有</p>
+        </div>
+    </footer>
+    <!-- ====== 尾部 ======== -->
+
+    <script type="text/javascript" src="__TMPL__/www/assets/lib/layui/layui.js"></script>
+    <script type="text/javascript">
+        layui.use(['jquery','layer','rate'],function(){
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var rate = layui.rate;
+            
+            function check(){
+                if($("#searchCode").val() == ""){
+                    layer.msg("请输入14位查询码！");
+                    return
+                }
+            }
+
+            $(".hot-star").each(function(){
+                rate.render({
+                    elem: $(this),
+                    value: $(this).data("rank"),
+                    readonly: true,
+                    theme: "#ff3d3d"
+                });
+            })
+
+            $(".fresh-star").each(function(){
+                rate.render({
+                    elem: $(this),
+                    value: $(this).data("rank"),
+                    readonly: true,
+                    theme: "#ff3d3d"
+                });
+            })
+
+            $(".most-star").each(function(){
+                rate.render({
+                    elem: $(this),
+                    value: $(this).data("rank"),
+                    readonly: true,
+                    theme: "#ff3d3d"
+                });
+            })
+        })
+    </script>
+</body>
+</html>

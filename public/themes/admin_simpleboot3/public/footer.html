@@ -1,0 +1,18 @@
+<div class="weui-tabbar">
+    <a class="weui-tabbar__item <if condition="$controller=='Index'">weui-bar__item_on</if>" href="{:url('index/index')}">
+        <i class="weui-tabbar__icon iconfont iconhome"></i>
+        <p class="weui-tabbar__label">首页</p>
+    </a>
+    <a class="weui-tabbar__item <if condition="$controller=='Qrcode'">weui-bar__item_on</if>" href="{:url('qrcode/index')}">
+        <i class="weui-tabbar__icon iconfont iconshare"></i>
+        <p class="weui-tabbar__label">分享</p>
+    </a>
+    <a class="weui-tabbar__item <if condition="$controller=='Mall'">weui-bar__item_on</if>" href="{:url('mall/index')}">
+        <i class="weui-tabbar__icon iconfont iconshopping"></i>
+        <p class="weui-tabbar__label">积分商城</p>
+    </a>
+    <a class="weui-tabbar__item <if condition="$controller=='My'">weui-bar__item_on</if>" href="{:url('my/index')}">
+        <i class="weui-tabbar__icon iconfont iconuser"></i>
+        <p class="weui-tabbar__label">我的</p>
+    </a>
+</div>

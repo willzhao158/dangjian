@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>发布广告</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="weui-form">
+            <div class="weui-form__text-area">
+                <h2 class="weui-form__title">发布广告</h2>
+            </div>
+            <div class="weui-form__control-area">
+                <div class="weui-cells__group weui-cells__group_form">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">投放地区</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" name="" value="{$place_str}" id="showCityInput"/>
+                                <input class="weui-input" type="text" placeholder="请添加" readonly id="showCityPicker"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active city-collection" id="cityCollection" style="display: block">
+                            <volist name="$place_name_arr" id="place">
+                                <span>{$place}<i class="iconfont iconclose"></i></span>
+                            </volist>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">广告类型</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" name="" value="{$advertisement['type']}" id="showTypeInput"/>
+                                <input class="weui-input" type="text" value="{$advertisement['type_name']}" placeholder="请选择" readonly id="showTypePicker"/>
+                            </div>
+                        </div>
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">推广数量</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" id="number" placeholder="请输入推广数量"/>
+                            </div>
+                        </div> -->
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">推广数量</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$advertisement['number']}" type="number" id="number" placeholder="请输入推广数量"/>
+                            </div>
+                        </div>
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">目录分类</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" name="" id="showKindInput"/>
+                                <input class="weui-input" type="text" placeholder="请选择" readonly id="showKindPicker"/>
+                            </div>
+                        </div> -->
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">广告主题</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$advertisement['subject']}" type="text" id="subject" placeholder="请输入广告主题"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell  weui-cell_uploader">
+                            <div class="weui-cell__bd">
+                                <div class="weui-uploader">
+                                    <div class="weui-uploader__hd">
+                                        <p class="weui-uploader__title">图片</p>
+                                    </div>
+                                    <div class="weui-uploader__bd">
+                                        <ul class="weui-uploader__files uploader-files">
+                                            <!-- <li class="weui-uploader__file" style="background-image: url(__TMPL__/public/massets/images/2.png);">
+                                                <i class="weui-uploader__delete iconfont iconclose-circle"></i>
+                                            </li> -->
+                                            <volist name="$advertisement['imgs_url']" id="img">
+                                                <li class="weui-uploader__file" style="background-image: url(../../{$img});">
+                                                <i class="weui-uploader__delete iconfont iconclose-circle"></i>
+                                            </volist>
+                                        </ul>
+                                        <div class="weui-uploader__input-box">
+                                            <input class="img-input" name="imgs" type="hidden" id="imgs" value="{$advertisement['imgs']}">
+                                            <input class="weui-uploader__input uploader-input" type="file" accept="image/*" multiple/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">活动文字说明</label></div>
+                        </div>
+                        <div class="weui-cell">
+                            <div class="weui-cell__bd">
+                                <textarea class="weui-textarea" id="content" placeholder="请输入..." rows="3">{$advertisement['content']}</textarea>
+                            </div>
+                        </div>
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">店铺地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" value="" id="shopLngLat">
+                                <input class="weui-input" id="address" type="text" placeholder="请输入店铺地址"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div id="map" style="width: 100%;height: 4rem;"></div> 
+                        </div> -->
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">联系电话</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="mobile" type="number" pattern="[0-9]*" placeholder="请输入联系电话"/>
+                            </div>
+                        </div> -->
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">获客数量</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" pattern="[0-9]*" placeholder="请输入获客数量"/>
+                            </div>
+                        </div> -->
+                        <!-- 宣传类 -->
+                        <!-- <div class="weui-cell weui-cell_active type-advertise" style="display: none;">
+                            <div class="weui-cell__hd"><label class="weui-label">广告宣传劵</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" name="" id="showTicketADInput"/>
+                                <input class="weui-input" type="text" placeholder="请选择" readonly id="showTicketADPicker"/>
+                            </div>
+                        </div> -->
+                        <!-- 活动类 -->
+                        <div class="weui-cell weui-cell_active type-activity" <if condition="$advertisement['type'] == 1">style="display: none;</if>">
+                            <div class="weui-cell__hd"><label class="weui-label">彩金券数额</label></div>
+                            <div class="weui-cell__bd">
+                                <input type="hidden" value="{$advertisement['activity_type']}" name="" id="showTicketACInput"/>
+                                <input class="weui-input" value="{$advertisement['activity_type_name']}" type="text" placeholder="请选择" readonly id="showTicketACPicker"/>
+                            </div>
+                        </div>
+                        <!-- <div class="weui-cell weui-cell_active type-activity" style="display: none;">
+                            <div class="weui-cell__hd"><label class="weui-label">一元抢购劵</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" placeholder="满多少元抵多少元"/>
+                            </div>
+                        </div> -->
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">广告截止日期</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" placeholder="请选择" readonly id="showDatePicker" value="<?php echo date('Y-m-d',$advertisement['end_time'])?>"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="weui-form__opr-area">
+                <!-- <p class="text-center font-16 color-999">所需金额：<strong class="font-24 color-primary" id="price">￥0</strong></p> -->
+                <a class="weui-btn weui-btn_primary m-t-30" href="javascript:" id="submit_data">发布</a>
+            </div>
+        </div>
+    </div>
+    <!-- gallery -->
+    <div class="weui-gallery" id="gallery">
+        <span class="weui-gallery__img" id="galleryImg"></span>
+    </div>
+    <!-- gallery -->
+    <!-- success toast-->
+    <div id="toastSuccess" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">操作成功</p>
+        </div>
+    </div>
+    <!-- success toast-->
+    <!-- error toast-->
+    <div id="toastError" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+            <p class="weui-toast__content">请检查您的输入</p>
+        </div>
+    </div>
+    <!-- error toast-->
+    <!-- loading toast-->
+    <div id="toastLoading" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">正在加载...</p>
+        </div>
+    </div>
+    <!-- loading toast-->
+    <!-- 免责声明 dialog -->
+    <div class="js_dialog" id="explainDialog">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__hd"><strong class="weui-dialog__title">泡泡同城免责声明</strong></div>
+            <div class="weui-dialog__bd" style="text-align: left">1.上传的广告图片不可出现低俗、违规内容；<br>2.标题文字中不可出现敏感字体；<br>3.若收到投诉举报，经过核实，确定违规后，将进行封号处理；<br>4.若发布的广告触犯国家法律，将由广告发布者承担所有责任。</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hideExplainDialog();">知道了</a>
+            </div>
+        </div>
+    </div>
+     <!-- 免责声明 dialog -->
+     
+    <!-- 余额不足请充值 dialog -->
+    <div class="js_dialog" id="rechargeDialog" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd">余额不足请充值</div>
+            <div class="weui-dialog__ft">
+                <a href="" class="weui-dialog__btn weui-dialog__btn_primary">去充值</a>
+            </div>
+        </div>
+    </div>
+     <!-- 余额不足请充值 dialog -->
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <!-- <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c33813dceb855ebf5e4a2b088b1fdc65&plugin=AMap.Geocoder"></script>  -->
+    <script type="text/javascript">
+        function showToastSuccess(msg){
+            if ($("#toastSuccess").css('display') != 'none') return;
+            $("#toastSuccess").fadeIn(100);
+            $("#toastSuccess .weui-toast__content").html(msg)
+            setTimeout(function () {
+                $("#toastSuccess").fadeOut(100);
+            }, 2000);
+        }
+        function showToastError(msg){
+            if ($("#toastError").css('display') != 'none') return;
+            $("#toastError").fadeIn(100);
+            $("#toastError .weui-toast__content").html(msg)
+            setTimeout(function () {
+                $("#toastError").fadeOut(100);
+            }, 2000);
+        }
+        function showToastLoading(msg){
+            $("#toastLoading").fadeIn(100);
+            $("#toastLoading .weui-toast__content").html(msg)
+        }
+        function hideToastLoading(){
+            $("#toastLoading").fadeOut(100);
+        }
+        function hideExplainDialog(){
+            $("#explainDialog").fadeOut(100);
+        }
+        // function getPrice(){
+        //     var showTypeInput = $("#showTypeInput").val();
+        //     var number = $("#number").val();
+        //     var price = 0;
+        //     var showTicketACInput = $("#showTicketACInput").val();
+        //     if(showTypeInput == 1){
+        //         price = number;
+        //     }else{
+        //         if(showTicketACInput == 1){
+        //             price = 58*number;
+        //         }else{
+        //             price = 108*number;
+        //         }
+        //     }
+        //     if(price == ''){
+        //         price = 0;
+        //     }
+        //     $("#price").html("￥"+price);
+        // }
+
+
+        
+        $(function(){
+            // 所属地区
+            var areaList = {$city};
+            var addrCollection = "{$place_str}";
+            $('#showCityPicker').on('click', function () {
+                weui.picker(areaList, {
+                    defaultValue: [320000,321000,321002],
+                    onConfirm: function (result) {
+                        addrCollection += result[0].value+","+result[1].value+","+result[2].value+'@';
+                        $("#showCityInput").val(addrCollection)
+                        //$('#showCityPicker').val(result[0].label+" "+result[1].label+" "+result[2].label);
+                        $("#cityCollection").show()
+                        $("#cityCollection").append('<span>'+result[0].label+result[1].label+result[2].label+'<i class="iconfont iconclose"></i></span>')
+                    },
+                    title: '请选择'
+                });
+            });
+
+            // $('#number').bind('input propertychange', function() {
+            //     var number = $("#number").val();
+            //     var showTypeInput = $("#showTypeInput").val();
+            //     var showCityInput = $("#showCityInput").val();
+            //     if(showCityInput == ''){
+            //         showToastError('请选择投放地区');
+            //     }
+            //     if(showTypeInput == ''){
+            //         showToastError('请选择广告类型');
+            //     }
+
+                
+
+            //     if(showTypeInput ==1){
+            //         var place_num = 1000*(showCityInput.split("@").length-1);
+            //         if(number < place_num){
+            //             showToastError('推广数量应大于'+place_num);
+            //         }
+            //     }
+
+            //     if(showTypeInput ==2){
+            //         if(number < 20){
+            //             showToastError('推广数量应大于20');
+            //         }
+            //     }
+
+            // }); 
+
+            // 删除地区
+            $("#cityCollection").on("click","span i",function(e){
+                var addrs = $("#showCityInput").val().split("@")
+                var index = $(this).parent().index()
+                addrs.splice(index,1)
+                addrCollection = addrs.join("@")
+                $("#showCityInput").val(addrCollection)
+                $(this).parent().remove()
+                e.stopPropagation()
+                if($("#cityCollection span").length == 0){
+                    $("#cityCollection").hide()
+                    $("#showCityPicker").val("")
+                }
+            })
+            // 广告类型
+            $('#showTypePicker').on('click', function () {
+                weui.picker([{
+                    value: 1,
+                    label: '宣传类广告'
+                },{
+                    value: 2,
+                    label: '活动类广告'
+                }], {
+                    defaultValue: [{$advertisement['type']}],
+                    onConfirm: function (result) {
+                        $("#showTypeInput").val(result[0].value);
+                        $('#showTypePicker').val(result[0].label);
+                        if(result[0].label == "宣传类广告"){
+                            $(".type-advertise").show()
+                            $(".type-activity").hide()
+                        }else if(result[0].label == "活动类广告"){
+                            $(".type-activity").show()
+                            $(".type-advertise").hide()
+                        }
+                        //getPrice();
+                    },
+                    title: '请选择'
+                });
+            });
+            // 目录分类
+            // $('#showKindPicker').on('click', function () {
+            //     // console.log({$all_classify})
+            //     weui.picker({$all_classify}, {
+            //         defaultValue: [2,4],
+            //         onConfirm: function (result) {
+            //             $("#showKindInput").val([result[0].value,result[1].value])
+            //             $('#showKindPicker').val(result[0].label+" "+result[1].label);
+            //         },
+            //         title: '请选择'
+            //     });
+            // });
+            // 广告宣传劵
+            $('#showTicketADPicker').on('click', function () {
+                weui.picker([{
+                    value: 1,
+                    label: '1元'
+                }], {
+                    defaultValue: [1],
+                    onConfirm: function (result) {
+                        $("#showTicketADInput").val(result[0].value)
+                        $('#showTicketADPicker').val(result[0].label);
+                    },
+                    title: '请选择'
+                });
+            });
+            // 活动彩金劵
+            $('#showTicketACPicker').on('click', function () {
+                weui.picker([{
+                    value: 1,
+                    label: '58'
+                },{
+                    value: 2,
+                    label: '108'
+                }], {
+                    defaultValue: [0],
+                    onConfirm: function (result) {
+                        $("#showTicketACInput").val(result[0].value)
+                        $('#showTicketACPicker').val(result[0].label);
+                        //getPrice();
+                    },
+                    title: '请选择'
+                });
+            });
+
+            // 广告截止日期
+            $('#showDatePicker').on('click', function () {
+                var showTypeInput = $("#showTypeInput").val();
+                var last_time = '';
+                if(showTypeInput == 1){
+                    last_time = new Date(new Date().getFullYear(),new Date().getMonth()+2,new Date().getDate());
+                }else{
+                    last_time = new Date(new Date().getFullYear(),new Date().getMonth()+1,new Date().getDate());
+                }
+                weui.datePicker({
+                    start: new Date(),
+                    end: last_time,
+                    onConfirm: function (result) {
+                        $('#showDatePicker').val(result[0]+'-'+result[1]+'-'+result[2]);
+
+                        //getPrice();
+                    },
+                    title: '请选择'
+                });
+            });
+        
+            // 图片删除
+            $(".weui-uploader__files").on("click", ".weui-uploader__delete", function(e){
+                var imgs = $(this).parents(".weui-uploader__bd").find(".img-input").val().split(",")
+                var index = $(this).parent().index()
+                imgs.splice(index,1)
+                $(this).parents(".weui-uploader__bd").find(".img-input").val(imgs.join(","))
+                $(this).parent().remove()
+                e.stopPropagation()
+            });
+        
+            // 上传图片
+            var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"><i class="weui-uploader__delete iconfont iconclose-circle"></i></li>'
+            $(".uploader-input").on("change", function(e){
+                var _this = this
+                var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
+                var formData = new FormData();
+                for (var i = 0, len = files.length; i < len; ++i) {
+                    var file = files[i];
+                    formData.append('photo'+i, file);
+                    if (url) {
+                        src = url.createObjectURL(file);
+                    } else {
+                        src = e.target.result;
+                    }
+                    $(_this).parent().prev(".uploader-files").append($(tmpl.replace('#url#', src)));
+                }
+
+                $.ajax({
+                    url: "{:url('advertisement/pics')}",
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    contentType:false,
+                    processData:false,
+                    data:formData,
+                    beforeSend: function(){
+                        //showLoading();
+                    },
+                    success: function (data) {
+                        var imgs = $(_this).prev().val();
+                        if(imgs == ''){
+                            $(_this).prev().val(data);
+                        }else{
+                            imgs = imgs+','+data;
+                            $(_this).prev().val(imgs);
+                        }
+                        //hideLoading();
+                    },
+                    error: function () {
+                    },
+                });
+
+
+            });
+            $(".uploader-files").on("click", "li", function(){
+                $("#galleryImg").attr("style", this.getAttribute("style"));
+                $("#gallery").fadeIn(100);
+            });
+            $(".uploader-files").on("click", ".weui-uploader__delete", function(e){
+                $(this).parent().remove()
+                e.stopPropagation()
+            });
+            $("#gallery").on("click", function(){
+                $("#gallery").fadeOut(100);
+            });
+            // 地图定位
+            // var map = new AMap.Map("map", {
+            //     resizeEnable: true
+            // });
+            // var geocoder = new AMap.Geocoder();
+            // var marker = new AMap.Marker();
+            // function geoCode() {
+            //     var address  = $('#address').val();
+            //     geocoder.getLocation(address, function(status, result) {
+            //         if (status === 'complete'&&result.geocodes.length) {
+            //             var lnglat = result.geocodes[0].location
+            //             marker.setPosition(lnglat);
+            //             $("#shopLngLat").val(lnglat.lng+","+lnglat.lat)
+            //             map.add(marker);
+            //             map.setFitView(marker);
+            //         }else{
+            //             //log.error('根据地址查询位置失败');
+            //         }
+            //     });
+            // }
+            // $("#address").on("blur",function(){
+            //     geoCode();
+            // });
+            $("#submit_data").click(function(){
+                var ad_id = {$advertisement['id']};
+                var showCityInput = $("#showCityInput").val();
+                var showTypeInput = $("#showTypeInput").val();
+                //var showKindInput = $("#showKindInput").val();
+                var number = $("#number").val();
+                var subject = $("#subject").val();
+                var imgs = $("#imgs").val();
+                var content = $("#content").val();  
+                var address = $("#address").val();
+                var shopLngLat = $("#shopLngLat").val();
+                var mobile = $("#mobile").val();
+                var showDatePicker = $("#showDatePicker").val();
+                var showTicketACPicker = $("#showTicketACPicker").val();
+                var showTicketACInput = $("#showTicketACInput").val();
+
+                if(showCityInput == ''){
+                    showToastError('请添加投放地区');
+                    return false;
+                }
+
+                if(showTypeInput == ''){
+                    showToastError('请选择广告类型');
+                    return false;
+                }
+
+                if(showTypeInput ==1){
+                    var place_num = 500*(showCityInput.split("@").length-1);
+                    if(number < place_num){
+                        showToastError('推广数量应大于'+place_num);
+                        return false;
+                    }
+                }
+
+                if(showTypeInput ==2){
+                    if(number < 20){
+                        showToastError('推广数量应大于20');
+                        return false;
+                    }
+                }
+
+                // if(showKindInput == ''){
+                //     showToastError('请选择目录分类');
+                //     return false;
+                // }
+
+                if(number == ''){
+                    showToastError('请输入推广数量');
+                    return false;
+                }
+
+                if(subject == ''){
+                    showToastError('请输入广告主题');
+                    return false;
+                }
+
+                if(imgs == ''){
+                    showToastError('请选择图片');
+                    return false;
+                }
+
+                if(content == ''){
+                    showToastError('请输入活动文字说明');
+                    return false;
+                }
+
+                if(address == ''){
+                    showToastError('请输入店铺地址');
+                    return false;
+                }
+
+                // if(mobile == ''){
+                //     showToastError('请输入联系电话');
+                //     return false;
+                // }
+
+                if(showTicketACPicker == '' && showTypeInput == 2){
+                    showToastError('请选择规格');
+                    return false;
+                }
+
+                if(showDatePicker == ''){
+                    showToastError('请选择广告截止日期');
+                    return false;
+                }
+
+                $.ajax({
+                    url: "{:url('advertisement/edit_publish')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data:{
+                        ad_id:ad_id,
+                        showCityInput:showCityInput,
+                        showTypeInput:showTypeInput,
+                        number:number,
+                        subject:subject,
+                        imgs:imgs,
+                        content:content,
+                        address:address,
+                        shopLngLat:shopLngLat,
+                        showDatePicker:showDatePicker,
+                        showTicketACPicker:showTicketACPicker,
+                        showTicketACInput:showTicketACInput
+                    },
+                    success: function (data) {
+                        showToastSuccess('提交成功');
+                        setTimeout(function(){ window.location.href = "{:url('pay/pay')}?oid="+data; }, 2000);
+                    },
+                    error: function () {
+                    },
+                });
+                
+            });
+        })
+    </script>
+</body>
+</html>

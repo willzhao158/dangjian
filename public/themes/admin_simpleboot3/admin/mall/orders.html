@@ -1,0 +1,202 @@
+<include file="public@admin" />
+<style type="text/css">
+    .layui-table-cell{
+      text-align:center;
+      height: auto;
+      white-space: normal;
+    }
+</style>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <div class="layui-inline">
+				    <input class="layui-input" name="" id="serial" autocomplete="off" placeholder="请输入商品编号">
+          </div>
+          <div class="layui-inline">
+            <select class="layui-input" name="parent" id="pay_status" lay-verify="required" lay-search="" style="width: 200px;">
+              <option value="0">所有</option>
+              <option value="1">未支付</option>
+              <option value="2">已支付</option>
+            </select>
+          </div>
+<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
+          <button class="layui-btn " data-type="mallreload">搜索</button>
+          <button class="layui-btn " data-type="excelHref">导出Excel</button>
+				</div>
+				
+			</div>
+			<div class="layui-card-body">
+				<table class="layui-hide" id="mall" lay-filter="mall"></table>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table ,$ = layui.$, layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#mall'
+    ,url: '/mall/odatalist'
+    ,cellMinWidth: 80
+    ,where: {
+           serial:$('#serial').val(),
+           pay_status:$('#pay_status').val(),
+    }
+    ,cols: [[
+    //{checkbox: true},
+      //{field:'id', title:'ID', width:80, hide：true}
+      ,{field:'name', title: '商品名称', width:200}
+      ,{field:'serial', title: '商品编号', width:200}
+      ,{field:'address_info', title: '收货地址', width:200}
+      ,{field:'receiver', title: '收货人'}
+      ,{field:'mobile', title: '收货电话号码', width:130}
+      ,{field:'price', title: '支付金额', width:100}
+      ,{field:'number', title: '数量'}
+      ,{field:'remark', title: '发货备注', width:200}
+      ,{field:'status_name', title: '状态'}
+      ,{field:'pay_time', title: '支付时间', width:200}
+      //,{field:'createtime', title: '创建时间', width:200}
+      ,{field:'kuaidi', title: '快递单号', width:100}
+      //,{fixed: 'right', title: '操作', width:130, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'mallReload'
+    ,page: true
+    ,done:function(res){
+      //$('.layui-table-cell').css({'height':'auto'});
+    }
+  });
+  var $ = layui.$, active = {
+    mallreload: function(){
+      //执行重载
+      table.reload('mallReload', {
+        page: {
+          curr:1 //重新从第 1 页开始
+        }
+        ,where: {
+            serial:$('#serial').val(),
+            pay_status:$('#pay_status').val(),
+        }
+      }, 'data');
+    },
+    excelHref: function(){
+      window.location.href = "{:url('mall/makeExcel')}?serial="+$('#serial').val()+"&pay_status="+$('#pay_status').val();
+    },
+    addmall:function(){
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/mall/addgoods'
+        });
+    },
+    delmall:function(){
+		var that = this;
+		var checkStatus = table.checkStatus('mallReload');
+		var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+        	id.push(item.id);
+        });
+        active.delaction(id.join(','));
+    },
+    delaction:function(params){
+       layer.confirm('确定删除吗？',{icon:3},function(index){
+        $.post('/mall/delgoods',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('mallReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+      });
+    },
+    // mallreload:function(){
+    // 	table.reload('mallReload');
+    // },
+    edit:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/mall/edit_goods/id/' + obj.data.id
+      });
+    },
+    del:function(obj){
+      active.delaction(obj.data.id);
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(mall)',function(obj){
+      var data = obj.data //获得当前行数据
+      ,layEvent = obj.event //获得 lay-event 对应的值
+      switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/mall/edit_goods/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+      case 'del':
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/mall/delgoods',{params:data.id},function(res){
+              if(res.code){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){
+                  table.reload('mallReload');
+                },1000);
+              }else{
+                layer.msg(res.msg,{icon:2});
+              }
+          });
+          layer.close(index);
+        });
+    break;
+    };
+  });
+  //监听单元格编辑
+  table.on('edit(mall)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/mall/editaction',{params:update},function(res){
+    	if(res.code){
+    		layer.msg(res.msg);
+    	}else{
+    		layer.msg(res.msg);
+    	}
+      table.reload('mallReload');
+    	layer.close(load);
+    });
+  });
+});
+</script>
+
+</html>

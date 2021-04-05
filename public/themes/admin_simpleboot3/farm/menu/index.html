@@ -1,0 +1,124 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-btn-container">
+				  <button type="button" class="layui-btn layui-btn-sm" lay-demo="addMenu">新增菜单</button>
+				  <!-- <button type="button" class="layui-btn layui-btn-sm" lay-demo="delMenu">删除菜单</button> -->
+				  <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">刷新菜单</button>
+				</div>
+				<div id="test1" lay-filter="test1"></div>
+			</div>
+		</div>
+	</div> 
+	 
+         
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+	layui.use(['tree','element','layer','util'], function(){
+    var tree   = layui.tree
+        ,$     = layui.$
+        ,util = layui.util
+        ,layer = layui.layer;
+   
+   window.action = {
+   		getMenu:function(){
+   			var data = [];
+   			$.ajax({
+   				url:'/farm/menu/all',
+   				type:'POST',
+   				dataType:'json',
+   				async:false,
+   				success:function(rq){
+   					data = rq;
+   				}
+   			});
+   			return data;
+   		},
+   		showMenu:function(){
+        var that = this;
+   			var data = this.getMenu();
+   			tree.render({
+	            elem: '#test1'
+	            ,data: data
+	            ,id: 'demoId'
+	            // ,showCheckbox: true  //是否显示复选框
+	            ,onlyIconControl: true  //是否仅允许节点左侧图标控制展开收缩
+	            ,edit: ['add','del'] //操作节点的图标
+	            ,click: function(obj){
+	                layer.open({
+                        type:2,
+                        area:area,
+                        title:obj.data.title,
+                        content:'/farm/menu/edit/id/' + obj.data.id
+                  });
+
+	            },
+              operate:function(obj){
+                var id = obj.data.id;
+                switch(obj.type){
+                  case 'add':
+                      action.showMenu();
+                      layer.open({
+                        type:2,
+                        area:area,
+                        title:obj.data.title,
+                        content:'/farm/menu/add/id/' + obj.data.id
+                      });
+                    break;
+                  
+                  case 'del':
+                      that.delMenu(id);
+                    break;
+                }
+              }
+	        });
+   		},
+   		addMenu:function(){
+   			layer.open({
+   				type:2,
+   				title:SystemName,
+   				area:area,
+   				content:'/farm/menu/add'
+   			});
+   		},
+      delMenu:function(id){
+        console.log(id);
+        $.post('/farm/menu/delmenu',{params:id},function(data){
+          if(data.code){
+            layer.msg(data.msg,{icon:1});
+          }else{
+            layer.msg(data.msg,{icon:2});
+          }
+          action.showMenu();
+        });
+      }
+   };
+
+   action.showMenu();
+
+   
+
+   util.event('lay-demo',{
+   		addMenu:function(){
+   			action.addMenu()
+   		},
+      reload:function(){
+        action.showMenu();
+      },
+      delMenu:function(){
+        var checkedData = tree.getChecked('demoId'); //获取选中节点的数据
+        console.log(checkedData);
+        var id = [];
+        checkedData.forEach(function(item){
+            id.push(item.id);
+        });
+        action.delMenu(id.join(','));
+      }
+   });
+
+  });
+</script>
+</html>

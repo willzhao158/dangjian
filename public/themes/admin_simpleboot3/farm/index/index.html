@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>农业ERP进销存</title>
+    <!-- ================= Favicon ================== -->
+    <!-- Standard -->
+    <link rel="shortcut icon" href="http://placehold.it/64.png/000/fff">
+    <!-- Retina iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="144x144" href="http://placehold.it/144.png/000/fff">
+    <!-- Retina iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="114x114" href="http://placehold.it/114.png/000/fff">
+    <!-- Standard iPad Touch Icon-->
+    <link rel="apple-touch-icon" sizes="72x72" href="http://placehold.it/72.png/000/fff">
+    <!-- Standard iPhone Touch Icon-->
+    <link rel="apple-touch-icon" sizes="57x57" href="http://placehold.it/57.png/000/fff">
+    <!-- Styles -->
+    <link href="__TMPL__/public/bootstrap/assets/fontAwesome/css/fontawesome-all.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/css/lib/themify-icons.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/css/lib/mmc-chat.css" rel="stylesheet" />
+    <link href="__TMPL__/public/bootstrap/assets/css/lib/sidebar.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/css/lib/bootstrap.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/css/lib/nixon.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/lib/lobipanel/css/lobipanel.min.css" rel="stylesheet">
+    <link href="__TMPL__/public/bootstrap/assets/css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+ 
+ <div class="main-content">
+                    <div class="row">
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="stat-widget-two">
+                                    <div class="widget-icon color-1">
+                                        <i class="fas fa-bullseye"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-text">今日 费用 </div>
+                                        <div class="stat-digit"> <i class="fa fa-jpy"></i>8500</div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="width: 85%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="stat-widget-two">
+                                    <div class="widget-icon color-2">
+                                        <i class="fas fa-credit-card"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-text">收入明细</div>
+                                        <div class="stat-digit"> <i class="fa fa-jpy"></i>7800</div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuenow="78" aria-valuemin="0" aria-valuemax="100" style="width: 78%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="stat-widget-two">
+                                    <div class="widget-icon color-3">
+                                        <i class="fas fa-tasks"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-text">任务已完成</div>
+                                        <div class="stat-digit"> 500</div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 50%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-3">
+                            <div class="card">
+                                <div class="stat-widget-two">
+                                    <div class="widget-icon color-4">
+                                        <i class="fas fa-users"></i>
+                                    </div>
+                                    <div class="stat-content">
+                                        <div class="stat-text">今天的客人</div>
+                                        <div class="stat-digit"> 650</div>
+                                    </div>
+                                    <div class="progress">
+                                        <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100" style="width: 65%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                    </div>
+                    <!-- /# row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>一周环境检测 </h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                            <li class="card-collapse"><i class="fa fa-window-restore"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="sales-chart  card-content">
+                                    <canvas id="sales-chart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-6">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>一周预警检测 </h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                            <li class="card-collapse"><i class="fa fa-window-restore"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="sales-chart card-content">
+                                    <canvas id="team-chart"></canvas>
+                                </div>
+                            </div>
+                        </div> 
+                        <!-- /# column -->
+                    </div>
+                    <!-- /# row -->
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>业务范围</h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                            <li class="card-collapse"><i class="fa fa-window-restore"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="datamap card-content">
+                                    <div id="world-datamap"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-6">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>近期销售 </h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                            <li class="card-option drop-menu">
+                                                <i class="ti-settings" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" role="link"></i>
+                                                <ul class="card-option-dropdown dropdown-menu">
+                                                    <li><a href="#"><i class="ti-loop"></i> 更新数据</a></li>
+                                                    <li><a href="#"><i class="ti-menu-alt"></i> 详细日志</a></li>
+                                                    <li><a href="#"><i class="ti-pulse"></i> 统计</a></li>
+                                                    <li><a href="#"><i class="ti-power-off"></i> 清除</a></li>
+                                                </ul>
+                                            </li>
+                                            <li class="card-collapse"><i class="fa fa-window-restore"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body  card-content">
+                                    <table class="table table-responsive table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th>名称</th>
+                                                <th>状态</th>
+                                                <th>日期</th>
+                                                <th>价格</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>茶叶</td>
+                                                <td><span class="badge badge-primary">售出</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-primary">2189.56</td>
+                                            </tr>
+                                            <tr>
+                                                <td>紫薯</td>
+                                                <td><span class="badge badge-success">订单</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-success">5564.32</td>
+                                            </tr>
+                                            <tr>
+                                                <td>白菜</td>
+                                                <td><span class="badge badge-danger">出货</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-danger">1454.85</td>
+                                            </tr>
+                                            <tr>
+                                                <td>茶叶</td>
+                                                <td><span class="badge badge-primary">售出</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-primary">21234.56</td>
+                                            </tr>
+                                            <tr>
+                                                <td>茶叶</td>
+                                                <td><span class="badge badge-primary">售出</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-primary">2189.56</td>
+                                            </tr>
+                                            <tr>
+                                                <td>紫薯</td>
+                                                <td><span class="badge badge-success">订单</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-success">5564.32</td>
+                                            </tr>
+                                            <tr>
+                                                <td>白菜</td>
+                                                <td><span class="badge badge-danger">出货</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-danger">1454.85</td>
+                                            </tr>
+                                            <tr>
+                                                <td>茶叶</td>
+                                                <td><span class="badge badge-primary">售出</span></td>
+                                                <td>11 月 7 日</td>
+                                                <td class="color-primary">21234.56</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                    </div>
+                    <!-- /# row -->
+                    <div class="row">
+                        <div class="col-lg-4">
+                            <div id="lobipanel-custom-control" class="card alert panel panel-default">
+                                <div class="card-header">
+                                    <h4>作物生长进度 </h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body panel-body">
+                                    <table class="table table-responsive table-hover ">
+                                        <tbody>
+                                            <tr>
+                                                <td class="no-border">水稻</td>
+                                                <td class="no-border"><span class="badge badge-primary">45%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>玉米</td>
+                                                <td><span class="badge badge-success">65%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>豆类</td>
+                                                <td><span class="badge badge-danger">10%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>薯类</td>
+                                                <td><span class="badge badge-primary">29%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>蚕豆</td>
+                                                <td><span class="badge badge-success">95%</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>小麦</td>
+                                                <td><span class="badge badge-danger">25%</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-4">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>农事任务</h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="todo-list">
+                                    <div class="tdl-holder">
+                                        <div class="tdl-content">
+                                            <ul>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox"><i></i><span> 小麦除草 </span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i></i><span> 小麦样本采集 </span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox"><i></i><span>蚕豆收割</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i></i><span>水稻除草</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                                <li>
+                                                    <label>
+                                                        <input type="checkbox" checked><i></i><span>玉米地勘察采样</span>
+                                                        <a href='#' class="ti-close"></a>
+                                                    </label>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /# column -->
+                        <div class="col-lg-4">
+                            <div class="card alert">
+                                <div class="card-header">
+                                    <h4>客户反馈 </h4>
+                                    <div class="card-header-right-icon">
+                                        <ul>
+                                            <li class="card-close" data-dismiss="alert"><i class="ti-close"></i></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="recent-comment m-t-15">
+                                    <div class="media">
+                                        <div class="media-left">
+                                            <a href="#"><img class="media-object" src="__TMPL__/public/bootstrap/assets/images/avatar/1.jpg" alt="..."></a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h4 class="media-heading">大海洋</h4>
+                                            <p>作为一个经常在你们家采购的商家，非常感谢你们 服务很周到！ </p>
+                                            <div class="comment-action">
+                                                <div class="badge badge-success">Approved</div>
+                                                <span class="m-l-10">
+                                                 <a href="#"><i class="ti-check color-success"></i></a>
+                                                 <a href="#"><i class="ti-close color-danger"></i></a>
+                                                 <a href="#"><i class="fa fa-reply color-primary"></i></a>
+                                             </span>
+                                         </div>
+                                         <p class="comment-date">2019.11.5</p>
+                                     </div>
+                                 </div>
+                                 <div class="media">
+                                    <div class="media-left">
+                                        <a href="#"><img class="media-object" src="__TMPL__/public/bootstrap/assets/images/avatar/2.jpg" alt="..."></a>
+                                    </div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">云雾</h4>
+                                        <p>非常好，下次带朋友过来. </p>
+                                        <div class="comment-action">
+                                            <div class="badge badge-warning">Pending</div>
+                                            <span class="m-l-10">
+                                             <a href="#"><i class="ti-check color-success"></i></a>
+                                             <a href="#"><i class="ti-close color-danger"></i></a>
+                                             <a href="#"><i class="fa fa-reply color-primary"></i></a>
+                                         </span>
+                                     </div>
+                                     <p class="comment-date">2019.11.2</p>
+                                 </div>
+                             </div>
+                             <div class="media no-border">
+                                <div class="media-left">
+                                    <a href="#"><img class="media-object" src="__TMPL__/public/bootstrap/assets/images/avatar/3.jpg" alt="..."></a>
+                                </div>
+                                <div class="media-body">
+                                    <h4 class="media-heading">田田</h4>
+                                    <p> 农产品质量很好。</p>
+                                    <div class="comment-action">
+                                        <div class="badge badge-danger">Rejected</div>
+                                        <span class="m-l-10">
+                                         <a href="#"><i class="ti-check color-success"></i></a>
+                                         <a href="#"><i class="ti-close color-danger"></i></a>
+                                         <a href="#"><i class="fa fa-reply color-primary"></i></a>
+                                     </span>
+                                 </div>
+                                 <div class="comment-date">2019.11.2</div>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+<!-- /# content wrap -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/jquery.min.js"></script>
+<!-- jquery vendor -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/jquery.nanoscroller.min.js"></script>
+<!-- nano scroller -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/sidebar.js"></script>
+<!-- sidebar -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/bootstrap.min.js"></script>
+<!-- bootstrap -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/mmc-common.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/js/lib/mmc-chat.js"></script>
+<!--  Chart js -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/chart-js/Chart.bundle.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/js/lib/chart-js/chartjs-init.js"></script>
+<!-- // Chart js -->
+<!--  Datamap -->
+<script src="__TMPL__/public/bootstrap/assets/js/lib/datamap/d3.min.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/js/lib/datamap/topojson.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/js/lib/datamap/datamaps.world.min.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/js/lib/datamap/datamap-init.js"></script>
+<script src="__TMPL__/public/bootstrap/assets/lib/lobipanel/js/lobipanel.js"></script>
+<!-- // Datamap -->
+<script src="__TMPL__/public/bootstrap/assets/js/scripts.js"></script>
+<!-- scripit init-->
+<script>
+    $(document).ready(function() {
+        $('#lobipanel-custom-control').lobiPanel({
+            reload: false,
+            close: false,
+            editTitle: false
+        });
+    });
+</script>
+</body>
+
+</html>

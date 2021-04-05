@@ -1,0 +1,142 @@
+<include file="public@admin" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">名称</label>
+					    <div class="layui-input-block">
+					    	<input type="hidden" name="id" value="{$user.id}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					      <input type="text" name="name" value="{$user.name}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					    </div>
+				  	</div>
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">余额</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="yue" value="{$user.yue}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					    </div>
+				  	</div>
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">积分</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="jifen" value="{$user.jifen}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					    </div>
+				  	</div>
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">拉黑</label>
+					    <div class="layui-input-block">
+					    	<select name="isblack" lay-verify="required" lay-search="">
+				              		<option value="1" <if condition="$user['isblack']==1">selected</if>>未拉黑</option>
+				              		<option value="2" <if condition="$user['isblack']==2">selected</if>>已拉黑</option>
+				            </select>
+					    </div>
+				  	</div>
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">收益</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="income" value="{$user.income}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					    </div>
+				  	</div>
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">级别{$user['level']}</label>
+					    <div class="layui-input-block">
+					      	<select name="level" lay-verify="required" lay-search="">
+				              		<option value="1" <if condition="$user['level']==1">selected</if>>普通用户</option>
+				              		<option value="2" <if condition="$user['level']==2">selected</if>>VIP商家</option>
+				              		<option value="3" <if condition="$user['level']==3">selected</if>>合作商</option>
+				            </select>
+					    </div>
+				  	</div>
+
+				  
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+					    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/user/upload'
+	    ,data:{dir:'user'}
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	$('#samples').removeClass('layui-hide');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="img"]').val(res.msg);
+	    }
+	});
+
+
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+
+    form.on('submit(menu)',function(res){
+
+
+    	var submit = {
+    		url:'/user/edituser',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				parent.location.reload();
+    				layer.msg('修改成功',{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg('修改失败',{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+	
+
+
+
+});
+
+</script>
+
+</html>

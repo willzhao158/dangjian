@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品种类</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- ============= 筛选 start ============== -->
+        <div class="mall-filter">
+            <span>请选择积分商品种类</span>
+            <i class="iconfont iconcaret-down"></i>
+        </div>
+        <input type="hidden" id="mallFilterInput">
+        <!-- ============= 筛选 end ============== -->
+
+        <!-- ============= 列表 start ============== -->
+        <div class="list-point-block">
+            <volist name="goods" id="good">
+                <a class="point-item flex flex-align-center" href="{:url('mall/mall_order')}?id={$good['id']}">
+                    <div class="point-img" style="background: url(../{$good['cover']});background-size: cover;"></div>
+                    <div class="flex-1">
+                        <h1>{$good['name']}</h1>
+                        <p>积分换购：<strong>{$good['jifen']}<span style="font-size:8px;">积分</span></strong><if condition="!empty($good['price'])">+<strong>￥{$good['price']} </strong></if></p>
+                        <del>市场价：￥{$good['market_price']} </del>
+                        <p>商品介绍：{$good['introduce']}</p>
+                    </div>
+                </a>
+            </volist>
+            <!-- <a class="point-item flex flex-align-center" href="mall_order.html">
+                <div class="point-img"></div>
+                <div class="flex-1">
+                    <h1>华帝多功能料理机（三件套）</h1>
+                    <p>金钻积分：<strong>99999 分</strong></p>
+                    <del>原积分：999999 分</del>
+                </div>
+            </a>
+            <a class="point-item flex flex-align-center" href="mall_order.html">
+                <div class="point-img"></div>
+                <div class="flex-1">
+                    <h1>华帝多功能料理机（三件套）</h1>
+                    <p>金钻积分：<strong>99999 分</strong></p>
+                    <del>原积分：999999 分</del>
+                </div>
+            </a>
+            <a class="point-item flex flex-align-center" href="mall_order.html">
+                <div class="point-img"></div>
+                <div class="flex-1">
+                    <h1>华帝多功能料理机（三件套）</h1>
+                    <p>金钻积分：<strong>99999 分</strong></p>
+                    <del>原积分：999999 分</del>
+                </div>
+            </a> -->
+        </div>
+        <!-- ============= 列表 end ============== -->
+        
+    </div>
+    <div class="js_dialog" id="conform_msg" style="display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">1111</strong></div> -->
+            <div class="weui-dialog__bd">请添加微信客服：paopao1801</div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hide_conform_msg();">知道了</a>
+            </div>
+        </div>
+    </div>
+    <!-- ============= 悬浮按钮（客服+回到顶部）start ============== -->
+    <div class="fix-button">
+        <a href="javascript:;" onclick="show_conform_msg();">客服</a><br>
+        <a href="javascript:;" id="goToTop"><i class="iconfont iconvertical-align-top"></i></a>
+    </div>
+    <!-- ============= 悬浮按钮（客服+回到顶部）end ============== -->
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        // 回到顶部
+        
+        function show_conform_msg(msg){
+            $("#conform_msg").fadeIn(100);
+        }
+        function hide_conform_msg(){
+            $("#conform_msg").fadeOut(100);
+        }
+         
+        $(function(){
+            // 回到顶部
+            $("#goToTop").on("click",function(){
+                $('html,body').animate({scrollTop: 0},'slow');
+            })
+
+            // 筛选
+            $('.mall-filter').on('click', function () {
+                weui.picker({$goods_type_arr}, {
+                    defaultValue: [{$type_id}],
+                    onConfirm: function (result){
+                        $("#mallFilterInput").val(result[0].value)
+                        $('.mall-filter span').html(result[0].label);
+                        window.location.href = "{:url('mall/list')}?goods_type_id="+result[0].value;
+                    },
+                    title: '全部'
+                });
+            });
+
+            // 商品加载更多
+            var page = 1,
+                timers = null;
+
+            var LoadingDataFn = function() {
+                var dom = '';
+                for (var i = 0; i < 3; i++) {
+                    dom += '<a class="point-item flex flex-align-center" href="mall_order.html">'
+                                +'<div class="point-img"></div>'
+                                +'<div class="flex-1">'
+                                    +'<h1>华帝多功能料理机（三件套）</h1>'
+                                    +'<p>金钻积分：<strong>99999 分</strong></p>'
+                                    +'<del>原积分：999999 分</del>'
+                                +'</div>'
+                            +'</a>'
+                }
+                $('.list-point').append(dom);
+            };
+            $(window).scroll(function() {
+                if (($(window).height() + $(window).scrollTop() + 60) >= $(document).height()) {
+                    clearTimeout(timers);
+                    timers = setTimeout(function() {
+                        page++;
+                        console.log("第" + page + "页");
+                        LoadingDataFn();
+                    }, 300);
+                }
+            });
+
+            //初始化， 第一次加载
+            LoadingDataFn();
+        })
+    </script>
+</body>
+</html>

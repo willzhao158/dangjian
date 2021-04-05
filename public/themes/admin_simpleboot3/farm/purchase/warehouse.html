@@ -1,0 +1,81 @@
+	<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<form class="layui-form" >
+			<input type="hidden" name="id" value="{:input('purchase_id')}">
+			<div class="layui-card cards" >
+				<div class="layui-card-header" >
+					<fieldset class="layui-elem-field layui-field-title" style="margin:0">
+					  <legend>订单信息</legend>
+					</fieldset>
+				</div>
+				<div class="layui-card-body">
+					<div class="layui-form-item">
+						<div class="layui-block">
+						    <label class="layui-form-label">入库仓库</label>
+						    <div class="layui-input-block">
+						     	<select name="warehouseid">
+						     		<volist name="warehouse" id="warehouse">
+						     			<option value="{$warehouse.id}">{$warehouse.name}</option>
+						     		</volist>
+						     	</select>
+						    </div>
+						</div>
+						
+					</div>
+					
+				</div>
+			</div>
+		</form>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','form','laydate','laytpl'], function(){
+    var 
+    	table = layui.table
+    	,form   = layui.form
+        ,$     = layui.$
+        ,laytpl     = layui.laytpl
+        ,layer = layui.layer
+        ,laydate = layui.laydate
+        ,goodsid;
+
+
+    var active = {
+    	submit:function(){
+    		var params = {
+    			url:'/farm/purchase/addWarehouseData',
+	    		type:'POST',
+	    		dataType:'json',
+	    		data:new FormData($('.layui-form')[0]),
+	    		cache:false,
+	    		processData:false,
+	    		contentType:false,
+	    		success:function(data){
+	    			console.log(data);
+	    			if(data.code){
+	    				parent.action.showInventoryOk();
+	    			}else{
+	    				layer.msg(data.msg,{icon:2});
+	    			}
+	    		},
+	    		error:function(error){
+	    			console.log(error);
+	    		}
+    		};
+    		$.ajax(params);
+    	},
+    	
+    };
+
+    window.active = active;
+
+
+
+});
+
+</script>
+
+</html>

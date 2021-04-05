@@ -1,0 +1,257 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入供应商名称">
+				  </div>
+				  <button class="layui-btn" data-type="reload">搜索</button>
+				  <button class="layui-btn " data-type="addpurchase">新建采购订单</button>
+				  <button class="layui-btn " data-type="delpurchase">删除采购订单</button>
+				  <button class="layui-btn " data-type="purchasereload">刷新</button>
+				</div>
+			</div>
+			<div class="layui-card-body">
+				<table class="layui-hide" id="purchase" lay-filter="purchase"></table> 
+        <table class="layui-hide" id="purchasedetail" lay-filter="purchasedetail"></table> 
+			</div>
+		</div>
+	</div> 
+</body>
+<script type="text/html" id="barDemo">
+  {{#  if(d.status == 0){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="examine">审核通过 </a>
+    <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+  {{# } if(d.status == 1){ }}
+    <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="unexamine" >取消审核 </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="warehouse" style="width:81px">提交入库</a>
+  {{# } if(d.status == 2){ }}
+    <a class="layui-btn layui-btn-disabled layui-btn-xs" style="width:155px">已入库</a>
+  {{# } }}
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table
+  	  ,layer = layui.layer;
+  //方法级渲染
+  table.render({
+    elem: '#purchase'
+    ,url: '/farm/purchase/datalist/'
+    ,cols: [[
+      {checkbox: true, fixed: true},
+      {field:'id', title: 'ID', width:80, sort: true, fixed: true,event:'list'}
+      ,{field:'ref', title: '单号',width:200}
+      ,{field:'delivery', title: '交货日期', width:200, sort: true}
+      ,{field:'supplier_id', title: '供应商'}
+      ,{field:'address', title: '交货地址',edit: 'text'}
+      ,{field:'contacts', title: '联系人',edit: 'text'}
+      ,{field:'phone', title: '电话',edit: 'text'}
+      ,{field:'fax', title: '传真',edit: 'text'}
+      ,{field:'machinery', title: '组织机构',edit: 'text'}
+      ,{field:'user_id', title: '业务员',edit: 'text'}
+      ,{field:'payment_type', title: '付款方式',edit: 'text'}
+      ,{fixed: 'right',  title: '操作',width:178, align:'center', toolbar: '#barDemo' }
+    ]]
+    ,id: 'purchaseReload1'
+    ,page: true 
+    ,done:function(res){
+      console.log(res);
+    }
+  });
+ 
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      //执行重载
+      table.reload('purchaseReload1', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addpurchase:function(){
+    	layer.open({
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/purchase/add'
+    	});
+    },
+    delpurchase:function(){
+		    var that = this;
+		    var checkStatus = table.checkStatus('purchaseReload1');
+ 		    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+        	id.push(item.id);
+        });
+        
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+        	$.post('/farm/purchase/delaction',{id:id.join(',')},function(res){
+	        	if(res.code){
+	        		table.reload('purchaseReload1');
+	        		layer.msg(res.msg,{icon:1});
+	        	}else{
+	        		layer.msg(res.msg,{icon:2});
+	        	}
+	        });
+        });
+    },
+    purchasereload:function(){
+    	table.reload('purchaseReload1');
+    },
+    reloadAll:function(){
+        table.reload('purchaseReload1');
+    },
+
+  };
+
+  var action = {
+    unexamine:function(id){
+        $.post('/farm/purchase/unexamine',{id:id},function(rq){
+           if(rq.code){
+              layer.msg(rq.msg,{icon:1});
+              setTimeout(function(){
+                table.reload('purchaseReload1');
+              },1000);
+            }else{
+              layer.msg(rq.msg,{icon:2});
+            }
+        });
+    },
+    warehouse:function(id){
+      layer.open({
+        type: 2 //此处以iframe举例
+        ,title: SystemName
+        ,area: ['390px', '100%']
+        ,shade: 0
+        ,offset:'r'
+        ,content:'/farm/purchase/warehouse/purchase_id/' + id
+        ,btn: ['提交入库', '取消'] //只是为了演示
+        ,yes: function(layero, index){
+            var iframeWin = window[index.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：
+            iframeWin.active.submit();
+        }
+      });
+    },
+    showInventoryOk:function(){
+        layer.closeAll();
+        layer.msg('已入库',{icon:1});
+        active.reloadAll();
+    },
+    edit:function(id,obj){
+        action.list(id);
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/farm/purchase/edit/id/' + id ,
+          end:function(){
+            action.updateRow(id,obj);
+          }
+      });
+    },
+    updateRow:function(id,obj){
+        $.post('/farm/purchase/purchaseinfo',{id:id},function(rq){
+            obj.update(rq);
+            table.reload('purchaseReload2');
+        });
+    },
+    del:function(id,obj){
+        $.post('/farm/purchase/delaction',{id:id},function(rq){
+            if(rq.code){
+              layer.msg(rq.msg,{icon:1});
+              setTimeout(function(){
+                obj.del();
+              },1000);
+            }else{
+              table.reload('purchaseReload1');
+              layer.msg(rq.msg,{icon:2});
+            }
+        });
+    },
+    examine:function(id,obj){
+        layer.confirm('审核后的将无法进行编辑',{icon:3},function(index){
+            $.post('/farm/purchase/examine',{id:id},function(rq){
+               if(rq.code){
+                  layer.msg(rq.msg,{icon:1});
+                  setTimeout(function(){
+                    table.reload('purchaseReload1');
+                  },1000);
+                }else{
+                  
+                  layer.msg(rq.msg,{icon:2});
+                }
+            });
+            layer.close(index);
+        });
+    },
+    list:function(id){
+        table.render({
+          elem: '#purchasedetail'
+          ,url: '/farm/purchase/showpurchasedetail/purchase_id/' + id
+          ,totalRow: true
+          ,cols: [[
+            {checkbox: true, fixed: true},
+            {field:'id', title: 'ID', width:80, sort: true, fixed: true, totalRowText: '合计'}
+            ,{field:'number', title: '商品编码', }
+            ,{field:'name', title: '商品名称',  sort: true,}
+          
+            ,{field:'goods_count', title: '采购数量'}
+            ,{field:'goods_price', title: '单价价格',totalRow: true}
+            ,{field:'goods_money', title: '价格合计',totalRow: true}
+            ,{field:'remarks', title: '备注',edit: 'text'}
+          ]]
+          ,id: 'purchaseReload2'
+          ,page: false
+          ,done:function(rq){
+            console.log(rq);
+          }
+        });
+        table.reload('purchaseReload2',{
+          where:{
+            purchase_id:id
+          }
+        });     
+    }
+  };
+  window.action = action;
+
+  table.on('tool(purchase)',function(obj){
+      action[obj.event] ? action[obj.event].call(this,obj.data.id,obj) : '';
+  });
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  //监听单元格编辑
+  table.on('edit(purchase)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0.5});
+    $.post('/farm/purchase/editaction',{params:update},function(res){
+    	if(res.code){
+    		layer.msg(data.name + res.msg);
+    	}else{
+    		table.reload('purchaseReload1');
+    		layer.msg(data.name + res.msg);
+    	}
+    	layer.close(load);
+    });
+  });
+
+});
+
+
+</script>
+</html>

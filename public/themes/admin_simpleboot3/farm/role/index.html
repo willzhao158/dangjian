@@ -1,0 +1,159 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入职位名称">
+				  </div>
+				  <button class="layui-btn" data-type="reload">搜索</button>
+				  <button class="layui-btn " data-type="addRole">新增职位</button>
+				  <button class="layui-btn " data-type="delRole">删除职位</button>
+				  <button class="layui-btn " data-type="Rolereload">刷新</button>
+
+				</div>
+				
+			</div>
+			<div class="layui-card-body">
+				<script type="text/html" id="author">
+				  <a class="layui-btn layui-btn-xs" lay-event="edit">管理权限</a>
+				</script>
+				<table class="layui-hide" id="Role" lay-filter="Role"></table> 
+			</div>
+		</div>
+	</div> 
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','form'], function(){
+  var table = layui.table
+  	  ,layer = layui.layer
+  	  ,form = layui.form;
+  
+  //方法级渲染
+  table.render({
+    elem: '#Role'
+    ,url: '/farm/Role/Rolelist/'
+    ,cols: [[
+      {checkbox: true, fixed: true}
+      ,{field:'status', title: '状态', width:95, event:'state', templet: function(res){
+      		var checked = res.status == 1?'checked':'';
+      		var str = '<input type="checkbox" lay-text="启用|禁用" name="status"  lay-skin="switch" value="'+res.status+'"   '+checked+'>';
+      		return str;
+      },edit:false}
+      ,{field:'name', title: '职位', edit: 'text'}
+      ,{field:'remark', title: '备注',edit: 'text'}
+     
+      ,{fixed: 'right', title:'操作', width:88, toolbar: '#author'}
+    ]]
+    ,id: 'RoleReload'
+    ,page: true
+  });
+ 
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      
+      //执行重载
+      table.reload('RoleReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addRole:function(){
+    	layer.open({
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/Role/add'
+    	});
+    },
+    delRole:function(){
+		var that = this;
+		var checkStatus = table.checkStatus('RoleReload');
+ 		var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+        	id.push(item.id);
+        });
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+	        $.post('/farm/Role/delaction',{params:id.join(',')},function(res){
+	        	if(res.code){
+	        		table.reload('RoleReload');
+	        		layer.msg(res.msg,{icon:1});
+	        	}else{
+	        		layer.msg(res.msg,{icon:2});
+	        	}
+	        });
+        });
+
+    },
+    Rolereload:function(){
+    	table.reload('RoleReload');
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+
+  table.on('tool(Role)',function(obj){
+  		var event = obj.event
+  			,data = obj.data
+  			,id = data.id
+  			,status = data.status;
+
+  		
+  		if(event == 'state'){
+  			var load = layer.load(1,{shade:0.5});
+  			status = status==1?0:1;
+  			var update = {id:id,status:status};
+  			$.post('/farm/Role/editaction',{params:update},function(res){
+		    	if(res.code){
+		    		layer.msg(data.name + res.msg);
+		    	}else{
+		    		table.reload('RoleReload');
+		    		layer.msg(data.name + res.msg);
+		    	}
+		    	layer.close(load);
+		    });
+  		}
+
+  		if(event == 'edit'){
+  			layer.open({
+  				type:2,
+  				title:SystemName,
+  				area:area,
+  				content:'/farm/role/auth/roleId/' + id
+  			});
+  		}
+  });
+
+  //监听单元格编辑
+  table.on('edit(Role)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(1,{shade:0.5});    $.post('/farm/Role/editaction',{params:update},function(res){
+    	if(res.code){
+    		layer.msg(data.name + res.msg);
+    	}else{
+    		table.reload('RoleReload');
+    		layer.msg(data.name + res.msg);
+    	}
+    	layer.close(load);
+    });
+
+  });
+
+  
+});
+</script>
+</html>

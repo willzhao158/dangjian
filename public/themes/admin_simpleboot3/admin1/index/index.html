@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>国财财务订单财务管理系统</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link href="__TMPL__/public/assets/simpleboot3/css/simplebootadmin.css" rel="stylesheet">
+    <link href="__STATIC__/font-awesome/css/font-awesome.min.css?page=index" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="__TMPL__/public/assets/themes/{:cmf_get_admin_style()}/simplebootadminindex.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="__TMPL__/public/layuiadmin/style/admin.css" media="all">
+
+    <script>
+        //全局变量
+        var GV = {
+            HOST: "{$_SERVER['HTTP_HOST']|default=''}",
+            ROOT: "__ROOT__/",
+            WEB_ROOT: "__WEB_ROOT__/",
+            JS_ROOT: "static/js/"
+        };
+    </script>
+</head>
+
+
+<body class="layui-layout-body">
+    <div id="LAY_app">
+        <div class="layui-layout layui-layout-admin">
+            <div class="layui-header">
+                <!-- 头部区域 -->
+                <div class="layui-layout-left">
+                    <ul class="layui-nav">
+                        <li class="layui-nav-item layadmin-flexible" lay-unselect>
+                            <a href="javascript:;" layadmin-event="flexible" title="侧边伸缩">
+                                <i class="layui-icon layui-icon-shrink-right" id="LAY_app_flexible"></i>
+                            </a>
+                        </li>
+                        <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                            <a href="#" target="_blank" title="前台">
+                                <i class="layui-icon layui-icon-website"></i>
+                            </a>
+                        </li> -->
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="javascript:;" layadmin-event="refresh" title="刷新">
+                                <i class="layui-icon layui-icon-refresh-3"></i>
+                            </a>
+                        </li>
+                        <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                            <input type="text" placeholder="搜索..." autocomplete="off" class="layui-input layui-input-search"
+                                layadmin-event="serach" lay-action="template/search.html?keywords=">
+                        </li>
+                    </ul>
+                    <ul class="layui-nav" id="topMenu" lay-filter="topMenu">
+                         <volist name="menus" id="menu">
+                            <li class="layui-nav-item " data-pid="<if condition="$menu.enable_force_target_url"><else/>{$menu.id}</if>">
+                                <a <if condition="$menu['enable_force_target_url']">target="_blank"</if> <if condition="!$menu['enable_force_target_url'] && (!isset($menu['items']) || empty($menu['items']))">lay-</if>href="<if condition="isset($menu['items']) && !empty($menu['items'])"><if condition="$menu.enable_force_target_url">{$menu.url}<else/>javascript:;</if>  <else/>{$menu.url}</if>" >{$menu.name}</a>
+                            </li>
+                        </volist>
+                    </ul>
+                </div>
+                <ul class="layui-nav layui-layout-right" lay-filter="layadmin-layout-right">
+                    <if condition="cmf_auth_check(cmf_get_current_admin_id(),'user/AdminAsset/index')">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a class="btn btn-sm btn-info" lay-href="{:url('user/AdminAsset/index')}"
+                               href="javascript:openapp('{:url('user/AdminAsset/index')}','userAdminAssetindex','资源管理',true);"
+                               title="资源管理"
+                               data-toggle="tooltip">
+                                <i class="layui-icon layui-icon-file"></i>
+                            </a>
+                    </li>
+                    </if>
+
+                    <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/Setting/clearcache')">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a class="btn btn-sm btn-danger" lay-href="{:url('admin/Setting/clearcache')}"
+                               href="javascript:openapp('{:url('admin/Setting/clearcache')}','index_clearcache','{:lang('ADMIN_SETTING_CLEARCACHE')}',true);"
+                               title="{:lang('ADMIN_SETTING_CLEARCACHE')}"
+                               data-toggle="tooltip">
+                                <i class="layui-icon layui-icon-refresh"></i>
+                            </a>
+                        </li>
+                    </if>
+
+                    <if condition="cmf_auth_check(cmf_get_current_admin_id(),'admin/RecycleBin/index')">
+
+                        <li class="layui-nav-item" lay-unselect>
+                            <a class="btn btn-sm btn-danger" lay-href="{:url('admin/RecycleBin/index')}"
+                               href="javascript:openapp('{:url('admin/RecycleBin/index')}','index_recycle','回收站',true);"
+                               title="回收站"
+                               data-toggle="tooltip">
+                                <i class="layui-icon layui-icon-delete"></i>
+                            </a>
+                    </li>
+                    </if>
+
+                    <li class="layui-nav-item" lay-unselect>
+                        <a lay-href="template/message.html" layadmin-event="message" lay-text="消息中心">
+                            <i class="layui-icon layui-icon-notice"></i>
+                            <!-- 如果有新消息，则显示小圆点 -->
+                            <span class="layui-badge-dot"></span>
+                        </a>
+                    </li>
+                    <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="theme">
+                            <i class="layui-icon layui-icon-theme"></i>
+                        </a>
+                    </li> -->
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="note">
+                            <i class="layui-icon layui-icon-note"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="fullscreen">
+                            <i class="layui-icon layui-icon-screen-full"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item" lay-unselect>
+                        <a href="javascript:;">
+                            <cite>{:lang('WELCOME_USER',array('user_nickname' => empty($admin['user_nickname'] )? $admin['user_login'] : $admin['user_nickname']))}</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+
+                            <dd><a lay-href="<if condition='cmf_get_current_admin_id() == 1'>{:url('admin/user/userinfo')}<else/>{:url('/farm/user/userinfo')}</if>">{:lang('ADMIN_USER_USERINFO')}</a></dd>
+                            <dd><a lay-href="<if condition='cmf_get_current_admin_id() == 1'>{:url('admin/user/password')}<else/>{:url('/farm/user/password')}</if>">{:lang('ADMIN_SETTING_PASSWORD')}</a></dd>
+                            <hr>
+                            <dd ><a href="/admin/public/logout">退出</a></dd>
+                        </dl>
+                    </li>
+                    <!-- <li class="layui-nav-item layui-hide-xs" lay-unselect>
+                        <a href="javascript:;" layadmin-event="about">
+                            <i class="layui-icon layui-icon-more-vertical"></i>
+                        </a>
+                    </li>
+                    <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-unselect>
+                        <a href="javascript:;" layadmin-event="more">
+                            <i class="layui-icon layui-icon-more-vertical"></i>
+                        </a>
+                    </li> -->
+                </ul>
+            </div>
+            <!-- 侧边菜单 -->
+            <div class="layui-side layui-side-menu">
+                <div class="layui-side-scroll">
+                    <div class="layui-logo" lay-href="home/console.html">
+                        <img src="__TMPL__/public/layuiadmin/style/res/logo_white.png">
+                        <p>瑞丰智慧农业</p>
+                    </div>
+                    <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"  lay-filter="layadmin-system-side-menu">
+
+                        <volist name="menus" id="menu">
+                            <notempty name="menu.items">
+                            <volist name="menu['items']" id="submenu">
+                            <li data-name="{$submenu.id}" data-pid="{$menu.id}" class="layui-nav-item">
+                                <a lay-direction="2"  <if condition="$submenu['enable_force_target_url']">target="_blank"</if> <if condition="!$submenu['enable_force_target_url'] && (!isset($submenu['items']) || empty($submenu['items']))">lay-</if>href="<if condition="isset($submenu['items']) && !empty($submenu['items'])">javascript:;<else/>{$submenu.url}</if>"   lay-tips="{$submenu.name}" >
+                                    <i class="layui-icon layui-icon-{$submenu.icon}"></i> &nbsp;
+                                    <cite>{$submenu.name}</cite>
+                                </a>
+                                <notempty name="$submenu['items']">
+                                    <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                                        <volist name="$submenu['items']" id="v">
+                                            <dd  data-name="{$v.id}">
+                                                <a <if condition="$v['enable_force_target_url']">target="_blank"</if> <if condition="!$v['enable_force_target_url'] && (!isset($v['items']) || empty($v['items']))">lay-</if>href="<if condition="isset($v['items']) && !empty($v['items'])">javascript:;<else/>{$v.url}</if>" >
+                                                {$v.name}</a>
+                                                <!-- 3级菜单 -->
+                                                <notempty name="$v['items']">
+                                                <dl class="layui-nav-child">
+                                                    <volist name="$v['items']" id="_v">
+                                                    <dd data-name="{$_v.id}">
+                                                        <a <if condition="$_v['enable_force_target_url']">target="_blank"</if> <if condition="!$_v['enable_force_target_url'] && (!isset($_v['items']) || empty($_v['items']))">lay-</if>href="<if condition="isset($_v['items']) && !empty($_v['items'])">javascript:;<else/>{$_v.url}</if>" >
+                                                            &nbsp;&nbsp;&nbsp;{$_v.name}</a></dd>
+                                                    </volist>
+                                                </dl>
+                                                </notempty>
+                                            </dd>
+                                        </volist>
+                                    </dl>
+                                </notempty>
+
+                            </li>
+                            </volist>
+                            </notempty>
+                        </volist>
+
+                    </ul>
+                </div>
+            </div>
+            <!-- 页面标签 -->
+            <div class="layadmin-pagetabs" id="LAY_app_tabs">
+                <div class="layui-icon layadmin-tabs-control layui-icon-prev" layadmin-event="leftPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-next" layadmin-event="rightPage"></div>
+                <div class="layui-icon layadmin-tabs-control layui-icon-down">
+                    <ul class="layui-nav layadmin-tabs-select" lay-filter="layadmin-pagetabs-nav">
+                        <li class="layui-nav-item" lay-unselect>
+                            <a href="javascript:;"></a>
+                            <dl class="layui-nav-child layui-anim-fadein">
+                                <dd layadmin-event="closeThisTabs"><a href="javascript:;">关闭当前标签页</a></dd>
+                                <dd layadmin-event="closeOtherTabs"><a href="javascript:;">关闭其它标签页</a></dd>
+                                <dd layadmin-event="closeAllTabs"><a href="javascript:;">关闭全部标签页</a></dd>
+                            </dl>
+                        </li>
+                    </ul>
+                </div>
+                <div class="layui-tab" lay-unauto lay-allowClose="true" lay-filter="layadmin-layout-tabs">
+                    <ul class="layui-tab-title" id="LAY_app_tabsheader">
+                        <li lay-id="<if condition='cmf_get_current_admin_id() == 1'>{:url('/admin/main/index')}<else/>{:url('/farm/index/index')}</if>" lay-attr="<if condition='cmf_get_current_admin_id() == 1'>{:url('/admin/main/index')}<else/>{:url('/farm/index/index')}</if>" class="layui-this">
+                            <i class="layui-icon layui-icon-home"></i>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 主体内容 -->
+            <div class="layui-body" id="LAY_app_body">
+                <div class="layadmin-tabsbody-item layui-show">
+                    <iframe src="<if condition='cmf_get_current_admin_id() == 1'>{:url('/admin/main/index')}<else/>{:url('/farm/index/index')}</if>" frameborder="0" class="layadmin-iframe"></iframe>
+                </div>
+            </div>
+            <!-- 辅助元素，一般用于移动设备下遮罩 -->
+            <div class="layadmin-body-shade" layadmin-event="shade"></div>
+        </div>
+    </div>
+    <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+    <script src="__STATIC__/js/wind.js"></script>
+    <script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+    <script src="__STATIC__/js/admin.js"></script>
+    <script>
+        layui.config({
+            base: '__TMPL__/public/layuiadmin/'
+        }).extend({
+            index: 'lib/index'
+        }).use(['index','jquery','layer'],function(){
+            var $ = layui.jquery
+                layer = layui.layer
+
+            //初始化显示菜单
+            showMenu($("#topMenu li").eq(0).data("pid"));
+            $("#topMenu li").eq(0).addClass('layui-this');
+            //头部菜单选择
+            $("#topMenu").on("click","li",function(){
+                var dataPid = $(this).data("pid");
+                showMenu(dataPid);
+            });
+            //显示菜单
+            function showMenu(dataPid){
+                if(dataPid){
+                    $('#LAY-system-side-menu>li').hide();
+                    $('#LAY-system-side-menu>li[data-pid="'+ dataPid +'"]').show();
+                }
+            }
+
+
+            function layers(){
+                layer.open({
+                    type:2,
+                    area:['50%','50%'],
+                    title:'国财财务订单财务管理系统',
+                    btn: ['确定', '取消'],
+                    content:'/admin/index/massif',
+                    end:function(obj){
+                          // layers();
+                        // return false;
+                    }
+                });
+            }
+            layers();
+
+          
+        });
+    </script>
+</body>
+</html>

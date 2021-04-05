@@ -1,0 +1,134 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入用户名称">
+				  </div>
+				  <button class="layui-btn" data-type="reload">搜索</button>
+				  <button class="layui-btn " data-type="addUser">新增用户</button>
+				  <button class="layui-btn " data-type="delUser">删除用户</button>
+				  <button class="layui-btn " data-type="Userreload">刷新</button>
+
+				</div>
+				
+			</div>
+			<div class="layui-card-body">
+				
+              
+				
+				<table class="layui-hide" id="user" lay-filter="user"></table> 
+			</div>
+		</div>
+	</div> 
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table
+  	  ,layer = layui.layer;
+  
+  //方法级渲染
+  table.render({
+    elem: '#user'
+    ,url: '/farm/user/userlist/'
+    ,cols: [[
+      {checkbox: true, fixed: true},
+      {field:'id', title: 'ID', width:80, sort: true, fixed: true,event:'edit'}
+      ,{field:'user_login', title: '用户名', event:'edit'}
+      ,{field:'last_login_ip', title: '最后登录IP',  sort: true,}
+      ,{field:'last_login_time', title: '最后登录时间',  sort: true,templet:function(res){
+          return active.getLocalTime(res.last_login_time);
+      }}
+      ,{field:'user_email', title: '邮箱',  sort: true,}
+      ,{field:'user_status', title: '状态',  sort: true,templet:function(res){
+          return res.user_status==1?'启用':'禁用';
+      }}
+    ]]
+    ,id: 'userReload'
+    ,page: true
+    ,done:function(res){
+      console.log(res);
+    }
+  });
+ 
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      //执行重载
+      table.reload('userReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addUser:function(){
+    	layer.open({
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/user/add'
+    	});
+    },
+    delUser:function(){
+		var that = this;
+		var checkStatus = table.checkStatus('userReload');
+ 		var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+        	id.push(item.id);
+        });
+        
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+        	$.post('/farm/user/delaction',{params:id.join(',')},function(res){
+	        	if(res.code){
+	        		table.reload('userReload');
+	        		layer.msg(res.msg,{icon:1});
+	        	}else{
+	        		layer.msg(res.msg,{icon:2});
+	        	}
+	        });
+        });
+    },
+    Userreload:function(){
+    	table.reload('userReload');
+    },
+    getLocalTime:function (timestamp) {
+        var d = new Date(timestamp);
+        var date = (d.getFullYear()) + "-" +
+                (d.getMonth() + 1) + "-" +
+                (d.getDate()) + " " +
+                (d.getHours()) + ":" +
+                (d.getMinutes()) + ":" +
+                (d.getSeconds());
+        return date;
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+
+  table.on('tool(user)',function(obj){
+    if(obj.event=='edit'){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/user/edit/id/'+obj.data.id
+      });
+    }
+  });
+
+
+
+  
+});
+</script>
+</html>

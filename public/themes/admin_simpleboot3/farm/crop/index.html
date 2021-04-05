@@ -1,0 +1,174 @@
+<include file="public@farm" />
+<style type="text/css">
+  .fr{float:right}
+  .layui-colla-title{background:#fff}
+
+</style>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入园区名称">
+				  </div>
+				  <button class="layui-btn" data-type="reload">搜索</button>
+				  <button class="layui-btn " data-type="addcrop">新增作物</button>
+				  <button class="layui-btn " data-type="cropreload">刷新</button>
+				</div>
+			</div>
+			<div class="layui-card-body">
+
+          <div id="view"></div>
+       
+
+			</div>
+		</div>
+	</div> 
+</body>
+<script id="demo" type="text/html">
+      <form class="layui-form" action="">
+        {{#  layui.each(d.list, function(index, item){ }}
+        <div class="layui-collapse" lay-filter="test">
+          <div class="layui-colla-item">
+            <h2 class="layui-colla-title">
+                <div class="layui-row">
+                  <div class="layui-col-md2">{{ item.name }}</div>
+                  <div class="layui-col-md7">{{ item.remarks==0?'/':item.remarks }}</div>
+                  <div class="layui-col-md3">
+                     <span class="fr">
+                      <button type="button" class="layui-btn  layui-btn-xs" data-type="editcrop" data-id="{{ item.id }}">编辑</button>
+                      <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" data-type="delcrop" data-id="{{ item.id }}">删除</button>
+                    </span>
+                  </div>
+                </div>
+            </h2>
+            <div class="layui-colla-content ">
+                <div class="layui-form-item" pane="">
+                  <div class="layui-block">
+                      <table class="layui-table">
+                        {{#  layui.each(item.child, function(index, item){ }}
+                        <tr>
+                          <td width="237">{{ item.name }}</td>
+                          <td>{{ item.remarks==0?'/':item.remarks }}</td>
+                          <td width="150">
+                            <button type="button" class="layui-btn layui-btn-xs layui-btn-normal" data-type="growth" data-id="{{ item.id }}">周期</button>
+                            <button type="button" class="layui-btn layui-btn-xs" data-type="editcrop" data-id="{{ item.id }}">编辑</button>
+                            <button type="button" class="layui-btn layui-btn-danger layui-btn-xs" data-type="delcrop" data-id="{{ item.id }}">删除</button>
+                          </td>
+                        </tr>
+                        {{#  }); }}
+                      </table>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div>
+        {{#  }); }}
+        {{#  if(d.list.length === 0){ }}
+          无数据
+        {{#  } }} 
+      </form>
+</script>
+
+
+
+
+                    
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script>
+layui.use(['element', 'layer','form','laytpl'], function(){
+  var element = layui.element
+      ,layer = layui.layer
+      ,$ = layui.$
+      ,form = layui.form
+      ,laytpl = layui.laytpl;
+  
+  
+
+  var load = {
+    getData:function(){
+      var result = [];
+      $.ajax({
+        url:'/farm/crop/datalist/',
+        type:'POST',
+        dataType:'json',
+        async:false,
+        success:function(res){
+          result = res;
+        }
+      });
+      return result;
+    },
+    init:function(){
+      var that = this
+          ,result = that.getData()
+          ,data = { //数据
+            "title":"Layui常用模块"
+            ,"list": result
+          }
+          ,getTpl = demo.innerHTML
+          ,view = document.getElementById('view');
+      laytpl(getTpl).render(data, function(html){
+        view.innerHTML = html;
+      });
+      element.render();
+      form.render();
+    },
+    addcrop:function(){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/crop/add'
+      });
+    },
+    editcrop:function(id){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/crop/edit/id/'+id
+      });
+    },
+    delcrop:function(id){
+      layer.confirm('确定需要删除吗？',{icon:3},function(){
+        $.post('/farm/crop/delaction',{params:id},function(rq){
+          console.log(rq);
+            if(rq.code){
+              layer.msg(rq.msg,{icon:1});
+              setTimeout(function(){
+                load.init();
+              },1000);
+            }else{
+              layer.msg(rq.msg,{icon:2});
+            }
+        });
+      });
+    },
+    growth:function(id){
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/farm/crop/growth/id/' + id
+        });
+    }
+  };
+  load.init();
+  window.load = load;
+  $('.demoTable').on('click','.layui-btn',function(){
+      var type = $(this).data('type');
+      load[type] ? load[type].call(this) : '';
+  });
+
+  $('#view').on('click','.layui-btn',function(){
+      var id =  $(this).data('id');
+      var type = $(this).data('type');
+      load[type] ? load[type].call(this,id) : '';
+  });
+
+
+});
+</script>
+</html>

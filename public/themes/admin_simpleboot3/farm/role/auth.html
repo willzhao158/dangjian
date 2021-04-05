@@ -1,0 +1,104 @@
+<include file="public@farm" />
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="layui-btn-container">
+				  <button type="button" class="layui-btn layui-btn-sm" lay-demo="collectMenu">保存</button>
+				  <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">刷新菜单</button>
+				</div>
+				<div id="test1" lay-filter="test1"></div>
+			</div>
+		</div>
+	</div> 
+	 
+         
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+	layui.use(['tree','element','layer','util'], function(){
+    var tree   = layui.tree
+        ,$     = layui.$
+        ,util = layui.util
+        ,layer = layui.layer
+        ,roleId = '{$roleId}';
+   
+   var action = {
+   		getMenu:function(){
+   			var data = [];
+   			$.ajax({
+   				url:'/farm/menu/all/checked/1/role_id/'+roleId,
+   				type:'POST',
+   				dataType:'json',
+   				async:false,
+   				success:function(rq){
+   					data = rq;
+   				}
+   			});
+   			return data;
+   		},
+   		showMenu:function(){
+        var that = this;
+   			var data = this.getMenu();
+   			console.log(data);
+   			tree.render({
+	            elem: '#test1'
+	            ,data: data
+	            ,id: 'demoId'
+	            ,showCheckbox: true  //是否显示复选框
+	        });
+   		},
+   	  getId:function(data,container){
+          var that = this;
+          if(data.length==0){
+            return false;
+          }
+          data.forEach(function(item){
+              container.push(item.id);
+              if(item.children){
+                that.getId(item.children,container);
+              }
+          });
+          return container;
+      }
+     
+   };
+
+   action.showMenu();
+
+   
+
+   util.event('lay-demo',{
+      reload:function(){
+          window.location.reload();
+      },
+      collectMenu:function(){
+        var load = layer.load(1,{shade:0.5});
+        var checkedData = tree.getChecked('demoId'); //获取选中节点的数据
+        var id = [];
+        checkedData.forEach(function(item){
+            id.push(item.id);
+        });
+        var container = [];
+        var result = action.getId(checkedData,container);
+        console.log(roleId);
+        console.log(result);
+        $.post('/farm/role/authorizePost',{roleId:roleId,menuId:result},function(data){
+          if(data.code){
+            layer.msg(data.msg,{icon:1});
+            setTimeout(function(){
+              parent.layer.closeAll();
+            },1000);
+          }else{
+            layer.msg(data.msg,{icon:2});
+          }
+          layer.close(load);
+        });
+
+
+      }
+   });
+
+  });
+</script>
+</html>

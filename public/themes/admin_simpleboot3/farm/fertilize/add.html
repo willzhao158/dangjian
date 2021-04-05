@@ -1,0 +1,272 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				 <div class="layui-form-item">
+				    <label class="layui-form-label">任务级别</label>
+				    <div class="layui-input-block">
+				     	<select name="type">
+				     		<option value="0">标准</option>
+				     		<option value="1">临时</option>
+				     	</select>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">开始时间</label>
+				    <div class="layui-input-block">
+				     	<input type="text" name="starttime" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">结束时间</label>
+				    <div class="layui-input-block">
+				     	<input type="text" name="endtime" id="date2" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">作业分配</label>
+				    <div class="layui-input-block" style="height:45px">
+				      <input type="hidden" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+				      <div class="layui-form-mid layui-word-aux" style="cursor:pointer;"> <span class="layui-btn layui-btn-xs choose">选择人员</span></div>
+				    </div>
+				     <div class="layui-input-block people layui-hide" id="people">
+				     	
+				      
+				     </div>
+				  </div>
+
+				  
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">优先级</label>
+				    <div class="layui-input-block">
+				     	<div id="test1"></div>
+				    </div>
+				  </div>
+
+
+				 
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">地址</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="address" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  
+				
+
+				  <div class="layui-form-item layui-form-text">
+				    <label class="layui-form-label">备注</label>
+				    <div class="layui-input-block">
+				      <textarea placeholder="请输入内容" class="layui-textarea" name="remarks"></textarea>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">样图</label>
+				    <div class="layui-input-block">
+				      	<div class="layui-upload-drag" id="sample">
+						  <i class="layui-icon"></i>
+						  <p>点击上传，或将文件拖拽到此处</p>
+						</div>
+
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="uploadimg"></div>
+				   		<input type="hidden" name="sample">
+				    </div>
+				  </div>
+
+
+				 <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="layui-btn layui-btn-xs adddetail">添加</div>
+				      	<div class="layui-btn layui-btn-xs lessdetail">删除</div>
+				    </div>
+				  </div>
+				 <div id="view"></div>
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+
+
+<script type="text/html" id="templet_people">
+	{{#  layui.each(d.list, function(index, item){ }}
+		<span class="layui-btn layui-btn-primary layui-btn-xs "><i class="layui-icon layui-icon-username"></i> {{ item.title }}</span>
+	{{#  }); }}
+  	{{#  if(d.list.length == 0){ }}
+    	无数据
+  	{{#  } }} 
+</script>
+<script id="demo" type="text/html">
+	<div class="layui-form-item">
+	    <div class="layui-inline">
+	      <label class="layui-form-label">种类</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="kind[]" lay-verify="required" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">用量</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="dose[]" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">范围</label>
+	      <div class="layui-input-inline">
+	        <input type="tel" name="range[]" autocomplete="off" class="layui-input"> 
+	      </div>
+	    </div>
+	  </div>
+</script>
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laytpl','element','laydate','rate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laytpl = layui.laytpl
+        ,element = layui.el
+        ,laydate = layui.laydate
+        ,layer = layui.layer
+        ,peoplebox = [];
+    window.initVlaue = [];
+    laydate.render({
+	    elem: '#range'
+	    ,range: true
+	});
+	var rate = layui.rate;
+	rate.render({
+	    elem: '#test1'
+	    ,choose: function(value){
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //	2019.11.5
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		    //
+		}
+	})
+    var renderPeople = {
+    	init:function(peoplebox){
+    		var templet = templet_people.innerHTML,
+  				view = document.getElementById('people');
+  			var data = { //数据
+	  		    "list": peoplebox
+	  		}
+  			laytpl(templet).render(data,function(html){
+  				view.innerHTML = html;
+  			});
+    	},
+    	openChoose:function(value = ''){
+    		$('#people').removeClass('layui-hide');
+    		layer.open({
+    			type:2,
+    			area:area,
+    			title:SystemName,
+    			content:'/farm/fertilize/people/value/' + initVlaue.join(',')
+    		});
+    	},
+    	getChoose:function(data){
+    		this.init(data);
+    		layer.closeAll();
+    	}
+    };
+    window.renderPeople = renderPeople;
+  	$('.choose').on('click',function(){
+  		renderPeople.openChoose();
+  	});
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/farm/Farmbase/upload'
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="sample"]').val(res.msg);
+	    }
+	});
+    $('.adddetail').on('click',function(){
+    	let templet = demo.innerHTML;
+    	$('#view').append(templet);
+    });
+    $('.lessdetail').on('click',function(){
+    	var child =	$('#view').find('.layui-form-item ');
+    	child.eq(child.length-1).remove();
+    });
+    form.on('submit(menu)',function(res){
+    	form.render();
+    	var submit = {
+    		url:'/farm/fertilize/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

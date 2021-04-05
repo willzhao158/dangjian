@@ -1,0 +1,271 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" value="{$data.name}">
+				    </div>
+				  </div>
+
+
+				   <div class="layui-form-item">
+				    <label class="layui-form-label">任务类型</label>
+				    <div class="layui-input-block">
+				     	<select name="type">
+				     		<option value="0" {$data.type==0?'selected':''}>标准任务</option>
+				     		<option value="1" {$data.type==1?'selected':''}>重要任务</option>
+				     	</select>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">优先级</label>
+				    <div class="layui-input-block">
+				     	<select name="level">
+				     		<option value="0" {$data.type==0?'selected':''}>一般</option>
+				     		<option value="2" {$data.type==1?'selected':''}>高</option>
+				     	</select>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">日期范围</label>
+				    <div class="layui-input-block">
+				     	<input type="text" class="layui-input" id="range" placeholder=" - " name="rangetime" value="{$data.rangetime}">
+				    </div>
+				  </div>
+
+
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">地址</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="address" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" value="{$data.address}">
+				    </div>
+				  </div>
+				  
+				
+
+				  <div class="layui-form-item layui-form-text">
+				    <label class="layui-form-label">备注</label>
+				    <div class="layui-input-block">
+				      <textarea placeholder="请输入内容" class="layui-textarea" name="remarks">{$data.remarks}</textarea>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">样图</label>
+				    <div class="layui-input-block">
+				      	<div class="layui-upload-drag" id="sample">
+						  <i class="layui-icon"></i>
+						  <p>点击上传，或将文件拖拽到此处</p>
+						</div>
+
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="uploadimg">
+				      		 <notempty name="$data.sample">
+				      			<img src="/{$data.sample}">
+				      		</notempty>
+				      	</div>
+				   		<input type="hidden" name="sample" value="{$data.sample}">
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="layui-btn layui-btn-xs adddetail">添加详细</div>
+				      	<div class="layui-btn layui-btn-xs lessdetail">删除</div>
+				    </div>
+				  </div>
+
+				  <div id="view"></div>
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <input type="hidden" name="id" value="{$data.id}">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+
+<script id="detail" type="text/html">
+	<volist name="detail" id="detail">
+	<div class="layui-form-item">
+	    <div class="layui-inline">
+	      <label class="layui-form-label">种类</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="kind[]" lay-verify="required" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">用量</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="dose[]" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">范围</label>
+	      <div class="layui-input-inline">
+	        <input type="tel" name="range[]" autocomplete="off" class="layui-input"> 
+	      </div>
+	    </div>
+	</div>
+	</volist>
+
+</script>
+
+
+<script id="demo" type="text/html">
+	<div class="layui-form-item">
+	    <div class="layui-inline">
+	      <label class="layui-form-label">种类</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="kind[]" lay-verify="required" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">用量</label>
+	      <div class="layui-input-inline">
+	        <input type="text" name="dose[]" autocomplete="off" class="layui-input">
+	      </div>
+	    </div>
+	    <div class="layui-inline">
+	      <label class="layui-form-label">范围</label>
+	      <div class="layui-input-inline">
+	        <input type="tel" name="range[]" autocomplete="off" class="layui-input"> 
+	      </div>
+	    </div>
+	</div>
+</script>
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+
+    laydate.render({
+	    elem: '#range'
+	    ,range: true
+	});
+
+    var init = {
+    	getDetail:function(){
+    		let result;
+    		$.ajax({
+    			url:'/farm/work/getworkDetail',
+    			data:{params:'{$data.id}'},
+    			type:'post',
+    			dataType:'json',
+    			async:false,
+    			success:function(res){
+    				result = res;
+    			}
+    		});
+    		return result;
+    	},
+    	getDetailTemplet:function(){
+    		var templet = demo.innerHTML;
+    		return $(templet);
+    	},
+    	loadDetail:function(){
+    		var that = this
+    			,data = that.getDetail();
+    		if(data.length > 0){
+	    		data.forEach(function(item){
+	    			templet = that.getDetailTemplet();
+	    			templet.find('input[name="kind[]"]').val(item.kind);
+	    			templet.find('input[name="dose[]"]').val(item.dose);
+	    			templet.find('input[name="range[]"]').val(item.range);
+	    			$('#view').append(templet);
+	    		});
+	    		form.render();
+	    	}
+    	}
+    };
+
+    init.loadDetail();
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/farm/Farmbase/upload'
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	    	console.log(res);
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="sample"]').val(res.msg);
+	    }
+	});
+
+    $('.adddetail').on('click',function(){
+    	let templet = demo.innerHTML;
+    	$('#view').append(templet);
+    });
+
+
+    $('.lessdetail').on('click',function(){
+    	var child =	$('#view').find('.layui-form-item ');
+    	child.eq(child.length-1).remove();
+    });
+
+
+
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/farm/work/editaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

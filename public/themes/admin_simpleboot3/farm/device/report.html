@@ -1,0 +1,156 @@
+<include file="public@farm" />
+</head>
+<style type="text/css">
+	.device-title{text-align:center;padding:10px}
+	#main{width:100%;height:500px;}
+</style>
+<body>
+	<div class="layui-fluid">
+
+		<div class="layui-card">
+			<div class="layui-tab" lay-filter="report">
+				<p><h1 class="device-title">环境设备监测数据</h1></p>
+			  <ul class="layui-tab-title">
+			  	<li class="layui-col-md2 layui-this">汇总</li>
+			    <li class="layui-col-md2 ">天</li>
+			    <li class="layui-col-md2">周</li>
+			    <li class="layui-col-md2">月</li>
+			    <li class="layui-col-md2">年</li>
+			  </ul>
+			  <div class="layui-tab-content">
+			    <div id="main"></div>
+			  </div>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script src="https://cdn.bootcss.com/echarts/4.4.0-rc.1/echarts.js"></script>
+<script type="text/javascript">
+
+
+
+layui.use(['layer','form','upload','element'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,element = layui.element
+        ,layer = layui.layer;
+
+  
+	element.on('tab(report)', function(elem){
+		reportForm.init(elem.index);	    
+	});
+
+
+	var reportForm = {
+		init:function(cycle){
+			let that = this;
+			$.post('/farm/device/reportdata',{cycle:cycle},function(rq){
+				if(rq.length==0){
+					layer.msg('暂无数据');
+					return;
+				}
+				let xAxis = new Array()
+					,data = new Array();
+				rq.forEach(function(item){
+					xAxis.push(item.time);
+					data.push(item.value);
+				});
+
+				that.render(xAxis,data);
+			});
+		},
+
+		render:function(xAxis,data){
+			var that = this
+				report = echarts.init(document.getElementById('main'))
+			report.setOption(that.option(xAxis,data))
+		},
+		option:function(xAxis,data){
+			option = {
+			    // 标题
+			   
+			    // x轴
+			    xAxis: {
+			        // data: ['1-1','1-2','1-3','2-1','3-1','6-1','7-1',], // x轴坐标名称
+			        data: xAxis, // x轴坐标名称
+			    },
+			    // y轴
+			    yAxis: {
+			        min: 0,
+			        max: 2,
+			        type: 'value',
+			        axisLine: {onZero: false}
+			    },
+			    // 提示框，鼠标悬浮交互时的信息提示
+			    tooltip: {
+			        show: true, // 是否显示
+			        trigger: 'axis', // 触发类型，默认数据触发，见下图，可选为：'item' | 'axis'
+			    },
+			   
+			    // 指定图标的类型
+			    series: [
+			        // 第一条折线图
+			        {
+			            name: '用例A', // 系列名称
+			            type: 'line', // 类型：线
+			            // data: [11,22,33,44,55,66,77], // 数据
+			            data: data, // 数据
+			            markPoint: {
+			                // 标注图形数据
+			               
+			                // 特殊标注文字
+			                label: {
+			                    normal: {
+			                        show: true,
+			                        //position: 'top', // 文字位置
+			                        // 显示的文字
+			                        formatter: '{b}：{c}',
+			                    }
+			                },
+			                // 触发操作
+			                tooltip: {
+			                    show: true, // 是否显示
+			                    formatter: '{b}：{c}', // 内容格式器 a（系列名称），b（类目值），c（数值）, d（无）
+			                    trigger: 'item', // 触发类型，默认数据触发，见下图，可选为：'item' | 'axis'
+			                },
+			            },
+			            markLine: {
+			                data: [{
+			                    type: 'average',
+			                    name: '平均值',
+			                    itemStyle: {
+			                        normal: {
+			                            color: '#009688'
+			                        }
+			                    }
+			                }]
+			            },
+			            // 折线图圆点
+			            label: {
+			                normal: {
+			                    show: true,
+			                    //position: 'bottom', // 文字位置
+			                    // 显示的文字
+			                    formatter: '{c}',
+			                    textStyle: {
+			                        color: '#000' // 文字颜色
+			                    }
+			                }
+			            },
+			        },
+			       
+			    ]
+			};
+			return option;
+		}
+	};
+
+	reportForm.init();
+});
+
+</script>
+
+</html>

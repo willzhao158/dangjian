@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>客户数据</title>
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+
+</head>
+<style type="text/css">
+    .btn-new{
+        font-size: .32rem !important;
+        background-color: #ff5d02;
+        font-weight: bold;
+        color: #fff;
+        padding: 3px 7px;
+        text-align: center;
+        border-radius: 5px;
+        color:#fff !important
+    }
+</style>
+
+<body>
+
+    <div class="container">
+
+        
+
+        <div class="weui-tab">
+
+            <div class="weui-navbar">
+
+                <div class="weui-navbar__item weui-bar__item_on">已收藏用户</div>
+
+                <div class="weui-navbar__item">已领取用户</div>
+
+            </div>
+
+            <div class="weui-tab__panel">
+
+                <div class="list-message pannel-item weui-bar__item_on">
+
+                    <div class="list-fans">
+
+                        <volist name="collects" id="collect">
+
+                            <div class="fans-item">
+
+                                <div class="flex flex-align-center flex-pack-justify">
+
+                                    <div class="flex flex-align-center">
+
+                                        <h1>{$collect.name}</h1>
+
+                                        <small>{$collect.level_name}</small>
+
+                                    </div>
+
+                                    <a href="javascript:;">{$collect.mobile}</a>
+
+                                </div>
+
+                                <div class="flex flex-align-center flex-pack-justify m-t-30">
+
+                                    <div class="flex-1">
+
+                                        <!-- <span>直推用户：</span>
+
+                                        <span>VIP商家：</span> -->
+
+                                    </div>
+
+                                    <p><?php echo date('Y-m-d H:i',$collect['createtime'])?></p>
+
+                                </div>
+
+                            </div>
+
+                        </volist>
+
+                    </div>
+
+                </div>
+
+                <div class="list-message pannel-item">
+
+                    <div class="list-fans">
+
+                        <volist name="joins" id="join">
+
+                            <div class="fans-item">
+
+                                <div class="flex flex-align-center flex-pack-justify">
+
+                                    <div class="flex flex-align-center">
+
+                                        <h1>{$join.name}</h1>
+
+                                        <small>{$join.level_name}</small>
+
+                                    </div>
+                                    <span <if condition="$join['status']==4">style="color:#ff5d02;font-size:.48rem"</if>>
+                                    <if condition="$join['not_show']==2">{$join.back_mobile}<else/><a href="tel:{$join.mobile}">{$join.mobile}</a></if>
+                                    </span>
+                                    
+
+                                </div>
+
+                                <div class="flex flex-align-center flex-pack-justify m-t-30">
+
+                                    <div class="flex-1">
+                                        <if condition="$join['status']==3"><a class="btn-new" href="{:url('advertisement/show_confirm')}?id={$join.id}">确认</a><else/><span>{$join.status_name}</span></if>
+                                        
+
+                                        <!-- <span>VIP商家：</span> -->
+
+                                    </div>
+
+                                    <p><?php echo date('Y-m-d H:i',$join['join_time'])?></p>
+
+                                </div>
+
+                            </div>
+
+                        </volist>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+
+            $('.weui-navbar__item').on('click', function () {
+
+                var index = $(this).index()
+
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+                $(".pannel-item").eq(index).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+            });
+
+        })
+
+    </script>
+
+</body>
+
+</html>

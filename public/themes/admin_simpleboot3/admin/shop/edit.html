@@ -1,0 +1,254 @@
+<include file="public@admin" />
+<style>
+	.uploadimg .file-item {
+		margin: 0 10px 10px 0;
+		position: relative;
+		display: inline-block;
+		overflow: hidden;
+	}
+	.uploadimg .file-item .handle {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+		text-align: center;
+		display: none;
+	}
+	.uploadimg .file-item .handle i {
+		color: #ffffff;
+		line-height: 100px;
+		font-size: 30px;
+	}
+	.uploadimg .file-item .handle i:hover {
+		cursor: pointer;
+	}
+	.uploadimg .file-item:hover .handle{
+		display: block;
+	}
+
+</style>
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">省</label>
+					    <div class="layui-input-block">
+					    	<select name="province" id="province" lay-verify="required" lay-search="" lay-filter=kind1>
+						      	<volist name="provinces" id="province">
+			                        <option value="{$province.id}" <if condition="$kind1['id'] == $advertisement['kind1']">selected</if>>{$province.label}</option>
+			                    </volist>
+			                </select>
+					    </div>
+				  	</div>
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">市</label>
+					    <div class="layui-input-block">
+					    	<select name="city" id="city" lay-verify="required" lay-search="" lay-filter=kind1>
+					    	</select>
+					    </div>
+				  	</div>
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">区</label>
+					    <div class="layui-input-block">
+					      <select name="kind1" id="kind1" lay-verify="required" lay-search="" lay-filter=kind1>
+					      		<select name="district" id="district" lay-verify="required" lay-search="" lay-filter=kind1>
+					    	</select>
+			            </select>
+					    </div>
+				  	</div>
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">目录分类1</label>
+					    <div class="layui-input-block">
+					      <select name="kind1" id="kind1" lay-verify="required" lay-search="" lay-filter=kind1>
+					      		<volist name="kind1_arr" id="kind1">
+			                        <option value="{$kind1.id}" <if condition="$kind1['id'] == $shop['kind1']">selected</if>>{$kind1.name}</option>
+			                    </volist>
+			            </select>
+					    </div>
+				  	</div>
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">目录分类2</label>
+					    <div class="layui-input-block">
+					      	<select name="kind2" id="kind2" lay-verify="required" lay-search=""></select>
+					    </div>
+				  	</div>
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">企业类型</label>
+					    <div class="layui-input-block">
+					      <select name="kind2" id="kind2" lay-verify="required" lay-search="">
+					      	<option value="1">个商</option>
+					      	<option value="2">企业</option>
+					      </select>
+					    </div>
+				  	</div>
+				  	
+				  	<!-- <div class="layui-form-item">
+		              	<label class="layui-form-label">图片</label>
+		              	<div class="layui-input-block">
+		                  	<div class="layui-upload-drag" id="sample">
+		                	<i class="layui-icon"></i>
+		                	<p>点击上传，或将文件拖拽到此处</p>
+		              	</div>
+		              	</div>
+		            </div>
+		            <div class="layui-form-item" id="samples">
+		              	<div class="layui-input-block">
+		                  	<div class="uploadimg">
+			                    <blockquote class="layui-elem-quote">预览图：</blockquote>
+			                    <volist name="imgs_arr" id="img">
+			                      <div class="file-item">
+			                        <div class="handle"><i class="layui-icon layui-icon-delete"></i></div>
+			                          <img style="width: 100px;height: 100px;" src="../../../{$img}">
+			                      </div>
+			                    </volist>
+			                  </div>
+			                <input type="hidden" name="img" id="imgInput" value="{$advertisement['imgs']}">
+			            </div>
+		            </div> -->
+						<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+					    </div>
+				  	</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate','jquery'], function(){
+
+
+
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+    
+
+    function get_kind2(kind1){
+    	$.ajax({
+            url: "{:url('advertisement/get_kind2')}",
+            type: 'post',
+            dataType: 'json',
+            data:{
+                    kind1:kind1,
+                  },
+            success: function (data) {
+            	var str = '';
+            	var kind2 = {$advertisement['kind2']};
+                for(i in data){
+                	if(kind2 == data[i]['id']){
+                		str += "<option value='"+data[i]['id']+"' selected>"+data[i]['name']+"</option>";
+                	}else{
+                		str += "<option value='"+data[i]['id']+"'>"+data[i]['name']+"</option>";
+                	}
+                	
+                }
+                $('#kind2').empty();
+                $('#kind2').append(str);
+                form.render('select');
+            },
+            error: function () {
+
+            },
+            complete: function () {
+
+            }
+        });
+    }
+
+    upload.render({
+      elem: '#sample'
+      ,url: '/classify/upload'
+      ,data:{dir:'advertisement'}
+      ,multiple: true
+      ,done: function(res){
+        if(res.code == 0){
+          layer.msg(res.msg,{icon:2});
+          return;
+        }
+          // var upload = $('.uploadimg');
+          // upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+
+        $('#samples').removeClass('layui-hide');
+      		$('.uploadimg').append(
+        		'<div class="file-item">' +
+        		'<div class="handle"><i class="layui-icon layui-icon-delete"></i></div>' +
+        		'<img style="width: 100px;height: 100px;" src=/'+ res.msg +'>' +
+        		'</div>'
+      		);
+
+          	var imgs = $('input[name="img"]').val();
+          	if(imgs != ''){
+            	$('input[name="img"]').val(imgs+','+res.msg);
+          	}else{
+            	$('input[name="img"]').val(res.msg);
+          	}
+          
+      }
+  });
+    
+    
+    var first_kind1 = $("#kind1").val();
+    get_kind2(first_kind1);
+    form.on('select(kind1)', function(data){
+	  	var kind1 = $("#kind1").val();
+	  	get_kind2(kind1);
+	});
+
+    laydate.render({
+	    elem: '#end_time' //指定元素
+	  });
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+    $(document).on("click", ".file-item .handle", function(e){
+      	var imgs = $("#imgInput").val().split(",");
+      	var index = $(this).parent().index() - 1;
+      	imgs.splice(index,1);
+      	$("#imgInput").val(imgs.join(","));
+      	$(this).parent().remove();
+      	e.stopPropagation();
+    });
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/advertisement/do_edit',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				parent.location.reload();
+    				layer.msg('编辑成功',{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg('编辑失败',{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+    
+	   
+});
+    
+</script>
+</html>

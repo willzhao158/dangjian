@@ -1,0 +1,195 @@
+<include file="public@admin" />
+
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+            
+          </div>
+<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
+<div class="layui-inline">
+            <select class="layui-input" id="from" style="width: 160px;">
+              <option value="">所有</option>
+              <option value="1">收益提现</option>
+              <option value="2">余额提现</option>
+            </select></div>
+          <button class="layui-btn " data-type="tixianreload">搜索</button>
+          <button class="layui-btn " data-type="excelHref">导出Excel</button>
+          <!-- <button class="layui-btn " data-type="deltixian">批量提现</button> -->
+          
+        </div>
+        
+      </div>
+      <div class="layui-card-body">
+        <table class="layui-hide" id="tixian" lay-filter="tixian"></table>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="join_detail">领取详情</a>
+  
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table ,$ = layui.$, layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#tixian'
+    ,url: '/tixian/udatalist'
+    ,cellMinWidth: 80
+    ,where: {
+            from:$('#from').val()
+    }
+    ,cols: [[
+    {checkbox: true},
+      {field:'id', title:'ID', width:80, sort: true}
+      ,{field:'name', title: '用户'}
+      ,{field:'price', title: '金额'}
+      ,{field:'sfz', title: '身份证',width:200}
+      ,{field:'alipay_account', title: '支付宝',width:180}
+      ,{field:'mobile', title: '电话号码',width:180}
+      ,{field:'createtime', title: '时间',width:180}
+      ,{field:'type_name', title: '提现类型',width:100}
+      ,{field:'status_name', title: '提现状态'}
+      // ,{fixed: 'right', title: '操作', width:130, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'tixianReload'
+    ,page: true
+    ,done:function(res){
+      //$('.layui-table-cell').css({'height':'auto'});
+    }
+  });
+  var $ = layui.$, active = {
+    tixianreload: function(){
+      //执行重载
+      table.reload('tixianReload', {
+        page: {
+          curr:1 //重新从第 1 页开始
+        }
+        ,where: {
+            from:$('#from').val()
+        }
+      }, 'data');
+    },
+    excelHref: function(){
+      window.location.href = "{:url('tixian/tixian_excel')}?from="+$('#from').val();
+    },
+    addtixian:function(){
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/tixian/add'
+        });
+    },
+    deltixian:function(){
+    var that = this;
+    var checkStatus = table.checkStatus('tixianReload');
+    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        active.delaction(id.join(','));
+    },
+    delaction:function(params){
+        $.post('/tixian/verify',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('tixianReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+    },
+    join_detail:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/tixian/join_detail/id/' + obj.data.id
+      });
+    },
+    edit:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/tixian/edit/id/' + obj.data.id
+      });
+    },
+    del:function(obj){
+      active.delaction(obj.data.id);
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(tixian)',function(obj){
+      var data = obj.data //获得当前行数据
+      ,layEvent = obj.event //获得 lay-event 对应的值
+      switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/tixian/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+      case 'del':
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/tixian/delaction111',{params:data.id},function(res){
+              if(res.code){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){
+                  table.reload('tixianReload');
+                },1000);
+              }else{
+                layer.msg(res.msg,{icon:2});
+              }
+          });
+          layer.close(index);
+        });
+    break;
+    };
+  });
+  //监听单元格编辑
+  table.on('edit(tixian)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/tixian/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        layer.msg(res.msg);
+      }
+      table.reload('tixianReload');
+      layer.close(load);
+    });
+  });
+});
+</script>
+
+</html>

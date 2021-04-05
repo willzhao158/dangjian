@@ -1,0 +1,205 @@
+<include file="public@farm" />
+<style type="text/css">
+  .sampleimg{
+    width:100px;
+    height:100px;
+    border-radius:50px
+  }
+</style>
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+              <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入设备名称">
+          </div>
+          <div class="layui-btn-group">
+            <button class="layui-btn" data-type="reload">搜索</button>
+          </div> 
+          <div class="layui-btn-group">
+          <button class="layui-btn " data-type="addsow">新增</button>
+          </div> 
+        </div>
+      </div>
+      <div class="layui-card-body">
+          <div class="layui-row layui-col-space15">
+              <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="view"></div>
+                    <div id="demo1"></div>
+                </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  </div> 
+</body>
+<script id="demo" type="text/html">
+    <div style="padding:0 10px 10px 10px; background-color: #F2F2F2;">
+    <div class="layui-row layui-col-space15 flow-default" id="LAY_demo1">
+
+      {{#  layui.each(d.list, function(index, item){ }}
+      <div class="layui-col-md3">
+      <div class="layui-card">
+        <div class="layui-card-body">
+          <div class="layui-row">
+              <div class="layui-col-md5 ">
+                <span class="layui-badge layui-bg-green ">播种</span> &nbsp;{{ item.type==0?'标准任务':'重要任务' }}
+              </div>
+              <div class="layui-col-md3 layui-col-md-offset4">
+                等级：{{ item.level==0?'<span class="layui-badge layui-bg-green">一般</span>':'<span class="layui-badge">高</span>' }}
+              </div>
+          </div>
+
+          <div class="layui-row">
+            <br>
+              <div class="layui-col-md5 ">
+                  {{ item.name }}
+              </div>
+              <div class="layui-col-md3 layui-col-md-offset4">
+                  <i class="layui-icon layui-icon-survey"></i> {{ item.status==0?'未完成':'完成' }}
+              </div>
+           
+
+              <div class="layui-col-md12">
+                 <br>
+                <div class="layui-row">
+                    <div class="layui-col-md6 ">
+                        {{ item.rangetime }}
+                    </div>
+                    <div class="layui-col-md3 layui-col-md-offset3">
+                      <button class="layui-btn layui-btn-xs" data-type="edit" data-id="{{ item.id }}">修改</button><button class="layui-btn layui-btn-xs" data-type="del" data-id="{{ item.id }}">删除</button>
+                    </div>
+                </div>
+
+              </div>
+          </div>
+
+        </div>
+        </div>
+      </div>
+      {{#  }); }}
+      {{#  if(d.list.length === 0){ }}
+        无数据
+      {{#  } }} 
+      </div>
+    </div>
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','tree','util','form','flow','laytpl','laypage'], function(){
+  var table = layui.table
+      ,tree   = layui.tree
+      ,util = layui.util
+      ,layer = layui.layer
+      ,form   = layui.form
+      ,upload = layui.upload
+      ,$ = layui.$
+      ,laypage = layui.laypage
+      ,flow = layui.flow;
+
+  var laytpl = layui.laytpl;
+    
+  var currentPage = 1;
+  
+
+  $('#view').on('click',' .layui-btn',function(){
+      var type = $(this).data('type')
+          ,id = $(this).data('id');
+      switch(type){
+        case 'edit':
+          layer.open({
+              type:2,
+              title:SystemName,
+              area:area,
+              content:'/farm/sow/edit/id/'+id,
+              end:function(){
+                flowload.init(currentPage);
+              }
+          });
+        break;
+        case 'del':
+            layer.confirm('确定删除吗？',{icon:3},function(index){
+              $.post('/farm/sow/delaction',{params:id},function(res){
+                  if(res.code){
+                      flowload.init(currentPage);
+                      flowload.page(currentPage);
+                  }
+              });
+              layer.close(index);
+            });
+        break;
+      }
+  });
+  var flowload = {
+      getData:function(page=1,search=''){
+        var result = [];
+        $.ajax({
+          url:'/farm/sow/datalist/',
+          type:'POST',
+          data:{page:page,name:search},
+          dataType:'json',
+          async:false,
+          success:function(res){
+            console.log(res);
+              result = res;
+          }
+        });
+        return result;
+      },
+      init:function(page=1,search=''){
+        var that = this;
+        //第三步：渲染模版
+        var data = { //数据
+          "list": that.getData(page,search).data
+        }
+        var getTpl = demo.innerHTML
+        ,view = document.getElementById('view');
+        laytpl(getTpl).render(data, function(html){
+          view.innerHTML = html;
+        });
+      },
+      page:function(page=1,search=''){
+        var that = this
+          ,data = that.getData(page,search);
+        laypage.render({
+            elem: 'demo1'
+            ,count: data.count
+            ,curr:page
+            ,layout: ['count', 'prev', 'page', 'next']
+            ,jump: function(obj){
+              flowload.init(obj.curr,search);
+              currentPage = obj.curr;
+            }
+        });
+      }
+  };
+  flowload.init();
+  flowload.page();
+  var active = {
+    reload:function(){
+      var search = $('#demoReload').val();
+      flowload.page(1,search);
+      flowload.init(1,search);
+    },
+    addsow:function(){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/sow/add/',
+        end:function(){
+          flowload.init(currentPage);
+        }
+      });
+    },
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+</html>

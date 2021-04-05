@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的收藏</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="list-good">
+            <volist name="collects" id="collect">
+                <a href="{:url('advertisement/detail')}?id={$collect['ad_id']}" class="good-item">
+                    <div class="good-img" style="background:url(../{$collect['imgs']}) no-repeat center;background-size:cover">
+                        <p class="good-tag">{$collect['type_name']}</p>
+                        <p class="good-time" data-count="{$collect['count']}">00时00分00秒</p>
+                    </div>
+                    <div class="good-info">{$collect['subject']}</div>
+                    <div class="good-sale flex flex-align-center flex-pack-justify">
+                        <div class="flex flex-align-center">
+                            <!-- <h1>￥99.9</h1>
+                            <del>门市价￥999</del> -->
+                        </div>
+                        <p>{$collect['ac_number']}</p>
+                    </div>
+                </a>
+            </volist>
+            <!-- <a href="good_detail.html" class="good-item">
+                <div class="good-img">
+                    <p class="good-time">00时00分00秒</p>
+                </div>
+                <div class="good-info">产品描述产品描述产品描述产品描述产品描述品描述产品描述产品描述产品描述</div>
+                <div class="good-sale flex flex-align-center flex-pack-justify">
+                    <div class="flex flex-align-center">
+                        <h1>￥99.9</h1>
+                        <del>门市价￥999</del>
+                    </div>
+                    <p>销售量：9999</p>
+                </div>
+            </a>
+            <a href="good_detail.html" class="good-item">
+                <div class="good-img">
+                    <p class="good-time">00时00分00秒</p>
+                </div>
+                <div class="good-info">产品描述产品描述产品描述产品描述产品描述品描述产品描述产品描述产品描述</div>
+                <div class="good-sale flex flex-align-center flex-pack-justify">
+                    <div class="flex flex-align-center">
+                        <h1>￥99.9</h1>
+                        <del>门市价￥999</del>
+                    </div>
+                    <p>销售量：9999</p>
+                </div>
+            </a> -->
+        </div>
+    </div>
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            function countTimer(){
+                setInterval(function(){
+                    $(".good-time").each(function(){
+                        var time = parseInt($(this).data("count"));
+                        if(time > 0){
+                            var day = parseInt(time / 60 / 60 / 24);
+                            var hour = parseInt(time / 60 / 60 % 24);
+                            var minute = parseInt(time / 60 % 60);
+                            var seconds = parseInt(time % 60);
+                            $(this).html(day+'天'+hour+'时'+minute+'分'+seconds+'秒')
+                            time -= 1;
+                            $(this).data('count',time);
+                        }
+                    })
+                },1000)
+            }
+            countTimer();
+        })
+    </script>
+</body>
+</html>

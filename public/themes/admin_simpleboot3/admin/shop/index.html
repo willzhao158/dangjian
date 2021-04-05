@@ -1,0 +1,255 @@
+<include file="public@admin" />
+
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+            <input class="layui-input" name="" id="username" autocomplete="off" placeholder="请输入用户">
+          </div>
+          <div class="layui-inline">
+            <input class="layui-input" name="" id="mobile" autocomplete="off" placeholder="请输入手机号">
+          </div>
+<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
+          <button class="layui-btn " data-type="shopreload">搜索</button>
+          <button class="layui-btn " data-type="verifyshop">审核通过</button>
+          <button class="layui-btn " data-type="nopass">审核不通过</button>
+          
+        </div>
+        
+      </div>
+      <div class="layui-card-body">
+        <table class="layui-hide" id="shop" lay-filter="shop"></table>
+      </div>
+    </div>
+  </div>
+</body>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-xs" lay-event="freeze">冻结</a>
+  
+</script>
+<script type="text/html" id="imgs1">
+    <a class="layui-btn layui-btn-xs" lay-event="show_imgs1">查看</a>
+</script>
+<script type="text/html" id="imgs2">
+    <a class="layui-btn layui-btn-xs" lay-event="show_imgs2">查看</a>
+</script>
+<script type="text/html" id="imgs3">
+    <a class="layui-btn layui-btn-xs" lay-event="show_imgs3">查看</a>
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table ,$ = layui.$, layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#shop'
+    ,url: '/shop/udatalist'
+    ,cellMinWidth: 80
+    ,where: {
+            username:$('#username').val(),
+            mobile:$('#mobile').val()
+    }
+    ,cols: [[
+    {checkbox: true},
+      {field:'id', title:'ID', width:80, sort: true}
+      ,{field:'province', title: '省'}
+      ,{field:'city', title: '市'}
+      ,{field:'district', title: '区',width:100}
+      ,{field:'user', title: '用户',width:100}
+      ,{field:'mobile', title: '电话号码',width:130}
+      ,{field:'status', title: '状态',width:100}
+      ,{field:'freeze_name', title: '冻结状态',width:100}
+      ,{field:'imgs1', title: '店铺照片',width:100, toolbar: '#imgs1'}
+      ,{field:'imgs2', title: '营业执照',width:100, toolbar: '#imgs2'}
+      ,{field:'imgs3', title: '法人身份证',width:100, toolbar: '#imgs3'}
+
+      ,{field:'shop_kind1', title: '一分类',width:120}
+      ,{field:'shop_kind2', title: '二分类',width:120}
+      ,{field:'shop_type', title: '企业类别',width:90}
+      ,{field:'createtime', title: '创建时间',width:200}
+      
+      ,{fixed: 'right', title: '操作', width:130, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'shopReload'
+    ,page: true
+    ,done:function(res){
+      //$('.layui-table-cell').css({'height':'auto'});
+    }
+  });
+  var $ = layui.$, active = {
+    shopreload: function(){
+      //执行重载
+      table.reload('shopReload', {
+        page: {
+          curr:1 //重新从第 1 页开始
+        }
+        ,where: {
+            username:$('#username').val(),
+            mobile:$('#mobile').val()
+        }
+      }, 'data');
+    },
+    addshop:function(){
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/shop/add'
+        });
+    },
+    verifyshop:function(){
+    var that = this;
+    var checkStatus = table.checkStatus('shopReload');
+    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        active.verifyaction(id.join(','));
+    },
+    nopass:function(){
+    var that = this;
+    var checkStatus = table.checkStatus('shopReload');
+    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        active.nopassaction(id.join(','));
+    },
+    nopassaction:function(params){
+        $.post('/shop/nopass',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('shopReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+    },
+    verifyaction:function(params){
+        $.post('/shop/verify',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('shopReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+    },
+    
+    edit:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/shop/edit/id/' + obj.data.id
+      });
+    },
+    del:function(obj){
+      active.verifyaction(obj.data.id);
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(shop)',function(obj){
+      var data = obj.data //获得当前行数据
+      ,layEvent = obj.event //获得 lay-event 对应的值
+      switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/shop/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'freeze':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/shop/freeze/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_imgs1':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/shop/show_imgs?id='+data.id+'&type=imgs1'
+        });
+        break;
+      case 'show_imgs2':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/shop/show_imgs?id='+data.id+'&type=imgs2'
+        });
+        break;
+      case 'show_imgs3':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/shop/show_imgs?id='+data.id+'&type=imgs3'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+      case 'del':
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/shop/verifyaction111',{params:data.id},function(res){
+              if(res.code){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){
+                  table.reload('shopReload');
+                },1000);
+              }else{
+                layer.msg(res.msg,{icon:2});
+              }
+          });
+          layer.close(index);
+        });
+    break;
+    };
+  });
+  //监听单元格编辑
+  table.on('edit(shop)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/shop/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        layer.msg(res.msg);
+      }
+      table.reload('shopReload');
+      layer.close(load);
+    });
+  });
+});
+</script>
+
+</html>

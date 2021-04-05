@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>“百年初心·筑梦远航”邗江区庆祝中国共产党成立100周年党史知识竞赛</title>
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/answer/dist/css/style.css">
+</head>
+<body>
+    <img class="bg-logo" src="__TMPL__/public/answer/dist/img/logo.png" alt="">
+    <!-- ================== header 开始 ======================= -->
+    <header class="page-header">
+        <div class="page-container">
+            <div class="flex flex-align-center flex-pack-end">
+                <!-- <a href="">登录</a>
+                <a href="">注册</a> -->
+                <!-- <span>李大伟</span> -->
+            </div>
+        </div>
+    </header>
+    <!-- ================== header 开始 ======================= -->
+
+    <!-- ================== main 开始 ======================= -->
+    <main class="page-main">
+        <div class="page-container">
+            <div class="page-card">
+                <div class="page-title">答题历史</div>
+                <div class="page-table m-t-30">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>日期</th>
+                                <th>题目数量</th>
+                                <th>答对数</th>
+                                <th>得分</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <foreach name="records" key="record_key" item="record">
+                                <tr>
+                                    <td><span>{$record['order']}</span></td>
+                                    <td><span>2021/04/01</strong></td>
+                                    <td><span>共{$record['total_num']}题</span></td>
+                                    <td><span>{$record['yes_num']}题</span></td>
+                                    <td><span class="color-normal">{$record['score']}</span></td>
+                                </tr>
+                            </foreach>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- ================== main 结束 ======================= -->
+</body>
+</html>

@@ -1,0 +1,178 @@
+<include file="public@admin" />
+<style type="text/css">
+    .layui-table-cell{
+      text-align:center;
+      height: auto;
+      white-space: normal;
+    }
+</style>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+				  <!-- <div class="layui-inline">
+				    <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入认证产品名称">
+          </div> -->
+<!--          <a class="layui-btn search_btn "  id="searchBtn"  data-type="getInfo" style="margin-left: 15px;">搜索</a>-->
+          <button class="layui-btn " data-type="addbanner">新增</button>
+          <button class="layui-btn " data-type="delbanner">删除</button>
+				  <button class="layui-btn " data-type="bannerreload">刷新</button>
+				</div>
+				
+			</div>
+			<div class="layui-card-body">
+				<table class="layui-hide" id="banner" lay-filter="banner"></table>
+			</div>
+		</div>
+	</div>
+</body>
+<script type="text/html" id="barDemo">
+  <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+  <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table ,$ = layui.$, layer = layui.layer;
+
+  //方法级渲染
+  table.render({
+    elem: '#banner'
+    ,url: '/banner/datalist'
+    ,cols: [[
+    {checkbox: true},
+      {field:'id', title:'ID', width:80, sort: true}
+      ,{field:'img', title: '图片',sort: true,templet:function (d) { return '<div><img src=../'+d.img+'></div>' }}
+      ,{field:'link', title: '链接'}
+      ,{fixed: 'right', title: '操作', width:130, align:'center', toolbar: '#barDemo'}
+    ]]
+    ,id: 'bannerReload'
+    ,page: true
+    ,done:function(res){
+      //$('.layui-table-cell').css({'height':'auto'});
+    }
+  });
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      //执行重载
+      table.reload('bannerReload', {
+        page: {
+          curr:1 //重新从第 1 页开始
+        }
+        ,where: {
+            name:demoReload.val()
+        }
+      }, 'data');
+    },
+    addbanner:function(){
+        layer.open({
+          type:2,
+          area:area,
+          title:SystemName,
+          content:'/banner/add'
+        });
+    },
+    delbanner:function(){
+		var that = this;
+		var checkStatus = table.checkStatus('bannerReload');
+		var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+        	id.push(item.id);
+        });
+        active.delaction(id.join(','));
+    },
+    delaction:function(params){
+       layer.confirm('确定删除吗？',{icon:3},function(index){
+        $.post('/banner/delaction',{params:params},function(res){
+          if(res.code){
+            layer.msg(res.msg,{icon:1});
+            setTimeout(function(){
+              table.reload('bannerReload');
+            },1000);
+          }else{
+            layer.msg(res.msg,{icon:2});
+          }
+        });
+      });
+    },
+    bannerreload:function(){
+    	table.reload('bannerReload');
+    },
+    edit:function(obj){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/banner/edit/id/' + obj.data.id
+      });
+    },
+    del:function(obj){
+      active.delaction(obj.data.id);
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+  table.on('tool(banner)',function(obj){
+      var data = obj.data //获得当前行数据
+      ,layEvent = obj.event //获得 lay-event 对应的值
+      switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/banner/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+      case 'del':
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/banner/delaction',{params:data.id},function(res){
+              if(res.code){
+                layer.msg(res.msg,{icon:1});
+                setTimeout(function(){
+                  table.reload('bannerReload');
+                },1000);
+              }else{
+                layer.msg(res.msg,{icon:2});
+              }
+          });
+          layer.close(index);
+        });
+    break;
+    };
+  });
+  //监听单元格编辑
+  table.on('edit(banner)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0});
+    $.post('/farm/banner/editaction',{params:update},function(res){
+    	if(res.code){
+    		layer.msg(res.msg);
+    	}else{
+    		layer.msg(res.msg);
+    	}
+      table.reload('bannerReload');
+    	layer.close(load);
+    });
+  });
+});
+</script>
+
+</html>

@@ -1,0 +1,247 @@
+<include file="public@farm" />
+<style type="text/css">
+  .bg{
+    padding:0 10px 10px 10px; background-color: #F2F2F2;
+  }
+  .sampleimg{
+    width:100px;
+    height:100px;
+    border-radius:2px
+  }
+  .handler{
+    background:gray;
+  }
+  .layui-nav-item{
+    cursor:pointer
+  }
+  .record{
+    line-height:50px
+  }
+  .bline{
+    border-bottom: 1px solid #eee;
+    line-height:30px
+  }
+  .bline span{
+    float:right
+  }
+
+  .pc-tag{
+    width:40px;height:40px;border-radius:20px;background:#2b7;text-align:center;color:#fff;font-weight:900;line-height:40px;margin-top:17px
+  }
+  .pc-text{
+    line-height:75px
+  }
+
+  .record p{
+    text-align:right
+  }
+  .record h2{
+    line-height:45px
+  }
+</style>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div class="demoTable">
+          <div class="layui-inline">
+              <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入设备名称">
+          </div>
+          <div class="layui-btn-group">
+            <button class="layui-btn" data-type="reload">搜索</button>
+          </div> 
+          <div class="layui-btn-group">
+  				<button class="layui-btn " data-type="addrecord">新增档案</button>
+          </div> 
+				</div>
+			</div>
+			<div class="layui-card-body">
+          <div class="layui-row ">
+            
+            <div class="layui-col-md12">
+              <div class="layui-card">
+                <div class="layui-card-body">
+                    <div id="view"></div>
+                    <div id="demo1"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+			</div>
+		</div>
+	</div> 
+</body>
+<script id="demo" type="text/html">
+    <div class="bg">
+	  <div class="layui-row layui-col-space15 flow-default" id="LAY_demo1">
+	  	{{#  layui.each(d.list, function(index, item){ }}
+	  	<div class="layui-col-md3">
+  		<div class="layui-card">
+  			<div class="layui-card-body">
+  				<div class="layui-row">
+  						
+  						<div class="layui-col-md12">
+  							<ul class="layui-row record">
+  								<li class="layui-col-md8">
+                    <h2> {{ item.name }}</h2>
+                    <div>
+                      <div class="layui-col-md3 "><div class="pc-tag"> {{ item.number }} </div></div>
+                      <div class="layui-col-md9 pc-text">已有批次</div>
+                    </div>
+                  </li>
+                  <li class="layui-col-md4">
+                    <p><img src="/{{ item.sample }}" class="sampleimg"></p>
+                  </li>
+  								<li class="layui-col-md12 bline">种养产品 <span> {{ item.crop_id }} </span></li>
+  								<li class="layui-col-md12 bline">品种 <span> {{ item.kind }} </span></li>
+  								<li class="layui-col-md12 bline">种植时间 <span> {{ item.growth_time }} </span></li>
+  								<li>
+  								<p>
+  									<button class="layui-btn layui-btn-xs" data-type="edit" data-id="{{ item.id }}">修改</button>
+                    <button class="layui-btn layui-btn-xs" data-type="del" data-id="{{ item.id }}">删除</button>
+  								</p>
+  								</li>
+  							</ul>
+  						</div>
+  				</div>
+  			</div>
+  			</div>
+  		</div>
+  		{{#  }); }}
+  		{{#  if(d.list.length === 0){ }}
+  		  无数据
+  		{{#  } }} 
+  	  </div>
+  	</div>
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer','tree','util','form','flow','laytpl','laypage'], function(){
+  var table = layui.table
+      ,tree   = layui.tree
+      ,util = layui.util
+  	  ,layer = layui.layer
+      ,form   = layui.form
+      ,upload = layui.upload
+      ,$ = layui.$
+      ,laypage = layui.laypage
+      ,flow = layui.flow
+
+      ,place = eval('{$place}')
+      ,laytpl = layui.laytpl
+      ,currentPage = 1
+      ;
+  $('#view').on('click',' .layui-btn',function(){
+      var type = $(this).data('type')
+          ,id = $(this).data('id');
+      switch(type){
+        case 'edit':
+          layer.open({
+              type:2,
+              title:SystemName,
+              area:area,
+              content:'/farm/record/edit/id/'+id,
+              end:function(){
+                flowload.init(currentPage);
+              }
+          });
+        break;
+        case 'del':
+            layer.confirm('确定删除吗？',{icon:3},function(index){
+              $.post('/farm/record/delaction',{params:id},function(res){
+                  if(res.code){
+                      flowload.init(currentPage);
+                      flowload.page(currentPage);
+                  }
+              });
+              layer.close(index);
+            });
+        break;
+        case 'info':
+          layer.open({
+              type:2,
+              title:SystemName,
+              area:area,
+              content:'/farm/record/report/',
+              
+          });
+        break;
+      }
+  });
+  $('.hanlder').on('click','a',function(){
+      var type = $(this).data('id');
+      flowload.page(1,'',type);
+      flowload.init(1,'',type);
+  });
+  var flowload = {
+      getData:function(page=1,search='',type=""){
+        var result = [];
+        $.ajax({
+          url:'/farm/record/datalist/',
+          type:'POST',
+          data:{page:page,name:search,type:type},
+          dataType:'json',
+          async:false,
+          success:function(res){
+              result = res;
+          }
+        });
+        return result;
+      },
+      init:function(page=1,search='',type=""){
+      	var that = this;
+        //第三步：渲染模版
+        var result = that.getData(page,search,type).data;
+       
+  		  var data = { //数据
+  		    "list": result
+  		  }
+  		  var getTpl = demo.innerHTML
+  		  ,view = document.getElementById('view');
+  		  laytpl(getTpl).render(data, function(html){
+  		    view.innerHTML = html;
+  		  });
+      },
+      page:function(page=1,search='',type=""){
+      	var that = this
+      		,data = that.getData(page,search,type);
+  	  	laypage.render({
+    		    elem: 'demo1'
+    		    ,count: data.count
+            ,curr:page
+    		    ,layout: ['count', 'prev', 'page', 'next']
+    		    ,jump: function(obj){
+              flowload.init(obj.curr,search);
+              currentPage = obj.curr;
+    		    }
+    		});
+      }
+  };
+  flowload.init();
+  flowload.page();
+  var active = {
+    reload:function(){
+      var search = $('#demoReload').val();
+      flowload.page(1,search);
+      flowload.init(1,search);
+    },
+    addrecord:function(){
+    	layer.open({
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/record/add/',
+        end:function(){
+          flowload.init(currentPage);
+        }
+    	});
+    },
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+});
+</script>
+</html>

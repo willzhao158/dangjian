@@ -1,0 +1,130 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				 <div class="layui-form-item">
+				    <label class="layui-form-label">批次</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="number" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">作物</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="crop_id" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+				    </div>
+				  </div>
+
+				
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">品种</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="kind" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">种植时间</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="growth_time" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">样图</label>
+				    <div class="layui-input-block">
+				      	<div class="layui-upload-drag" id="sample">
+						  <i class="layui-icon"></i>
+						  <p>点击上传，或将文件拖拽到此处</p>
+						</div>
+
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="uploadimg"></div>
+				   		<input type="hidden" name="sample">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,layer = layui.layer;
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/farm/Farmbase/upload'
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	    	console.log(res);
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="sample"]').val(res.msg);
+	    }
+	});
+
+    form.on('submit(menu)',function(res){
+    	form.render();
+    	var submit = {
+    		url:'/farm/record/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

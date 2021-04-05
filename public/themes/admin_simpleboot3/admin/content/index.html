@@ -1,0 +1,32 @@
+<include file="public@admin" />
+<link rel="stylesheet" href="__TMPL__/public/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__TMPL__/public/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__TMPL__/public/kindeditor/lang/zh-CN.js"></script>
+<script>
+  var editor;
+  KindEditor.ready(function(K) {
+    editor = K.create('textarea[name="content"]', {
+      allowFileManager : true
+    });
+    K('input[name=clear]').click(function(e) {
+      editor.html('');
+    });
+  });
+</script>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+        <form action="{:url('content/edit')}" method="post">
+				  <textarea name="content" style="width:800px;height:400px;visibility:hidden;">{$content['content']}</textarea>
+          <input type="hidden"  name="c_id" value = "{$id}">
+          <br>
+          <input type="submit" name=""  class="layui-btn ">
+        </form>
+			</div>
+			
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+</html>

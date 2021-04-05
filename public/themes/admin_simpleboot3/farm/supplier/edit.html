@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<script src="__TMPL__/public/assets/js/echarts.js"></script>
+<body>
+	<div id="main" style="width:600px;height:400px"></div>
+</body>
+<script type="text/javascript">
+	var mychart = echarts.init(document.getElementById('main'));
+	var option = {
+		title:{
+			text: 'Echarts hello world'
+		},
+		tooltip:{},
+		legend:{
+			data:'销售'
+		},
+		xAxis:{
+			data:['a','b','c','d','e','f']
+		},
+		yAxis:{},
+		series:[{
+			name:'销量',
+			type:'bar',
+			data:[5,20,36,10,10,20]
+		}]
+	};
+	mychart.setOption(option);
+
+</script>
+</html>

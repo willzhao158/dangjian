@@ -1,0 +1,105 @@
+<include file="public@admin" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  	
+
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">冻结</label>
+					    <div class="layui-input-block">
+					    	<input type="hidden" name="id" value="{$advertisement.id}" lay-verify="required" placeholder="" autocomplete="off" class="layui-input">
+					    	<select name="is_top" lay-verify="required" lay-search="">
+				              		<option value="1" <if condition="$advertisement['is_top']==1">selected</if>>取消置顶</option>
+				              		<option value="2" <if condition="$advertisement['is_top']==2">selected</if>>置顶</option>
+				            </select>
+					    </div>
+				  	</div>
+
+				  
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+					    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/user/upload'
+	    ,data:{dir:'user'}
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	$('#samples').removeClass('layui-hide');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="img"]').val(res.msg);
+	    }
+	});
+
+
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+
+    form.on('submit(menu)',function(res){
+
+
+    	var submit = {
+    		url:'/advertisement/do_top',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				parent.location.reload();
+    				layer.msg('修改成功',{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg('修改失败',{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+	
+
+
+
+});
+
+</script>
+
+</html>

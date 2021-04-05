@@ -1,0 +1,383 @@
+header{
+    padding: 0 .4rem;
+    height: 1.17rem;
+    background-color: #39bc54;
+    color: #ffffff;
+}
+header .header-left,header .header-right{
+    width: 1.33rem
+}
+header .header-left i{
+    margin-right: .13rem;
+    color: #ffffff;
+    font-size: .48rem;
+    line-height: 1.17rem;
+}
+header .header-left span{
+    color: #ffffff;
+    font-size: .37rem;
+    line-height: 1.17rem;
+}
+header .header-center{
+    color: #ffffff;
+    font-size: .37rem;
+    line-height: 1.17rem;
+    text-align: center
+}
+
+.index-section{
+    margin-top: .27rem;
+    background-color: #ffffff;
+}
+.index-section .section-header{
+    padding: .4rem 0;
+    margin: 0 .4rem;
+    font-size: .37rem;
+    color: #333333;
+    position: relative;
+    border-bottom: 1px solid #eeeeee;
+}
+.index-section .section-header::before{
+    content: "";
+    position: absolute;
+    width: .13rem;
+	height: .37rem;
+    background-color: #39bc54;
+    top: .4rem;
+    left: -0.4rem;
+}
+.index-section .section-body{
+    padding: .4rem;
+}
+.index-section .section-body .section-title{
+    font-size: .37rem;
+    color: #333333;
+    margin-bottom: .4rem;
+}
+
+/* 轮播图 */
+.index-swiper .swiper-slide img{
+    width: 100%;
+}
+.index-swiper .swiper-pagination-bullet{
+    opacity: 1;
+    background-color: rgba(255, 255, 255, 0.4);
+}
+.index-swiper .swiper-pagination-bullet-active{
+    background-color: rgba(255, 255, 255, 1);
+}
+
+/* 产品档案 & 产品指标 */
+.file-list{
+    
+}
+.file-list li{
+    margin-bottom: .4rem;
+}
+.file-list li i{
+    margin-right: .4rem;
+    color: #39bc54;
+    font-size: .43rem;
+    width: .53rem;
+}
+.file-list li span{
+    font-size: .32rem;
+    color: #999999;
+    width: 2.13rem;
+}
+.file-list li div{
+    font-size: .32rem;
+	color: #333333;
+}
+.btn-score{
+    display: inline-block;
+    padding: .21rem .4rem;
+    font-size: .37rem;
+    color: #ffffff;
+    background-color: #39bc54;
+    border-radius: .08rem;
+}
+
+/* 产品简介 & 公司简介 */
+.index-section .section-body .text{
+    font-size: .32rem;
+	line-height: .53rem;
+	color: #999999;
+}
+
+/* 营业档案 */
+.business-box .business-top{
+    padding: .4rem;
+}
+.business-box .business-top p{
+    color: #ffffff;
+    font-size: .37rem;
+}
+.business-box .business-top img{
+    width: 2.13rem;
+}
+.business-box .business-bottom{
+    border: solid 1px #eeeeee;
+    padding: .27rem .4rem;
+}
+
+/* 生产期图片 */
+.photo-list{
+    overflow-x: auto;
+}
+.photo-list .photo-item{
+    width: 3.6rem;
+    border: solid 1px #eeeeee;
+    margin-right: .4rem;
+}
+.photo-list .photo-item img{
+    width: 100%;
+    height: 2.96rem;
+}
+.photo-list .photo-item .photo-info{
+    padding: .27rem .32rem;
+}
+.photo-list .photo-item .photo-info p{
+    font-size: .32rem;
+	color: #333333;
+}
+.photo-list .photo-item .photo-info time{
+    display: block;
+    font-size: .27rem;
+    color: #999999;
+    margin-top: 5px;
+}
+
+/* 实时监控 */
+.video-list .video-item{
+    float: left;
+    width: 50%;
+    margin: 0 0 .4rem 0;
+}
+.video-list .video-item video{
+    width: 100%;
+    height: 3.6rem;
+}
+
+/* 关键数据 */
+.data-tab-scroll{
+    overflow-y: hidden;
+    flex-wrap: nowrap;
+}
+.data-tab-scroll a{
+    margin-right: .8rem;
+}
+.data-tab a{
+    font-size: .37rem;
+    color: #666666;
+    padding: .27rem 0;
+    white-space: nowrap;
+}
+.data-tab a.on{
+    color: #39bc54;
+    border-bottom: 2px solid #39bc54;
+}
+.data-content .data-box{
+    display: none;
+}
+.data-content .data-box.on{
+    display: block;
+}
+.data-content .data-box .data-item{
+    position: relative;
+    border: solid 1px #eeeeee;
+    padding: .27rem .4rem;
+    margin-top: .27rem;
+}
+.data-content .data-box .data-item span{
+    font-size: .32rem;
+    color: #999999;
+    width: 2.13rem;
+}
+.data-content .data-box .data-item p{
+    font-size: .32rem;
+    color: #333333;
+}
+.data-content .data-box .data-item time{
+    position: absolute;
+    top: .4rem;
+    right: .4rem;
+    font-size: .32rem;
+    color: #39bc54;
+}
+
+/* 产品认证 */
+.certify-list li{
+    float: left;
+    width: 33.33%;
+    text-align: center;
+    margin-bottom: .8rem;
+}
+.certify-list li img{
+    height: 1.92rem;
+}
+.certify-list li p{
+    font-size: .37rem;
+    color: #333333;
+    margin-top: .27rem;
+}
+
+/* 线上购买 */
+.link-list .link-item{
+    width: 25%;
+    float: left;
+    text-align: center;
+}
+.link-list .link-item img{
+    border-radius: 50%;
+    width: 1.33rem;
+	height: 1.33rem;
+}
+.link-list .link-item a{
+    display: inline-block;
+    padding: .08rem .19rem;
+    border-radius: .08rem;
+    border: solid 1px #333333;
+    font-size: .27rem;
+    color: #333333;
+    margin-top: .27rem;
+}
+
+.shop-list .shop-item{
+    margin-bottom: .4rem;
+}
+.shop-list .shop-item span{
+    font-size: .32rem;
+	color: #999999;
+}
+.shop-list .shop-item p{
+    font-size: .37rem;
+	color: #333333;
+}
+.shop-list .shop-item i{
+    width: .4rem;
+    color: #333333;
+    font-size: .43rem;
+}
+
+/* 生长期图片 */
+.photo-img{
+    width: 100%;
+    height: 8rem;
+    background: url(../images/1.png) no-repeat center;
+    background-size: cover;
+}
+.photo-info{
+    padding: .4rem .8rem;
+}
+.photo-info i{
+    font-size: .48rem;
+    color: #999999;
+    margin-right: .27rem;
+}
+.photo-info span{
+    font-size: .32rem;
+    color: #999999;
+}
+.photo-info time{
+    display: block;
+    font-size: .32rem;
+    color: #999999;
+    margin: .27rem 0 0 0;
+}
+.photo-info .photo-desc{
+    padding: .27rem 0 0 0;
+    border-top: 1px solid #eeeeee;
+    margin-top: .4rem;
+    font-size: .37rem;
+    line-height: .59rem;
+}
+
+/* 认证详情 */
+.list-view{
+    background-color: #ffffff;
+    padding: .4rem;
+    margin-top: .4rem;
+}
+.list-view .list-item-view{
+    margin-bottom: .4rem;
+}
+.list-view .list-item-view:last-child{
+    margin-bottom: 0;
+}
+.list-view .list-item-view span{
+    font-size: .37rem;
+    color: #999999;
+}
+.list-view .list-item-view p{
+    font-size: .37rem;
+    color: #333333;
+}
+
+.detail-view{
+    margin-top: .4rem;
+    background-color: #ffffff;
+    padding: .4rem;
+    text-align: center;
+}
+.detail-view img{
+    max-width: 100%;
+}
+
+/* 查看地图 */
+.map-wrapper{
+    position: relative;
+}
+.map-info{
+    padding: .8rem;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    background-color: #ffffff;
+}
+
+/* 我要评分 */
+.mask{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 11;
+    display: none;
+}
+.modal{
+    height: 100%;
+}
+.modal-win{
+    width: 100%;
+    background-color: #ffffff;
+    padding: .6rem;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    border-radius: .4rem .4rem 0 0;
+    position: relative
+} 
+.modal-win .modal-header{
+    font-size: .43rem;
+    color: #333333;
+    text-align: center;
+}
+.modal-win .modal-body{
+    padding: .8rem 0;
+    text-align: center;
+}
+.modal-win .modal-footer {
+    text-align: center;
+}
+.modal-win .modal-footer a{
+    display: inline-block;
+    padding: .21rem .8rem;
+    font-size: .37rem;
+    color: #ffffff;
+    background-color: #39bc54;
+    border-radius: .08rem;
+}

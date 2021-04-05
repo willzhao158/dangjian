@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>商品详情</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<style type="text/css">
+    .swiper-container {
+      height: 370px;
+    }
+    
+</style>
+<body>
+    <div class="container">
+        <div class="index-banner swiper-container">
+            <div class="swiper-wrapper">
+                <volist name="banners" id="banner">
+                    <div class="swiper-slide">
+                        <img src="../{$banner}" alt="">
+                    </div>
+                </volist>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+        <div class="detail-info">
+            <div class="flex flex-align-center m-t-30">
+                <!-- <h1>￥99.9</h1>
+                <del>门市价￥186</del> -->
+            </div>
+            <div class="flex flex-align-center flex-pack-justify m-t-30" style="margin-top: -10px;">
+                <span>已售：<span>{$goods['sold']}</span></span>
+                <span>库存：<span>{$goods['stock']}</span></span>
+                
+                
+            </div>
+        </div>
+        <div class="weui-form" style="margin-top: -40px;">
+            <div class="weui-form__control-area">
+                <div class="weui-cells__group weui-cells__group_form">
+                    <div class="weui-cells weui-cells_form">
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">我的可兑换积分</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$uinfo['jifen']}" readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">商品编号</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$goods['serial']}" readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">商品名称</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" value="{$goods['name']}" readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">兑换所需积分</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="need_jifen" value="{$goods['jifen']}" readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">自付金</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" id="need_price" value="{$goods['price']}" readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">寄送地址</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="hidden" id="goods_id" name="goods_id" placeholder="请输入兑换数量" value="{$goods['id']}"/>
+                                <input class="weui-input" type="hidden" id="address_id" name="address_id" placeholder="请输入兑换数量" value="{$address_id}"/>
+                                <input class="weui-input" onclick="window.location.href='{:url('mall/select_address')}&id={$goods.id}'" <if condition="!empty($address_info)">placeholder="{$address_info}"<else/>placeholder="请选择寄送地址"</if>  readonly/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">兑换数量</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="number" id="number" name="number" placeholder="请输入兑换数量"/>
+                            </div>
+                        </div>
+                        <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">发货备注</label></div>
+                            <textarea class="weui-textarea" id="remark" placeholder="" rows="3"></textarea>
+                        </div>
+                        <!-- <div class="weui-cell weui-cell_active">
+                            <div class="weui-cell__hd"><label class="weui-label">动态密码</label></div>
+                            <div class="weui-cell__bd">
+                                <input class="weui-input" type="text" pattern="[0-9]*" placeholder="动态密码"/>
+                            </div>
+                            <div class="weui-cell__ft">
+                                <button class="weui-btn weui-btn_default btn-get-code" id="getCode">获取验证码</button>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="weui-form__opr-area">
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_data">立即兑换</a>
+            </div>
+            <div class="weui-form__tips-area">
+                <p class="weui-form__tips" style="text-align: left;">
+                    <i class="iconfont iconwarning-circle-fill"></i>兑换说明：<br>1.此为特价定制商品，无质量问题不可退换，购买即视为认同此说明及使用规则，如遇使用问题可咨询微信客服：paopao1801<br>2.您填写的寄送信息将发送给第三方公司，用于商品寄送。<br>3.本商品由商品供货商提供售后服务，商品信息以实际为准，泡泡同城仅提供积分支付服务。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- success toast-->
+    <div id="toastSuccess" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+            <p class="weui-toast__content">操作成功</p>
+        </div>
+    </div>
+    <!-- success toast-->
+
+    <!-- error toast-->
+    <div id="toastError" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+            <p class="weui-toast__content">请检查您的输入</p>
+        </div>
+    </div>
+    <!-- error toast-->
+
+    <!-- loading toast-->
+    <div id="toastLoading" style="display: none;">
+        <div class="weui-mask_transparent"></div>
+        <div class="weui-toast">
+            <i class="weui-loading weui-icon_toast"></i>
+            <p class="weui-toast__content">正在加载...</p>
+        </div>
+    </div>
+    <!-- loading toast-->
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        function showToastSuccess(msg){
+            if ($("#toastSuccess").css('display') != 'none') return;
+            $("#toastSuccess").fadeIn(100);
+            $("#toastSuccess .weui-toast__content").html(msg)
+            setTimeout(function () {
+                $("#toastSuccess").fadeOut(100);
+            }, 2000);
+        }
+        function showToastError(msg){
+            if ($("#toastError").css('display') != 'none') return;
+            $("#toastError").fadeIn(100);
+            $("#toastError .weui-toast__content").html(msg)
+            setTimeout(function () {
+                $("#toastError").fadeOut(100);
+            }, 2000);
+        }
+        function showToastLoading(msg){
+            $("#toastLoading").fadeIn(100);
+            $("#toastLoading .weui-toast__content").html(msg)
+        }
+        function hideToastLoading(){
+            $("#toastLoading").fadeOut(100);
+        }
+        // 轮播图
+        var indexBanner = new Swiper ('.index-banner', {
+            loop: true,
+            autoplay: true,
+            pagination: {
+                el: '.index-banner .swiper-pagination',
+            }
+        })  
+
+        var jifen = {$goods['jifen']};
+        var price = {$goods['price']};
+        $('#number').bind('input propertychange', function(){
+            var number = $("#number").val();
+            $("#need_jifen").val(jifen*number);
+            $("#need_price").val(price*number);
+            
+        });
+
+        
+        $(function(){
+
+            $("#submit_data").click(function(){
+
+                var number = $("#number").val();
+
+                var address_id = $("#address_id").val();
+                if(number == ''){
+                    showToastError('请输入兑换数量');
+                    return false;
+                }
+                if(address_id == ''){
+                    showToastError('请选择收货地址');
+                    return false;
+                }
+                $.ajax({
+                    url: "{:url('mall/make_order')}",
+                    type: 'post',
+                    dataType: 'json',
+                    data:{
+                            number:number,
+                            address_id:address_id,
+                            goods_id:$("#goods_id").val(),
+                            need_price:$("#need_price").val(),
+                            need_jifen:$("#need_jifen").val(),
+                            remark:$("#remark").val(),
+                          },
+                    success: function (data) {
+                        if(data['code'] == 1){
+                            //showToastSuccess(data['msg']);
+                            setTimeout(function(){ window.location.href = "{:url('pay/show_pay')}?go_id="+data['go_id']; }, 1000);
+                        }else if(data['code'] == 3){
+                            showToastSuccess(data['msg']);
+                            setTimeout(function(){ window.location.href = "{:url('login/login')}"; }, 2000);
+                        }else{
+                            showToastError(data['msg']);
+                            return false;
+                        }
+                    },
+                    error: function () {
+                        showToastError('未知错误');
+                    },
+                    complete: function () {}
+                });
+                
+            });
+
+        })
+    </script>
+</body>
+</html>

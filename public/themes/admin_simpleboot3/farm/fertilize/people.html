@@ -1,0 +1,68 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<div id="user" class="demo-transfer"></div>
+			</div>
+		</div>
+	</div>
+</body>
+
+
+
+
+
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','laytpl','element','transfer'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,laytpl = layui.laytpl
+        ,element = layui.el
+        ,layer = layui.layer
+        ,transfer = layui.transfer
+        ,defaults = "{:input('value')}";
+
+	var templet = {
+		init:function(data){
+			transfer.render({
+			    elem: '#user'
+			    ,data: data
+			    ,title: ['所有人员', '被分配人员']
+		    	,showSearch: true
+		    	,id:'key123'
+		    	,value:defaults.split(',')
+			    ,onchange: function(obj, index){
+			      	var array = new Array()
+			      		values = new Array();
+			      	var getData = transfer.getData('key123'); //获取右侧数据
+			      	getData.forEach(function(item){
+			      		values.push(item.value);
+			      		array.push({
+			      			value:item.value,
+			      			title:item.title
+			      		});
+			      	});
+
+			      	parent.initVlaue = values;
+			      	
+			      	parent.renderPeople.getChoose(array);
+			    }
+			});
+		},
+		render:function(){
+			var that = this;
+			$.post('/farm/fertilize/getUser',function(rq){
+				that.init(rq);
+			});	
+		}
+	};
+
+ 	templet.render();
+});
+
+</script>
+
+</html>

@@ -1,0 +1,187 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				   <div class="layui-form-item">
+				    <label class="layui-form-label">地块</label>
+				    <div class="layui-input-inline">
+				      <select name="place_id" lay-filter="certificate_type">
+				        <option value="">请选择地块</option>
+				       		<volist name="place" id="place">
+				       			<option value="{$place.id}">{$place.plotname}</option>
+				       		</volist>
+				      </select>
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">认证产品</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="crop_id" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">认证类型</label>
+				    <div class="layui-input-inline">
+				      <select name="type_id" lay-filter="certificate_type">
+				        <option value="">请选择证书类型</option>
+				       	<notempty name="type">	
+				       		<volist name="type" id="type">
+				       			<option value="{$type.id}">{$type.name}</option>
+				       		</volist>
+				       	</notempty>	
+				      </select>
+				    </div>
+				    <div class="layui-form-mid layui-word-aux" style="cursor:pointer;">新增证书类型</div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">认证编号</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="certificate_number" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">证书机构</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="certificate_mechanism" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">颁证日期</label>
+				    <div class="layui-input-block">
+				       <input type="text" name="certificate_date" id="date1" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+					</div>
+				  </div>
+					
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">有效日期</label>
+				    <div class="layui-input-block">
+				       <input type="text" name="valid_date" id="date2" lay-verify="date" placeholder="yyyy-MM-dd" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				 
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">样图</label>
+				    <div class="layui-input-block">
+				      	<div class="layui-upload-drag" id="sample">
+						  <i class="layui-icon"></i>
+						  <p>点击上传，或将文件拖拽到此处</p>
+						</div>
+
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      	<div class="uploadimg"></div>
+				   		<input type="hidden" name="sample">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script src="/static/build/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+
+    laydate.render({
+     	elem: '#date1'
+  	});
+    laydate.render({
+	    elem: '#date2'
+	});
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/farm/Farmbase/upload'
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="sample"]').val(res.msg);
+	    }
+	});
+
+
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+
+
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/farm/certification/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+	
+	layui.use('laydate', function(){
+  	var laydate = layui.laydate;
+  	//执行一个laydate实例
+  	laydate.render({
+    elem: '#certificate_date' //指定元素
+  });
+  laydate.render({
+    elem: '#effective_date' //指定元素
+  });
+});
+
+
+});
+
+</script>
+
+</html>

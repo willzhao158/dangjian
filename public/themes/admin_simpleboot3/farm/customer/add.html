@@ -1,0 +1,101 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">地址</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="address" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input">
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">联系人</label>
+				      <div class="layui-input-inline">
+				        <input type="tel" name="controller" lay-verify="required" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+				    <div class="layui-inline">
+				      <label class="layui-form-label">电话</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="phone" lay-verify="required" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+				    <div class="layui-inline">
+				      <label class="layui-form-label">邮箱</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="email" autocomplete="off" class="layui-input">
+				      </div>
+				    </div>
+				  </div>
+				
+
+				  <div class="layui-form-item layui-form-text">
+				    <label class="layui-form-label">备注</label>
+				    <div class="layui-input-block">
+				      <textarea placeholder="请输入内容" class="layui-textarea" name="remark"></textarea>
+				    </div>
+				  </div>
+				 
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,layer = layui.layer;
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/farm/customer/addaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>个人中心</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="ucenter-header">
+            <div class="user-info flex flex-align-center">
+                <!-- <div class="user-img"></div> -->
+                <div class="flex-1">
+                    <h1>{$user.name}</h1>
+                    <p>Id号：{$user.id}</p>
+                    <p>注册时间：<?php echo date('Y-m-d',$user['createtime'])?></p>
+                </div>
+                <a href="{:url('charge/index')}" class="btn-charge">充值</a>
+            </div>
+            <ul class="user-num flex">
+                <li class="flex-1">
+                    <p>{$user.jifen}</p>
+                    <p>积分</p>
+                </li>
+                <li class="flex-1">
+                    <a href="my_fans.html">
+                        <p>9999</p>
+                        <p>粉丝</p>
+                    </a>
+                </li>
+                <li class="flex-1">
+                    <p>9999</p>
+                    <p>团队</p>
+                </li>
+            </ul>
+        </div>
+        <div class="ucenter-body">
+            <a class="upgrade-banner flex flex-align-center flex-pack-justify" href="{:url('my/my_vip')}">
+                <p>升级VIP商家享有更多权益</p>
+                <span>了解详情</span>
+            </a>
+            <a class="upgrade-banner flex flex-align-center flex-pack-justify" href="{:url('shop/auth')}">
+                <p>商家认证</p>
+                <span>了解详情</span>
+            </a>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="my_wallet.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconwallet"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>我的钱包</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href=""><!-- 普通 -->
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconbook"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>我的活动劵</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href=""><!-- vip -->
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconbook"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>我的广告券</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconbook"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>我的抢购劵</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="my_message.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconmessage"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>消息中心</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="my_collect.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconstar"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>我的收藏</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="my_phone.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconphone"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>修改手机号</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="{:url('address/address_list')}">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconlocation"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>收货地址</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="cancelAccount">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconlogout"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>帐号注销</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="{:url('advertisement/index')}">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconupload"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>发布广告</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="{:url('invoice/index')}">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconsolution"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>增票资质</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="appDown">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont icondownload"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>app下载</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="javascript:;" id="appShare">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconshare"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>分享</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+            </div>
+            <div class="weui-cells">
+                <a class="weui-cell weui-cell_access" href="">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconquestion-circle"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>操作教程</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access" href="">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconcontrol"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>推广规则</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <!-- 普通用户 -->
+                <!-- <a class="weui-cell weui-cell_access upgrade-vip" href="javascript:;">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconsafetycertificate"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>商家认证</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a>
+                <a class="weui-cell weui-cell_access  upgrade-vip" href="javascript:;">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconappstore"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>门店管理</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a> -->
+                <!-- VIP -->
+                <!-- <a class="weui-cell weui-cell_access upgrade-vip" href="merchant_form.html">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconsafetycertificate"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>商家认证</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a> -->
+                <!-- <a class="weui-cell weui-cell_access upgrade-vip" href="{:url('shop/shop_manage')}">
+                    <div class="weui-cell__hd">
+                        <i class="iconfont iconappstore"></i>
+                    </div>
+                    <div class="weui-cell__bd">
+                        <p>门店管理</p>
+                    </div>
+                    <div class="weui-cell__ft"></div>
+                </a> -->
+            </div>
+        </div>
+    </div>
+    <!-- ============= 底部导航 start ============== -->
+    <include file="public@footer" />
+    
+    <!-- 请升级为VIP商家 end -->
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+</body>
+</html>

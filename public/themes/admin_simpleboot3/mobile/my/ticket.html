@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>我的宣传券</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css?v=2">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css?v=2">
+</head>
+<body>
+    <div class="container">
+        <div class="ticket-list">
+            <volist name="my_tickets" id="ticket">
+                <div class="ticket-item">
+                    <h1 class="ticket-header">{$ticket['subject']}</h1>
+                    <div class="ticket-main">
+                        <div class="main-top flex flex-align-center flex-pack-justify">
+                            <div class="flex-1">
+                                <div class="flex flex-align-end">
+                                    <h1 style="font-size: 20px;color:#ffffff"><a href="{:url('advertisement/detail')}?id={$ticket['ad_id']}" style="color:#ffffff">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$ticket['activity_type_name']}</a></h1>
+                                    <span></span>
+                                </div>
+                                <!-- <p>满188元使用</p> -->
+                            </div>
+                            <a href="javascript:;" id="btn-submit-{$ticket['id']}" onclick="submit_data({$ticket['id']});" class="btn-submit"><if condition="$ticket['status']==1">提交<else/>已使用</if></a>
+                        </div>
+                        <div class="main-bottom flex flex-align-center flex-pack-justify">
+                            <div class="ticket-time">广告截止日期：{$ticket['end_time']}</div>
+                            <!-- <a href="" class="btn-back">退回</a> -->
+                        </div>
+                    </div>
+                </div>
+            </volist>
+            <!-- <div class="ticket-item">
+                <h1 class="ticket-header">潘师傅韩式炸鸡（广陵店）</h1>
+                <div class="ticket-main">
+                    <div class="main-top flex flex-align-center flex-pack-justify">
+                        <div class="flex-1">
+                            <div class="flex flex-align-end">
+                                <h1>28</h1>
+                                <span>元代金券</span>
+                            </div>
+                            <p>满188元使用</p>
+                        </div>
+                        <a href="" class="btn-submit">提交</a>
+                    </div>
+                    <div class="main-bottom flex flex-align-center flex-pack-justify">
+                        <div class="ticket-time">使用时间：2020年07月01日</div>
+                        <a href="" class="btn-back">退回</a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="js_dialog" id="conform_msg" style="display: none;">
+            <div class="weui-mask"></div>
+            <div class="weui-dialog">
+                <!-- <div class="weui-dialog__hd"><strong class="weui-dialog__title">1111</strong></div> -->
+                <div class="weui-dialog__bd" id="show_msg"></div>
+                <div class="weui-dialog__ft">
+                    <a href="javascript:;" class="weui-dialog__btn weui-dialog__btn_primary" onclick="hide_conform_msg();">知道了</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script type="text/javascript">
+        function show_conform_msg(msg){
+            $("#show_msg").html(msg);
+            $("#conform_msg").fadeIn(100);
+        }
+        function hide_conform_msg(){
+            $("#conform_msg").fadeOut(100);
+        }
+        function submit_data(tid){
+            if($("#btn-submit-"+tid).text() == '已使用'){
+                return false;
+            }
+            $.ajax({
+                url: "{:url('ticket/submit_xuanchuan')}",
+                type: 'post',
+                dataType: 'json',
+                data:{
+                        tid:tid
+                      },
+                success: function (data) {
+                    show_conform_msg('请在【我的钱包】中查看收益！');
+                    $("#btn-submit-"+tid).text('已使用');
+                    
+                },
+                error: function () {
+                    // showToastError('未知错误');
+                },
+                complete: function () {}
+            });
+        }
+        $(function(){
+            
+        })
+    </script>
+</body>
+</html>

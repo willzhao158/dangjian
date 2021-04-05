@@ -1,0 +1,211 @@
+<include file="public@admin" />
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+            <input class="layui-input" name="company" id="company" autocomplete="off" placeholder="请输入公司名称">
+          </div>
+          <div class="layui-inline">
+            <input class="layui-input" name="salesman" id="salesman" autocomplete="off" placeholder="请输入销售员">
+          </div>
+          <div class="layui-inline">
+            <input class="layui-input" name="back_time" id="back_time" autocomplete="off" placeholder="请输入报表时间">
+          </div>
+          <button class="layui-btn" data-type="reload">搜索</button>
+          <button class="layui-btn " data-type="excelHref">导出Excel</button>
+        </div>
+      </div>
+      <div class="layui-card-body">
+        <table class="layui-hide" id="Place" lay-filter="Place"></table> 
+      </div>
+    </div>
+  </div> 
+</body>
+<script type="text/html" id="show_link">
+  {{#  if(d.con_link != null){ }}
+    <a class="layui-btn layui-btn-xs" lay-event="show_con">查看</a>
+  {{#  } }} 
+</script>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['laydate','table','layer','form','jquery'], function(){
+  var table = layui.table
+      ,layer = layui.layer;
+  var form   = layui.form;
+  var $ = layui.jquery;
+  var laydate = layui.laydate;
+  laydate.render({
+    elem: '#back_time' //指定元素
+    ,type: 'month'
+    ,range: '~'
+  });
+  //方法级渲染
+  function initTable(){
+    var company = $("#company").val();
+    var salesman = $("#salesman").val();
+    var back_time = $("#back_time").val();
+    $.post('/index/getCols',{company:company,salesman:salesman,back_time:back_time},function(res){
+      table.render({
+        elem: '#Place'
+        ,url: '/index/backlist/'
+        ,where: {company:company,salesman:salesman,back_time:back_time}
+        // ,cols: [[
+        //   {field:'salesman', title: '销售员'}
+        //   ,{field:'deliver_time', title: '发货日期'}
+        //   ,{field:'con_number', title: '合同编号'}
+        //   ,{field:'company', title: '欠款单位'}
+        //   ,{field:'debt', title: '总欠款金额'}
+
+        //   ,{field:'debt', title: '回款方式'}
+        // ]]
+        ,cols: [res]
+        ,id: 'PlaceReload'
+        ,page: true
+      });
+    });
+    
+  }
+  initTable();
+ 
+  // $("#export").click(function(){
+    
+  // })
+
+  var $ = layui.$, active = {
+    reload: function(){
+      initTable();
+      // var demoReload = $('#demoReload');
+      // table.reload('PlaceReload', {
+      //   page: {
+      //     curr: 1 //重新从第 1 页开始
+      //   }
+      //   ,cols: [[
+      //     {field:'salesman', title: '销售员'}
+      //     ,{field:'debt', title: '总欠款金额'}
+
+      //     ,{field:'debt', title: '回款方式'}
+      //   ]]
+      //   ,where: {
+      //       name: demoReload.val()
+      //   }
+      // }, 'data');
+    },
+    excelHref: function(){
+      window.location.href = "{:url('index/makeExcel')}?company="+$('#company').val()+"&salesman="+$('#salesman').val()+"&back_time="+$('#back_time').val();
+    },
+    Placereload:function(){
+      table.reload('PlaceReload');
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+
+  form.on('select(tran_company)', function(data){
+    //alert(data.value);
+    let id = $(data.elem).data('id');
+    // console.log(obj);
+    // console.log(id+'->'+obj.value);
+    var update = {id:id,tran_company:data.value};
+    $.post('/index/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      //layer.close(load);
+    });
+  });
+
+  form.on('select(back_way)', function(data){
+    //alert(data.value);
+    let id = $(data.elem).data('id');
+    // console.log(obj);
+    // console.log(id+'->'+obj.value);
+    var update = {id:id,back_way:data.value};
+    $.post('/index/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      //layer.close(load);
+    });
+  });
+
+  form.on('select(xinghuo)', function(data){
+    //alert(data.value);
+    let id = $(data.elem).data('id');
+    // console.log(obj);
+    // console.log(id+'->'+obj.value);
+    var update = {id:id,isxinghuo:data.value};
+    $.post('/index/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      //layer.close(load);
+    });
+  });
+
+  //监听单元格编辑
+  table.on('edit(Place)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0.5});
+    $.post('/index/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(res.msg);
+      }else{
+        table.reload('PlaceReload');
+        layer.msg(res.msg);
+      }
+      layer.close(load);
+    });
+
+  });
+
+  table.on('tool(Place)', function(obj){
+    var data = obj.data //获得当前行数据
+                ,layEvent = obj.event; //获得 lay-event 对应的值
+    switch(obj.event){
+      case 'edit':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/edit/id/'+data.id+'.html'
+        });
+        break;
+      case 'upload':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/addupload/id/'+data.id+'.html'
+        });
+        break;
+      case 'show_con':
+        layer.open({
+            type:2,
+            area:area,
+            title:SystemName,
+            content:'/index/show_con/id/'+data.id+'.html'
+        });
+        break;
+    };
+  });
+  
+});
+</script>
+</html>

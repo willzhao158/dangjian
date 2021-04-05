@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>余额提现</title>
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css?v=1">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="weui-form">
+
+            <div class="weui-form__text-area">
+
+                <h2 class="weui-form__title">余额提现</h2>
+
+            </div>
+
+            <div class="weui-form__control-area">
+
+                <div class="weui-cells__group weui-cells__group_form">
+
+                    <div class="weui-cells weui-cells_form">
+
+                        <div class="weui-cell weui-cell_active">
+
+                            <div class="weui-cell__hd"><label class="weui-label">提现金额</label></div>
+
+                            <div class="weui-cell__bd">
+
+                                <input class="weui-input" type="text" id="cash_number" placeholder="请输入提现金额"/>
+
+                            </div>
+
+                        </div>
+
+                        <div class="weui-cell weui-cell_active">
+
+                            <div class="weui-cell__hd"><label class="weui-label">验证码</label></div>
+
+                            <div class="weui-cell__bd">
+
+                                <input class="weui-input" id="code" type="text" pattern="[0-9]*" placeholder="输入验证码"/>
+
+                            </div>
+
+                            <div class="weui-cell__ft">
+
+                                <button class="weui-btn weui-btn_default btn-get-code" id="getCode">获取验证码</button>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <p class="weui-form__tips color-primary">提现说明:<br>1.每月仅限1次提现次数，单次提现金额没有限制，不收取任何提现服务费。<br>2.提现数额为平台退还给商家的广告费用。</p>
+
+            <div class="weui-form__opr-area">
+
+                <br>
+
+                <a class="weui-btn weui-btn_primary" href="javascript:" id="submit_data">确认提现</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- success toast-->
+
+    <div id="toastSuccess" style="display: none;">
+
+        <div class="weui-mask_transparent"></div>
+
+        <div class="weui-toast">
+
+            <i class="weui-icon-success-no-circle weui-icon_toast"></i>
+
+            <p class="weui-toast__content">操作成功</p>
+
+        </div>
+
+    </div>
+
+    <!-- success toast-->
+
+    <!-- error toast-->
+
+    <div id="toastError" style="display: none;">
+
+        <div class="weui-mask_transparent"></div>
+
+        <div class="weui-toast">
+
+            <i class="weui-icon-warn weui-icon_msg weui-icon_toast"></i>
+
+            <p class="weui-toast__content">请检查您的输入</p>
+
+        </div>
+
+    </div>
+
+    <!-- error toast-->
+
+    <!-- loading toast-->
+
+    <div id="toastLoading" style="display: none;">
+
+        <div class="weui-mask_transparent"></div>
+
+        <div class="weui-toast">
+
+            <i class="weui-loading weui-icon_toast"></i>
+
+            <p class="weui-toast__content">正在加载...</p>
+
+        </div>
+
+    </div>
+
+    <!-- loading toast-->
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/common.js"></script>
+
+    <script type="text/javascript">
+
+        function showToastSuccess(msg){
+
+            if ($("#toastSuccess").css('display') != 'none') return;
+
+            $("#toastSuccess").fadeIn(100);
+
+            $("#toastSuccess .weui-toast__content").html(msg)
+
+            setTimeout(function () {
+
+                $("#toastSuccess").fadeOut(100);
+
+            }, 2000);
+
+        }
+
+        function showToastError(msg){
+
+            if ($("#toastError").css('display') != 'none') return;
+
+            $("#toastError").fadeIn(100);
+
+            $("#toastError .weui-toast__content").html(msg)
+
+            setTimeout(function () {
+
+                $("#toastError").fadeOut(100);
+
+            }, 2000);
+
+        }
+
+        function showToastLoading(msg){
+
+            $("#toastLoading").fadeIn(100);
+
+            $("#toastLoading .weui-toast__content").html(msg)
+
+        }
+
+        function hideToastLoading(){
+
+            $("#toastLoading").fadeOut(100);
+
+        }
+
+        function sendsms(mobile){
+            $.ajax({
+                url: "{:url('sms/sendsms')}",
+                type: 'post',
+                dataType: 'json',
+                data: {mobile: mobile},
+                success: function (data) {
+                    if(data['code']==2){
+                        showToastError(data['msg']);
+                    }
+                },
+                error: function () {
+                },
+                complete: function () {
+                }
+            });
+        }
+
+        $(function(){
+
+            // 获取验证码
+
+            $("#getCode").on("click",function(){
+
+                $(this).attr("disabled","disabled")
+
+                $(this).addClass("weui-btn_disabled")
+
+                sendsms({$user['mobile']});
+
+                var time = 60;
+
+                var timer = setInterval(function(){
+
+                    time--;
+
+                    $("#getCode").html("倒计时"+time+"s");
+
+                    if(time == 0){
+
+                        clearInterval(timer)
+
+                        $("#getCode").html("重新获取")
+
+                        $("#getCode").removeAttr("disabled")
+
+                        $("#getCode").removeClass("weui-btn_disabled")
+
+                    }
+
+                },1000)
+
+            })
+
+            
+
+            $("#submit_data").click(function(){
+
+                var cash_number = $("#cash_number").val();
+
+                var code = $("#code").val();
+
+                if(cash_number == ''){
+
+                    showToastError('请输入提现金额');
+
+                    return false;
+
+                }
+
+                if(code == ''){
+
+                    showToastError('请输入验证码');
+
+                    return false;
+
+                }
+
+                $.ajax({
+
+                    url: "{:url('wallet/yue_tixian')}",
+
+                    type: 'post',
+
+                    dataType: 'json',
+
+                    data:{
+
+                            cash_number:cash_number,
+
+                            code:code,
+
+                          },
+
+                    success: function (data) {
+
+                        if(data['code'] == 1){
+
+                            showToastSuccess(data['msg']);
+
+                            setTimeout(function(){ window.location.href = "{:url('wallet/yue')}"; }, 2000);
+
+                        }else{
+
+                            showToastError(data['msg']);
+
+                            return false;
+
+                        }
+
+                    },
+
+                    error: function () {
+
+                        showToastError('未知错误');
+
+                    },
+
+                    complete: function () {}
+
+                });
+
+                
+
+            });
+
+        })
+
+    </script>
+
+</body>
+
+</html>

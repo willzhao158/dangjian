@@ -1,0 +1,118 @@
+<include file="public@admin" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				  
+				  	<div class="layui-form-item">
+				    	<label class="layui-form-label">链接</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="link" value="{$data.link}" placeholder="" autocomplete="off" class="layui-input">
+					    </div>
+				  	</div>
+				
+				  	<div class="layui-form-item">
+					    <label class="layui-form-label">图片</label>
+					    <div class="layui-input-block">
+					      	<div class="layui-upload-drag" id="sample">
+							  <i class="layui-icon"></i>
+							  <p>点击上传，或将文件拖拽到此处</p>
+							</div>
+
+					    </div>
+				  	</div>
+				  
+				  	<div class="layui-form-item" id="samples">
+					    <div class="layui-input-block">
+					      	<div class="uploadimg"><img src="/{$data.img}" style="margin:5px"></div>
+					   		<input type="hidden" name="img" value="{$data.img}">
+					   		<input type="hidden" name="id" value="{$data.id}">
+					    </div>
+				  	</div>
+					<div class="layui-form-item">
+					    <div class="layui-input-block">
+					      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+					      <!-- <button type="reset" class="layui-btn layui-btn-primary">重置</button> -->
+					    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form','upload','laydate'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,upload = layui.upload
+        ,laydate = layui.laydate
+        ,layer = layui.layer;
+
+
+    upload.render({
+	    elem: '#sample'
+	    ,url: '/banner/upload'
+	    ,data:{dir:'banner'}
+	    ,done: function(res){
+	    	if(res.code == 0){
+	    		layer.msg(res.msg,{icon:2});
+	    		return;
+	    	}
+	      	var upload = $('.uploadimg');
+	      	upload.html('');
+	      	$('#samples').removeClass('layui-hide');
+	      	upload.append('<img src="/'+res.msg+'" style="margin:5px">');
+	      	$('input[name="img"]').val(res.msg);
+	    }
+	});
+
+
+    $('.layui-word-aux').on('click',function(){
+    	var params = {
+    		type:2,
+    		area:area,
+    		title:SystemName,
+    		content:'/farm/certificationtype/index'
+    	};
+    	layer.open(params);
+    });
+
+
+    form.on('submit(menu)',function(res){
+
+
+    	var submit = {
+    		url:'/banner/editaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			if(data.code){
+    				parent.fun.reload();
+    				layer.msg('修改成功',{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    				},1000);
+    			}else{
+    				layer.msg('修改失败',{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+	
+
+
+
+});
+
+</script>
+
+</html>

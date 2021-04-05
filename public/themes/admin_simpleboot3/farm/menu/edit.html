@@ -1,0 +1,145 @@
+<include file="public@farm" />
+</head>
+<body>
+	<div class="layui-fluid">
+		<div class="layui-card">
+			<div class="layui-card-body">
+				<form class="layui-form" >
+				   <div class="layui-form-item">
+				    <label class="layui-form-label">上级菜单</label>
+				    <div class="layui-input-block">
+				      <select name="parent_id" lay-filter="aihao">
+				        <option value="0">作为一级菜单</option>
+				        {$select_category}
+				      </select>
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">名称</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="name" lay-verify="required" autocomplete="off" placeholder="" class="layui-input" value="{$data.name}">
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">应用</label>
+				    <div class="layui-input-block">
+				      <input type="text" name="app" lay-verify="required" placeholder="请输入" autocomplete="off" class="layui-input" value="{$data.app}">
+				    </div>
+				  </div>
+				  
+				  <div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">控制器</label>
+				      <div class="layui-input-inline">
+				        <input type="tel" name="controller" lay-verify="required" autocomplete="off" class="layui-input" value="{$data.controller}">
+				      </div>
+				    </div>
+				    <div class="layui-inline">
+				      <label class="layui-form-label">方法</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="action" lay-verify="required" autocomplete="off" class="layui-input" value="{$data.action}">
+				      </div>
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">参数</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="param" autocomplete="off" class="layui-input" value="{$data.param}">
+				      </div>
+				    </div>
+
+				    <div class="layui-form-item">
+				    <div class="layui-inline">
+				      <label class="layui-form-label">排序</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="list_order" autocomplete="off" class="layui-input" value="{$data.list_order}">
+				      </div>
+				    </div>
+
+				    <div class="layui-inline">
+				      <label class="layui-form-label">图标</label>
+				      <div class="layui-input-inline">
+				        <input type="text" name="icon" autocomplete="off" class="layui-input" value="{$data.icon}">
+				      </div>
+				    </div>
+
+
+
+				  <div class="layui-form-item layui-form-text">
+				    <label class="layui-form-label">备注</label>
+				    <div class="layui-input-block">
+				      <textarea placeholder="请输入内容" class="layui-textarea" name="remark">{$data.remark}</textarea>
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">状态</label>
+				    <div class="layui-input-block">
+				      <select  name="status">
+						<option value="1" {$data.status==1?'selected':''}>在左侧菜单显示</option>
+						<option value="0" {$data.status==0?'selected':''}>在左侧菜单隐藏</option>
+					</select>
+				    </div>
+				  </div>
+				  <div class="layui-form-item">
+				    <label class="layui-form-label">类型</label>
+				    <div class="layui-input-block">
+				      <select class="form-control" name="type" >
+						<option value="1" {$data.type==1?'selected':''}>有界面可访问菜单</option>
+						<option value="2" {$data.type==2?'selected':''}>无界面可访问菜单</option>
+						<option value="0" {$data.type==0?'selected':''}>只作为菜单</option>
+					</select>
+				    </div>
+				  </div>
+
+
+				  <div class="layui-form-item">
+				    <div class="layui-input-block">
+				      <input type="hidden" name="id" value="{$data.id}">
+				      <button type="submit" class="layui-btn" lay-submit="" lay-filter="menu">立即提交</button>
+				      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+				    </div>
+				  </div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['layer','form'], function(){
+    var form   = layui.form
+        ,$     = layui.$
+        ,layer = layui.layer;
+    form.on('submit(menu)',function(res){
+    	var submit = {
+    		url:'/farm/menu/editaction',
+    		type:'POST',
+    		dataType:'json',
+    		data:new FormData(res.form),
+    		cache:false,
+    		processData:false,
+    		contentType:false,
+    		success:function(data){
+    			console.log(data);
+    			if(data.code){
+    				layer.msg(data.msg,{icon:1});
+    				setTimeout(function(){
+    					parent.layer.closeAll();
+    					parent.location.reload();
+    				},1000);
+    			}else{
+    				layer.msg(data.msg,{icon:2});
+    			}
+    		}
+    	};
+   		$.ajax(submit);
+   		return false;
+    });
+
+
+});
+
+</script>
+
+</html>

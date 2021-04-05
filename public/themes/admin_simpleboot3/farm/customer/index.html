@@ -1,0 +1,131 @@
+<include file="public@farm" />
+<body>
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-card-body">
+        <div class="demoTable">
+          <div class="layui-inline">
+            <input class="layui-input" name="id" id="demoReload" autocomplete="off" placeholder="请输入企业名称">
+          </div>
+          <button class="layui-btn" data-type="reload">搜索</button>
+          <button class="layui-btn " data-type="addcustomer">新增企业</button>
+          <button class="layui-btn " data-type="delcustomer">删除企业</button>
+          <button class="layui-btn " data-type="customerreload">刷新</button>
+
+        </div>
+        
+      </div>
+      <div class="layui-card-body">
+        
+              
+        
+        <table class="layui-hide" id="customer" lay-filter="customer"></table> 
+      </div>
+    </div>
+  </div> 
+</body>
+<script src="__TMPL__/public/layuiadmin/layui/layui.js"></script>
+<script type="text/javascript">
+layui.use(['table','layer'], function(){
+  var table = layui.table
+      ,layer = layui.layer;
+  
+  //方法级渲染
+  table.render({
+    elem: '#customer'
+    ,url: '/farm/customer/datalist/'
+    ,cols: [[
+      {checkbox: true, fixed: true},
+      {field:'id', title: 'ID', width:80, sort: true, fixed: true}
+      ,{field:'name', title: '名称', edit: 'text'}
+      ,{field:'address', title: '地址',  sort: true,edit: 'text'}
+      ,{field:'contacts', title: '联系人', edit: 'text'}
+      ,{field:'phone', title: '电话',edit: 'text'}
+      ,{field:'email', title: '邮箱',edit: 'text'}
+      ,{field:'remake', title: '备注',edit: 'text'}
+    ]]
+    ,id: 'customerReload'
+    ,page: true
+  });
+ 
+  var $ = layui.$, active = {
+    reload: function(){
+      var demoReload = $('#demoReload');
+      
+      //执行重载
+      table.reload('customerReload', {
+        page: {
+          curr: 1 //重新从第 1 页开始
+        }
+        ,where: {
+            name: demoReload.val()
+        }
+      }, 'data');
+    },
+    addcustomer:function(){
+      layer.open({
+        type:2,
+        area:area,
+        title:SystemName,
+        content:'/farm/customer/add'
+      });
+    },
+    delcustomer:function(){
+    var that = this;
+    var checkStatus = table.checkStatus('customerReload');
+    var data = checkStatus.data;
+        var id = new Array();
+        data.forEach(function(item){
+          id.push(item.id);
+        });
+        
+        layer.confirm('确定删除吗？',{icon:3},function(index){
+          $.post('/farm/customer/delaction',{params:id.join(',')},function(res){
+            if(res.code){
+              table.reload('customerReload');
+              layer.msg(res.msg,{icon:1});
+            }else{
+              layer.msg(res.msg,{icon:2});
+            }
+          });
+        });
+
+       
+
+
+    },
+    customerreload:function(){
+      table.reload('customerReload');
+    }
+  };
+  window.fun = active;
+  $('.demoTable .layui-btn').on('click', function(){
+    var type = $(this).data('type');
+    active[type] ? active[type].call(this) : '';
+  });
+
+
+  //监听单元格编辑
+  table.on('edit(customer)', function(obj){
+    var value = obj.value //得到修改后的值
+    ,data = obj.data //得到所在行所有键值
+    ,field = obj.field; //得到字段
+    var update = {id:data.id,[field]:value};
+    var load = layer.load(0,{shade:0.5});
+    $.post('/farm/customer/editaction',{params:update},function(res){
+      if(res.code){
+        layer.msg(data.name + res.msg);
+      }else{
+        table.reload('customerReload');
+        layer.msg(data.name + res.msg);
+      }
+      layer.close(load);
+    });
+
+  });
+
+
+  
+});
+</script>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>收货地址</title>
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+    <style type="text/css">
+        .address-list li a {
+            border-left: 0px solid #f1f1f1
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <ul class="address-list">
+            <volist name="address_list" id="address">
+                <li class="flex flex-align-center flex-pack-justify">
+                    <a href="{:url('pay/vip')}?address_id={$address.id}">
+                        <div class="flex-1">
+                            <div class="flex flex-align-center">
+                                <h1>{$address.name}</h1>
+                                <span>{$address.mobile}</span>
+                            </div>
+                            <p><if condition="$address['isdefault']==1"><small>默认</small></if>{$address.province}{$address.city}{$address.district}{$address.address}</p>
+                        </div>
+                    </a>
+                    <a href="{:url('address/address_edit')}?id={$address.id}">编辑</a>
+                </li>
+            </volist>
+        </ul>
+        <a href="address_add.html" class="weui-btn weui-btn_primary m-t-30">新增收货地址</a>
+    </div>
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+    <script type="text/javascript">
+        $(function(){
+            
+        })
+    </script>
+</body>
+</html>

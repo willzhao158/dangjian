@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>查看地图</title>
+    <link rel="stylesheet" type="text/css" href="__TMPL__/www/mobile/assets/lib/swiper/css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/www/mobile/assets/font/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/www/mobile/assets/css/base.css" />
+    <link rel="stylesheet" type="text/css" href="__TMPL__/www/mobile/assets/css/style.css" />
+    <style>
+        #map {
+            height: 16.6rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="flex flex-align-center flex-pack-justify">
+            <div class="header-left">
+                <a class="flex flex-align-center" href="javascript:window.history.back();">
+                    <i class="fa fa-angle-left"></i>
+                    <span>返回</span>
+                </a>
+            </div>
+            <div class="header-center flex-1">查看地图</div>
+            <div class="header-right"></div>
+        </div>
+    </header>
+
+    <div class="map-wrapper">
+        <div id="map"></div>
+        <div class="map-info">
+            <p class="font-16 color-title">2017裕康阳光玫瑰</p>
+            <p class="font-14 color-text m-t-15">广西柳州市鹿寨县</p>
+        </div>
+    </div>
+
+    <script src="__TMPL__/www/mobile/assets/lib/jquery/jquery-1.12.4.min.js"></script>
+    <script src="__TMPL__/www/mobile/assets/js/flexible.js"></script>
+    <script src="__TMPL__/www/mobile/assets/lib/swiper/js/swiper.min.js"></script>
+    <script src="https://ditu.google.com/maps/api/js?key=AIzaSyAkQyi3T57OUym-z7623d6PmLGX8ZWGAmE"></script>
+    <script type="text/javascript">
+        $(function () {
+            initMap()
+        })
+        function initMap() {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 45.224781, lng: 131.163760},
+                zoom: 12,
+                mapTypeId: 'hybrid',
+                streetViewControl: false,
+            });
+            var geocoder = new google.maps.Geocoder();
+            geocodeAddress(geocoder, map);
+        }
+        function geocodeAddress(geocoder, resultsMap) {
+            var address = '广西柳州市鹿寨县';
+            geocoder.geocode({ 'address': address }, function (results, status) {
+                if (status === 'OK') {
+                    resultsMap.setCenter(results[0].geometry.location);
+                    var marker = new google.maps.Marker({
+                        map: resultsMap,
+                        position: results[0].geometry.location
+                    });
+                } else {
+                    alert('Geocode was not successful for the following reason: ' + status);
+                }
+            });
+        }
+
+    </script>
+</body>
+</html>

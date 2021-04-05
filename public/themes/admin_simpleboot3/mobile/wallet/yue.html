@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1, user-scalable=no">
+
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <title>我的钱包</title>
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/font/font-ant/iconfont.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/weui/weui.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/lib/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/base.css">
+
+    <link rel="stylesheet" href="__TMPL__/public/massets/css/style.css">
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="wallet-header">
+
+            <div class="main-data">
+
+                <h1 style="font-size:28px;font-weight:bold;">余额</h1>
+
+                <h1 style="font-size:18px;">{$user['yue']}</h1>
+
+
+
+            </div>
+
+
+
+            <!-- VIP -->
+
+            <!-- <ul class="vip-data flex">
+
+                <li class="flex-1">
+
+                    <p>已提现</p>
+
+                    <p>0</p>
+
+                </li>
+
+                <li class="flex-1">
+
+                    <a href="{:url('my/yue')}"></a>
+
+                    <p>余额</p>
+
+                    <p>0</p>
+
+                </li>
+
+            </ul> -->
+
+        </div>
+
+        <br>
+
+        <div class="wallet-body">
+
+            <div class="weui-form__opr-area">
+
+                <a class="weui-btn weui-btn_primary" href="{:url('wallet/tixian')}" style="float: left;margin:-40px 0px 0px 20px;background-color: #fff;color:#fa9d3b;border:1px solid #fa9d3b;width:40%;">提 现</a>
+
+
+
+                <a class="weui-btn weui-btn_primary" href="{:url('pay/show_charge')}?uid={$user['id']}" style="float: right;margin:-40px 20px 0px 0px;background-color: #fa9d3b;width:40%;">充 值</a>
+
+            </div>
+
+            <br><br><br>
+            <div class="weui-tab">
+
+                <div class="weui-tab__panel">
+
+                    <div class="list-detail pannel-item weui-bar__item_on">
+                        <volist name="yue_log" id="yue">
+                        <div class="detail-item">
+                            
+                                <div class="flex flex-align-center flex-pack-justify">
+
+                                    <h1>{$yue['action']}</h1>
+
+                                    <span><if condition="$yue['change']==1">-<else/>+</if>{$yue['price']}</span>
+
+                                </div>
+
+                                <p><?php echo date('Y-m-d H:i',$yue['createtime'])?></p>
+
+                                </div>
+                            </volist>
+                    </div>
+
+                    <div class="list-detail pannel-item">
+                            <div class="detail-item">
+
+                                <div class="flex flex-align-center flex-pack-justify">
+
+                                    <h1>支付宝提现</h1>
+
+                                    <span>+111</span>
+
+                                </div>
+
+                                <p>222</p>
+
+                            </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        
+
+    </div>
+
+    <script src="__TMPL__/public/massets/lib/jquery/1.12.4/jquery.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/weui/weui.min.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/flexible/flexible.js"></script>
+
+    <script src="__TMPL__/public/massets/lib/swiper/js/swiper.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(function(){
+
+            $('.weui-navbar__item').on('click', function () {
+
+                var index = $(this).index()
+
+                $(this).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+                $(".pannel-item").eq(index).addClass('weui-bar__item_on').siblings('.weui-bar__item_on').removeClass('weui-bar__item_on');
+
+            });
+
+        })
+
+    </script>
+
+</body>
+
+</html>

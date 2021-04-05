@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="__TMPL__/www/assets/lib/layui/css/layui.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/font/font-awesome/css/font-awesome.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/css/base.css">
+    <link rel="stylesheet" href="__TMPL__/www/assets/css/style.css">
+    <link rel="shortcut icon" href="__TMPL__/www/assets/images/favicon.ico" />
+    <title>产品详情</title>
+</head>
+
+<div id="view-qrcode-div" style="padding: 30px 0;display: none;">
+    <div class="text-center">
+        <p class="font-18">溯源档案二维码</p>
+        <p class="m-t-10 color-junior">手机扫一扫</p>
+        <img class="m-t-10" style="width: 300px;" src="__TMPL__/www/assets/images/qrcode.png">
+    </div>
+</div>
+<div id="view-star-div" style="padding: 30px 0;display: none;">
+    <div class="text-center">
+        <h2 class="color-primary">请评分</h2>
+        <p class="m-t-15 color-junior">点击星形来评分</p>
+        <div id="view-rank-div" class="m-t-30"></div>
+    </div>
+</div>
+<div id="view-photo-div" style="padding: 15px;display: none;">
+    <div class="layui-carousel" id="view-photo-carousel">
+        <div carousel-item="">
+            <div class="carousel-item text-center">
+                <img src="__TMPL__/www/assets/images/1.jpg">
+                <p class="font-14">描述</p>
+            </div>
+            <div class="carousel-item text-center">
+                <img src="__TMPL__/www/assets/images/3.jpg">
+                <p class="font-14">描述</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="view-manure-div" style="padding: 0 15px;display: none;">
+    <table class="layui-table" id="view-manure-table"></table>
+</div>
+<div id="view-pest-div" style="padding: 0 15px;display: none;">
+    <table class="layui-table" id="view-pest-table"></table>
+</div>
+<div id="view-data-div" style="padding: 15px;display: none;">
+    <div class="layui-tab layui-tab-brief" lay-filter="data">
+        <ul class="layui-tab-title">
+            <li class="layui-this">示范棚土温</li>
+            <li>示范棚EC值</li>
+            <li>示范棚土水</li>
+            <li>示范棚空温</li>
+            <li>示范棚空湿</li>
+            <li>示范棚光照</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div style="width: 100%;height: 480px;" id="chart1"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div style="width: 100%;height: 480px;" id="chart2"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="chart3"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="chart4"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="chart5"></div>
+            </div>
+            <div class="layui-tab-item">
+                <div id="chart6"></div>
+            </div>
+        </div>
+    </div> 
+</div>
+<div id="view-map-div" style="padding: 15px;display: none;">
+    <div id="view-map-box" style="width: 100%;height: 300px;"></div>
+</div>
+<div id="view-certify-div" style="padding: 15px;display: none;">
+    <div class="certify-content">
+        <img src="__TMPL__/www/assets/images/1.jpg" alt="">
+        <p>认证报告</p>
+        <<!-- p>认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告</p>
+        <p>认证报告认证报告认证认证报告认证报告认证报告认证报告认证报告</p> -->
+        <img src="__TMPL__/www/assets/images/1.jpg" alt="">
+        <!-- <p>认证报告认证报告认证报告认证报</p>
+        <p>认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告</p>
+        <p>认证报告认证报告认证认证报告认证报告认证报告认证报告认证报告</p> -->
+        <img src="__TMPL__/www/assets/images/1.jpg" alt="">
+        <!-- <p>认证报告认证报告认证报告认证报</p>
+        <p>认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告认证报告</p>
+        <p>认证报告认证报告认证认证报告认证报告认证报告认证报告认证报告</p> -->
+    </div>
+</div>
+<body>
+    <!-- ====== 头部 ======== -->
+    <header>
+        <div class="header-sub">
+            <div class="container">
+                <div class="header-phone">
+                    <i class="fa fa-phone"></i>
+                    <span>0514-80786099</span>
+                </div>
+            </div>
+        </div>
+        <div class="header-main">
+            <div class="container">
+                <div class="flex flex-align-center flex-pack-justify">
+                    <div class="header-logo">
+                        <a href="index.html">
+                            <img src="__TMPL__/www/assets/images/logo.png" alt="">
+                        </a>
+                    </div>
+                    <div class="header-menu">
+                        <div class="flex flex-align-center">
+                            <a href="{:url('index/index')}" class="on">首页</a>
+                            <a href="{:url('index/list')}">产品库</a>
+                            <a href="{:url('index/help')}">帮助</a>
+                        </div>
+                    </div>
+                    <a href="" class="header-link m-r-30">
+                        <i class="fa fa-link"></i>
+                        <span>瑞丰智慧农业云平台</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ====== 头部 ======== -->
+
+    
+    <!-- ====== 主体 ======== -->
+    <main>
+        <div class="container">
+            <div class="detail-section">
+                <div class="detail-content">
+                    <div class="flex flex-align-start">
+                        <div class="product-avatar m-r-30">
+                            <div class="img-box"><img src="__TMPL__/www/assets/images/2.jpg" alt=""></div>
+                        </div>
+                        <div class="flex-1 product-info">
+                            <div class="flex flex-align-center flex-pack-justify">
+                                <h1 class="product-name">阳光玫瑰</h1>
+                                <a href="javascript:;" class="product-comment" id="btnRank">我要评分</a>
+                            </div>
+                            <div class="flex flex-pack-justify m-t-15">
+                                <div>
+                                    <div class="flex flex-align-center m-t-30"><span>品种：</span><p>阳光玫瑰</p></div>
+                                    <div class="flex flex-align-center m-t-15"><span>上市时间：</span><p>2019-12-31</p></div>
+                                    <div class="flex flex-align-center m-t-15">
+                                        <span>顾客评分：</span>
+                                        <div class="flex flex-align-center">
+                                            <p data-rank="5" id="proRank"></p>
+                                            <p class="font-14 color-junior">(56)</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-qrcode">
+                                    <a href="javascript:;" id="qrcodeBtn">
+                                        <img src="__TMPL__/www/assets/images/qrcode.png" alt="">
+                                        <p>溯源二维码</p>
+                                        <p>点击放大</p>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="product-desc color-junior m-t-15" style="line-height: 22px;">
+                                颜色:果实硕大，色泽金黄<br>
+                                风味:独特的玫瑰花香，口感细腻<br>
+                                每串重量:500g~600g<br>
+                                糖分:21%<br>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-location-arrow"></i>
+                        <h1>产地简介</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <div class="product-info">
+                        <div class="flex flex-align-center">
+                            <span>名称：</span>
+                            <p>葡萄园<small class="m-l-10 color-primary">营业执照已验证</small></p>
+                        </div>
+                        <div class="flex flex-align-center m-t-10">
+                            <span>负责人：</span>
+                            <p>陆昊</p>
+                        </div>
+                        <div class="flex flex-align-center m-t-10">
+                            <span>地址：</span>
+                            <p>江苏省扬州市邗江区丁沟瑞丰葡萄园</p>
+                        </div>
+                        <div style="width: 100%;height: 250px;" class="m-t-30" id="productMap"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-cube"></i>
+                        <h1>产品简介</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <p class="text">阳光玫瑰葡萄丰产、稳产, 大粒, 抗病, 耐贮性好, 栽培简单。果穗圆锥形, 穗重600G左右, 大穗可达1.8 KG左右, 平均果粒重812G。果粒着生紧密, 椭圆形, 黄绿色, 果面有光泽, 果粉少。果肉鲜脆多汁, 有玫瑰香味, 可溶性固形物含量20%左右, 最高可达26%, 鲜食品质极优。不裂果, 不脱粒, 丰产, 抗逆性较强, 综合性状优良。</p>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-file-text"></i>
+                        <h1>溯源档案</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <div class="file-list clearfix">
+                        <a class="file-item file-no" href="javascript:;" id="photo">
+                            <div class="file-img"><i class="fa fa-photo"></i></div>
+                            <h6>全生长期图片</h6>
+                            <span>查看图片</span>
+                        </a>
+                        <a class="file-item" href="javascript:;" id="manure">
+                            <div class="file-img"><i class="fa fa-leaf"></i></div>
+                            <h6>肥料使用表</h6>
+                            <span>查看记录</span>
+                        </a>
+                        <a class="file-item" href="javascript:;" id="pest">
+                            <div class="file-img"><i class="fa fa-glass"></i></div>
+                            <h6>农药使用表</h6>
+                            <span>查看记录</span>
+                        </a>
+                        <a class="file-item" href="javascript:;" id="video">
+                            <div class="file-img"><i class="fa fa-video-camera"></i></div>
+                            <h6>实时监控视频</h6>
+                            <span>查看视频</span>
+                        </a>
+                        <a class="file-item" href="javascript:;" id="data">
+                            <div class="file-img"><i class="fa fa-database"></i></div>
+                            <h6>关键环境数据</h6>
+                            <span>查看记录</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-shield"></i>
+                        <h1>产品认证</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>认证项目</th>
+                                <th>认证状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="certify-name">有机食品认证</td>
+                                <td><i class="fa fa-check-circle color-primary"></i> 已检测</td>
+                                <td>
+                                    <a href="javascript:;" class="btn-certify color-primary font-14">查看</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="certify-name">土壤检测报告</td>
+                                <td><i class="fa fa-check-circle color-primary"></i> 已检测</td>
+                                <td>
+                                    <a href="javascript:;" class="btn-certify color-primary font-14">查看</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="certify-name">水质检测报告</td>
+                                <td><i class="fa fa-check-circle color-primary"></i> 已检测</td>
+                                <td>
+                                    <a href="javascript:;" class="btn-certify color-primary font-14">查看</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="certify-name">ISO食品安全管理体系认证</td>
+                                <td><i class="fa fa-check-circle color-primary"></i> 已检测</td>
+                                <td>
+                                    <a href="javascript:;" class="btn-certify color-primary font-14">查看</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="certify-name">QS食品质量安全认证</td>
+                                <td><i class="fa fa-check-circle color-primary"></i> 已检测</td>
+                                <td>
+                                    <a href="javascript:;" class="btn-certify color-primary font-14">查看</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-th-large"></i>
+                        <h1>农事记录</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <table class="layui-table">
+                        <thead>
+                            <tr>
+                                <th>农事时间</th>
+                                <th>农事内容</th>
+                                <th>操作员</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2019-09-01</td>
+                                <td>清园</td>
+                                <td>张某某</td>
+                            </tr>
+                            <tr>
+                                <td>2019-09-01</td>
+                                <td>清园</td>
+                                <td>张某某</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-building"></i>
+                        <h1>公司简介</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <p class="text">江苏瑞丰信息技术股份有限公司成立于2011年，公司以“互联网数据应用的领跑者”为发展愿景，以“成就客户，让数据创造价值”为使命，以“认真、高效、信守承诺”为核心价值观，打造以智慧农业为核心的可持续发展的业务体系，运用数据平台优势改善行业发展为目标，为客户创造长期的价值和潜在的增长</p>
+                </div>
+            </div>
+            <div class="detail-section">
+                <div class="detail-title">
+                    <div class="flex flex-align-center">
+                        <i class="fa fa-shopping-bag"></i>
+                        <h1>购买信息</h1>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    <div class="buy-nav flex">
+                        <a class="flex-1 on" href="javascript:;">网店购买</a>
+                        <a class="flex-1" href="javascript:;">实体店购买</a>
+                        <a class="flex-1" href="javascript:;">销售联络方式</a>
+                    </div>
+                    <div class="buy-box">
+                        <div class="buy-content on">
+                            <div class="link-list clearfix">
+                                <a class="link-item" href="" target="_blank">
+                                    <div class="img-box"><img src="__TMPL__/www/assets/images/jingdong.png" alt=""></div>
+                                </a>
+                                <a class="link-item" href="" target="_blank">
+                                    <div class="img-box"><img src="__TMPL__/www/assets/images/tianmao.png" alt=""></div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="buy-content">
+                            <table class="layui-table">
+                                <thead>
+                                    <tr>
+                                        <th>实体店</th>
+                                        <th>地图</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>广西百色市右江区新兴路18号恒基广场1号楼（华润万家百色店）</td>
+                                        <td><a href="javascript:;" class="btn-location"><i class="fa fa-location-arrow color-junior"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>南宁市朝阳悦荟广场负一层（百盛超市）</td>
+                                        <td><a href="javascript:;" class="btn-location"><i class="fa fa-location-arrow color-junior"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>南宁市广西大学正门南宁百货1-2层（南百超市新世界店）</td>
+                                        <td><a href="javascript:;" class="btn-location"><i class="fa fa-location-arrow color-junior"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>南宁市江南区石柱岭亭洪路45号 （北京华联江南店）</td>
+                                        <td><a href="javascript:;" class="btn-location"><i class="fa fa-location-arrow color-junior"></i></a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>南宁市江南区五一路180号保利城负一层（北京华联保利城店）</td>
+                                        <td><a href="javascript:;" class="btn-location"><i class="fa fa-location-arrow color-junior"></i></a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="buy-content">
+                            <table class="layui-table">
+                                <thead>
+                                    <tr>
+                                        <th>销售人员</th>
+                                        <th>联络方式</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>陈昊</td>
+                                        <td>13652581522</td>
+                                    </tr>
+                                    <tr>
+                                        <td>陆小华</td>
+                                        <td>13652581521</td>
+                                    </tr>
+                                    <tr>
+                                        <td>田经理</td>
+                                        <td>13652581520</td>
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- ====== 主体 ======== -->
+
+
+    <!-- ====== 尾部 ======== -->
+    <footer>
+        <div class="footer-main">
+            <div class="container">
+                <div class="flex flex-align-start flex-pack-justify">
+                    <div class="footer-left">
+                        <a href="">
+                            <img src="__TMPL__/www/assets/images/logo_ruifeng.png" alt="">
+                        </a>
+                        <p>电话：0514-80786099</p>
+                        <p>地址：江苏省扬州市邗江区智谷大厦A座10楼</p>
+                        <p>主页：<a href="http://www.rui-feng.cn/" target="_blank">http://www.rui-feng.cn/</a></p>
+                    </div>
+                    <div class="footer-right">
+                        <div class="flex flex-align-center">
+                            <h1 class="m-r-15">关注我们</h1>
+                            <p>获取最新资讯</p>
+                        </div>
+                        <div class="footer-qrcode flex flex-align-center">
+                            <div class="text-center m-r-30">
+                                <img src="__TMPL__/www/assets/images/qrcode_shouji.png" alt="">
+                                <p>手机站</p>
+                            </div>
+                            <div class="text-center">
+                                <img src="__TMPL__/www/assets/images/qrcode_weixin.png" alt="">
+                                <p>官方微信</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-sub">
+            <p class="text-center font-14">Copyright © 2019 江苏瑞丰信息技术股份有限公司 版权所有</p>
+        </div>
+        
+    </footer>
+    <!-- ====== 尾部 ======== -->
+
+    <script type="text/javascript" src="__TMPL__/www/assets/lib/layui/layui.js"></script>
+    <script type="text/javascript" src="__TMPL__/www/assets/lib/echarts/echarts.js"></script>
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=c33813dceb855ebf5e4a2b088b1fdc65&plugin=AMap.Geocoder"></script>
+    <script type="text/javascript">
+        layui.use(['jquery','layer', 'rate', 'table'],function(){
+            var $ = layui.jquery;
+            var layer = layui.layer;
+            var rate = layui.rate;
+            var table = layui.table;
+            
+            // 产地地图 + 实体店购买地图
+            var proMap = new AMap.Map("productMap",{
+                zoom: 12
+            });
+            var proMarker = new AMap.Marker();
+            var proGeocoder = new AMap.Geocoder();
+            proGeocoder.getLocation("江苏省扬州市邗江区智谷大厦", function(status, result) {
+                if (status === 'complete' && result.info === 'OK') {
+                    var lnglat = result.geocodes[0].location
+                    proMarker.setPosition(lnglat)
+                    proMap.add(proMarker)
+                    proMap.setFitView(proMarker)
+                }
+            })
+
+            // 评价等级
+            rate.render({
+                elem: $("#proRank"),
+                value: $("#proRank").data("rank"),
+                readonly: true,
+                theme: "#ff3d3d"
+            });
+
+            // 购买信息
+            $(".buy-nav a").on("click",function(){
+                let index = $(this).index()
+                $(this).siblings().removeClass("on")
+                $(this).addClass("on")
+                $(".buy-content").removeClass("on")
+                $(".buy-content").eq(index).addClass("on")
+            })
+
+            // 溯源二维码
+            $("#qrcodeBtn").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['500px', '420px'],
+                    content: $("#view-qrcode-div")
+                });
+            })
+
+            // 我要评价
+            $("#btnRank").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['500px', '250px'],
+                    content: $("#view-star-div"),
+                    success: function(layero, index){
+                        layui.use("rate", function(){
+                            var rate = layui.rate;
+                            rate.render({
+                                elem: '#view-rank-div',
+                                value: 5,
+                                theme: "#ff3d3d",
+                                text: true,
+                                setText: function(value){
+                                    var arrs = {
+                                        '1': '与描述严重不符',
+                                        '2': '与描述不一致',
+                                        '3': '没有描述的那么好',
+                                        '4': '与描述基本一致',
+                                        '5': '与描述完全一致'
+                                    };
+                                    this.span.text(arrs[value]);
+                                }
+                            });
+                        })
+                    },
+                    btn: ['确定'],
+                    btnAlign: 'c',
+                    yes: function(index, layero){
+                        
+                    }
+                })
+            })
+
+            // 全生长期图片
+            $("#photo").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: "全生长期图片",
+                    area: ['800px', '650px'],
+                    content: $("#view-photo-div"),
+                    success: function(layero, index){
+                        layui.use("carousel", function(){
+                            var carousel = layui.carousel;
+                            carousel.render({
+                                elem: '#view-photo-carousel',
+                                arrow: 'hover',
+                                width: '100%',
+                                height: '550px'
+                            });
+                        })
+                    }
+                })
+            })
+
+            // 肥料使用表
+            $("#manure").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: "肥料使用表",
+                    area: ['800px', '580px'],
+                    content: $("#view-manure-div"),
+                    success: function(layero, index){
+                        layui.use("table", function(){
+                            var table = layui.table;
+                            var cols = [[
+                                { field:'time',title: '使用时间',align: 'center' },
+                                { field:'name',title: '名称',align: 'center' },
+                                { field:'type',title: '类型',align: 'center' },
+                                { field:'number',title: '用量',align: 'center' },
+                                { field:'brand',title: '品牌',align: 'center' },
+                                { field:'supplier',title: '供应商',align: 'center' }
+                            ]]
+                            table.render({
+                                elem: "#view-manure-table",
+                                url: "json/manure.json",
+                                cols: cols,
+                                height: "500",
+                                page: true
+                            })
+                        })
+                    }
+                }); 
+            })
+            
+            // 农药使用表
+            $("#pest").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: "农药使用表",
+                    area: ['800px', '580px'],
+                    content: $("#view-pest-div"),
+                    success: function(layero, index){
+                        layui.use("table", function(){
+                            var table = layui.table;
+                            var cols = [[
+                                { field:'time',title: '使用时间',align: 'center' },
+                                { field:'name',title: '名称',align: 'center' },
+                                { field:'type',title: '类型',align: 'center' },
+                                { field:'number',title: '用量',align: 'center' },
+                                { field:'brand',title: '品牌',align: 'center' },
+                                { field:'supplier',title: '供应商',align: 'center' }
+                            ]]
+                            table.render({
+                                elem: "#view-pest-table",
+                                url: "json/pest.json",
+                                cols: cols,
+                                height: "500",
+                                page: true
+                            })
+                        })
+                    }
+                }); 
+            })
+            
+            // 实时监控视频
+            $("#video").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['800px', '500px'],
+                    shadeClose: true,
+                    content: '<div class="text-center" style="padding: 30px 0"><video src="" style="width: 600px;height:430px" controls="controls">您的浏览器不支持video 标签。</video></div>'
+                });
+            })
+
+            // 关键环境数据
+            $("#data").on("click",function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['1000px', '600px'],
+                    shadeClose: true,
+                    content: $("#view-data-div"),
+                    success: function(layero, index){
+                        layui.use("element", function(){
+                            var element = layui.element;
+
+                            var chart1 = echarts.init(document.getElementById('chart1'));
+                            var option1 = {
+                                tooltip: {},
+                                legend: {
+                                    data:['环境']
+                                },
+                                xAxis: {
+                                    data: ["太阳辐射","降雨量","风速","大气压力","温度","湿度"]
+                                },
+                                yAxis: {},
+                                series: [{
+                                    name: '环境',
+                                    type: 'bar',
+                                    data: [5, 20, 36, 10, 10, 20]
+                                }]
+                            };
+                            chart1.setOption(option1);
+
+
+                            var chart2 = echarts.init(document.getElementById('chart2'));
+                            var option2 = {
+                                tooltip: {},
+                                legend: {
+                                    data:['环境']
+                                },
+                                xAxis: {
+                                    data: ["太阳辐射","降雨量","风速","大气压力","温度","湿度"]
+                                },
+                                yAxis: {},
+                                series: [{
+                                    name: '环境',
+                                    type: 'bar',
+                                    data: [5, 20, 36, 10, 10, 20]
+                                }]
+                            };
+                            chart2.setOption(option2);
+
+                            
+                            element.on('tab(data)', function(data){
+                                chart1.resize();  
+                                chart2.resize();
+                            });
+                            
+                        })
+                    }
+                });
+            })
+            
+            // 产品认证
+            $(".btn-certify").on("click",function(){
+                let title = $(this).parent().siblings(".certify-name").html()
+                layer.open({
+                    type: 1,
+                    title: title,
+                    area: ['800px', '650px'],
+                    content: $("#view-certify-div"),
+                    success: function(layero, index){
+                        
+                    }
+                })
+            })
+
+            // 实体店地图
+            $(".btn-location").on("click",function(){
+                let address = $(this).parent().prev().html()
+                layer.open({
+                    type: 1,
+                    title: false,
+                    area: ['800px', '330px'],
+                    content: $("#view-map-div"),
+                    success: function(layero, index){
+                        var shopMap = new AMap.Map("view-map-box",{zoom: 12});
+                        var shopMarker = new AMap.Marker();
+                        var shopGeocoder = new AMap.Geocoder();
+                        proGeocoder.getLocation(address, function(status, result) {
+                            if (status === 'complete' && result.info === 'OK') {
+                                var lnglat = result.geocodes[0].location
+                                shopMarker.setPosition(lnglat)
+                                shopMap.add(shopMarker)
+                                shopMap.setFitView(shopMarker)
+                            }
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+</html>
