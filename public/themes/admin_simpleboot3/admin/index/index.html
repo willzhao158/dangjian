@@ -30,7 +30,7 @@
             <h1 class="slogan-h1">“百年初心·筑梦远航”</h1>
             <h2 class="slogan-h2">邗江区庆祝中国共产党成立100周年党史知识竞赛</h2>
             <ul class="page-menu">
-                <li class="item"><a href="{:url('index/question')}">党建知识竞赛</a></li>
+                <li class="item"><a href="javascript:void(0);" id="go_answer">党建知识竞赛</a></li>
                 <li class="item"><a href="{:url('index/history')}">答题历史</a></li>
                 <li class="item"><a href="{:url('index/ranking')}">排行榜</a></li>
                 <li class="item"><a href="{:url('index/join')}">前日参与人数排行</a></li>
@@ -41,5 +41,16 @@
     <!-- ================== main 结束 ======================= -->
 
     <script src="__TMPL__/public/answer/dist/js/jquery.min.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/layer/3.1.1/layer.min.js"></script>
+    <script type="text/javascript">
+        $("#go_answer").click(function(){
+            var is_answered = {$is_answered};
+            if(is_answered == 2){
+                layer.msg("今日答题次数已用完，请您明天再来~");
+            }else{
+                window.location.href = "{:url('index/question')}";
+            }
+        });
+    </script>
 </body>
 </html>

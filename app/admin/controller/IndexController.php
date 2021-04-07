@@ -53,7 +53,8 @@ class IndexController extends BaseController
         }else{
             $answered = $answered.','.$answered_str;
         }
-        Db::name("jueqi_fkdt_user")->where("id=".session('uid'))->update(['answered'=>$answered]);
+        $totalscore = $uinfo['totalscore'] + $yes_num;
+        Db::name("jueqi_fkdt_user")->where("id=".session('uid'))->update(['answered'=>$answered,'totalscore'=>$totalscore]);
 
         $res = [];
         $res['code'] = 1;
@@ -74,6 +75,15 @@ class IndexController extends BaseController
     }
 
     public function index(){
+        $from = strtotime(date('Y-m-d 00:00:00'));
+        $end = strtotime(date('Y-m-d 23:59:59'));
+        $answered_info = Db::name("jueqi_fkdt_quesctlog")->where("uid=".session('uid')." and add_time >= $from and add_time <= $end")->find();
+        if(!empty($answered_info)){
+            $is_answered = 2;
+        }else{
+            $is_answered = 1;
+        }
+        $this->assign('is_answered',$is_answered);
         return $this->fetch();
     }
 
@@ -101,8 +111,18 @@ class IndexController extends BaseController
 
     public function question(){
 
-        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 1")->limit(0,8)->select()->toArray();
-        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 2")->limit(0,2)->select()->toArray();
+        $uinfo = Db::name("jueqi_fkdt_user")->where("id=".session('uid'))->find();
+        $answered = $uinfo['answered'];
+
+        if(!empty($answered)){
+            $where = " and id not in ($answered)";
+        }else{
+            $where = "";
+        }
+        
+
+        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 1".$where)->limit(0,8)->select()->toArray();
+        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 2".$where)->limit(0,2)->select()->toArray();
 
         $questions = array_merge($questions_danxuan, $questions_duoxuan);
 
