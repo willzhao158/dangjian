@@ -61,22 +61,22 @@
                                 <div class="question">{$question_key+1}. {$question['question']}</div>
                                 <ul class="answer-list">
                                     <if condition="$question['answerA'] != ''">
-                                        <li><label class="item" for="{$question_key+1}a"><input type="checkbox" name="two" id="{$question_key+1}a" value="a"><i></i><span>A、{$question['answerA']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}a"><input type="checkbox" name="two" id="{$question_key+1}a" value="A"><i></i><span>A、{$question['answerA']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerB'] != ''">
-                                        <li><label class="item" for="{$question_key+1}b"><input type="checkbox" name="two" id="{$question_key+1}b" value="b"><i></i><span>B、{$question['answerB']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}b"><input type="checkbox" name="two" id="{$question_key+1}b" value="B"><i></i><span>B、{$question['answerB']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerC'] != ''">
-                                        <li><label class="item" for="{$question_key+1}c"><input type="checkbox" name="two" id="{$question_key+1}c" value="c"><i></i><span>C、{$question['answerC']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}c"><input type="checkbox" name="two" id="{$question_key+1}c" value="C"><i></i><span>C、{$question['answerC']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerD'] != ''">
-                                        <li><label class="item" for="{$question_key+1}d"><input type="checkbox" name="two" id="{$question_key+1}d" value="d"><i></i><span>D、{$question['answerD']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}d"><input type="checkbox" name="two" id="{$question_key+1}d" value="D"><i></i><span>D、{$question['answerD']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerE'] != ''">
-                                        <li><label class="item" for="{$question_key+1}e"><input type="checkbox" name="two" id="{$question_key+1}e" value="e"><i></i><span>E、{$question['answerE']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}e"><input type="checkbox" name="two" id="{$question_key+1}e" value="E"><i></i><span>E、{$question['answerE']}</span></label></li>
                                     </if>
                                     <if condition="$question['answerF'] != ''">
-                                        <li><label class="item" for="{$question_key+1}f"><input type="checkbox" name="two" id="{$question_key+1}f" value="f"><i></i><span>F、{$question['answerF']}</span></label></li>
+                                        <li><label class="item" for="{$question_key+1}f"><input type="checkbox" name="two" id="{$question_key+1}f" value="F"><i></i><span>F、{$question['answerF']}</span></label></li>
                                     </if>
                                 </ul>
                             </div>
@@ -158,6 +158,7 @@
                 }
                 // 判断是否正确
                 if(answerItem.join(",") == $(".form-item.on").find(".answer").val()){
+                    //正确
                     var row = {
                         id: $(".form-item.on").data("id"),
                         isOk: 1
@@ -173,7 +174,7 @@
                     })
                     var row = {
                         id: $(".form-item.on").data("id"),
-                        isOk: 0
+                        isOk: 2
                     }
                     answerList.push(row)
                     setTimeout(function(){
@@ -195,12 +196,17 @@
                 }
                 // 判断是否正确
                 if(answerItem.join(",") == $(".form-item.on").find(".answer").val()){
+                    //正确
                     var row = {
                         id: $(".form-item.on").data("id"),
                         isOk: 1
                     }
-                    answerList.push(row)
-                    submit(answerList)
+                    if(answerList.length <= 9){
+                        answerList.push(row)
+                    }
+                    if(answerList.length == 10){
+                        submit(answerList)
+                    }
                 }else{
                     $("#currentAnswer").html("正确答案为：" + $(".form-item.on").find(".answer").val());
                     $(".form-item.on").find("input:checked").each(function(){
@@ -208,18 +214,48 @@
                             $(this).parent().addClass("error")
                         }
                     })
+                    //错误
                     var row = {
                         id: $(".form-item.on").data("id"),
-                        isOk: 0
+                        isOk: 2
                     }
-                    answerList.push(row)
-                    setTimeout(function(){
-                        submit(answerList)
-                    },1000)
+                    if(answerList.length <= 9){
+                        answerList.push(row)
+                    }
+                    if(answerList.length == 10){
+                        setTimeout(function(){
+                            submit(answerList)
+                        },1000) 
+                    }
+                    
                 }
             })
             // 提交方法
             function submit(data){
+                if(data.length == 10){
+                    $.ajax({
+                        url: "{:url('index/saveAnswer')}",
+                        type: 'post',
+                        dataType: 'json',
+                        data:{
+                                answer:data,
+                                },
+                        success: function (data) {
+                            if(data['code'] == 1){
+                                layer.msg(data['msg']);
+                                setTimeout(function(){ window.location.href = "{:url('index/index')}"; }, 2000);
+                            }else{
+                                layer.msg(data['msg']);
+                                return false;
+                            }
+                        },
+                        error: function () {
+                            layer.msg('未知错误');
+                        },
+                        complete: function () {
+                        }
+                    });
+                }
                 console.log(data)
                 // $.post({
                 //     url: '',

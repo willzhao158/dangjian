@@ -1,11 +1,10 @@
 <?php
 namespace app\admin\controller;
-
-use think\Db;
+use think\DB;
+use think\Session;
 
 class IndexController extends BaseController
 {
-
     public function initialize(){
         parent::initialize();
         
@@ -14,6 +13,53 @@ class IndexController extends BaseController
     public function getQuestion(){
         $questions = Db::table('ims_jueqi_fkdt_question')->limit(1,10)->select()->toArray();
         echo json_encode($questions);exit;
+    }
+
+    public function saveAnswer(){
+        $answers = input('answer');
+
+        $log_data = [];
+        $log_data['uid'] = session('uid');
+        $log_data['add_time'] = time();
+
+        Db::name("jueqi_fkdt_quesctlog")->insert($log_data);
+
+        $yes_num = 0;
+        //已答题id
+        $answered_qid = [];
+        foreach ($answers as $key => $value) {
+            if($value['isOk'] == 1){
+                $yes_num++;
+            }
+            $answered_qid[] = $value['id'];
+        }
+
+        $answer_record = [];
+        $answer_record['rid'] = 28;
+        $answer_record['uid'] = session('uid');
+        $answer_record['yes_num'] = $yes_num;
+        $answer_record['score'] = $yes_num;
+        $answer_record['total_num'] = 10;
+        $answer_record['timebj'] = time();
+
+        Db::name("jueqi_fkdt_answerrecord")->insert($answer_record);
+
+        //更新user表已答字段
+        $answered_str = implode(',', $answered_qid);
+        $uinfo = Db::name("jueqi_fkdt_user")->where("id=".session('uid'))->find();
+        $answered = $uinfo['answered'];
+        if(empty($answered)){
+            $answered = $answered_str;
+        }else{
+            $answered = $answered.','.$answered_str;
+        }
+        Db::name("jueqi_fkdt_user")->where("id=".session('uid'))->update(['answered'=>$answered]);
+
+        $res = [];
+        $res['code'] = 1;
+        $res['msg'] = '提交成功';
+        echo json_encode($res);
+        exit;
     }
 
     public function history(){
@@ -55,17 +101,8 @@ class IndexController extends BaseController
 
     public function question(){
 
-        $user = Db::table('ims_jueqi_fkdt_user')->where(['id' => session('uid')])->find();
-        $answered = $user['answered'];
-
-        $where = '';
-
-        if(!empty($answered)){
-            $where .= " and id not in (".$answered.")";
-        }
-
-        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 1$where")->limit(0,8)->select()->toArray();
-        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->where("is_danxuan = 2$where")->limit(0,2)->select()->toArray();
+        $questions_danxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 1")->limit(0,8)->select()->toArray();
+        $questions_duoxuan = Db::table('ims_jueqi_fkdt_question')->order("id asc")->where("is_danxuan = 2")->limit(0,2)->select()->toArray();
 
         $questions = array_merge($questions_danxuan, $questions_duoxuan);
 
@@ -100,6 +137,4 @@ class IndexController extends BaseController
     public function storage(){
         return $this->fetch();
     }
-
-    
 }
